@@ -7,4 +7,6 @@ export PAGER='less -d'
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
-	
+
+# Work-related functions
+alias dtterm='export TERM=dtterm'
