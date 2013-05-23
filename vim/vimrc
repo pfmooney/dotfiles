@@ -130,6 +130,7 @@ augroup ft_c
 	au!
 
 	au FileType c setlocal foldmethod=marker foldmarker={,}
+	au FileType c setlocal list!
 augroup END
 
 " }}}
