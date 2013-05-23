@@ -17,4 +17,4 @@ relink .gitconfig	$DOTFILES/gitconfig
 relink .tmux.conf	$DOTFILES/tmux.conf
 
 relink .vim	$DOTFILES/vim
-relink .vimrc	$DOTFILES/vimrc
+relink .vimrc	$DOTFILES/vim/vimrc
