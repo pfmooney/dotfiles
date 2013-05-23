@@ -23,12 +23,11 @@ set nosi
 set autoindent
 
 " Color/style {{{
-syntax on               " syntax highlighting is what the cool kids do
+
 set bg=dark             " black terminal background
-" support 256 color terminals
-if &term =~ "xterm" || &term =~ "256color"
-     set t_Co=256
-endif
+syntax on               " syntax highlighting is what the cool kids do
+set synmaxcol=800       " Don't try to highlight lines longer than 800 chars.
+
 " Fix crappy Pmenu colors
 hi Pmenu ctermfg=Gray
 hi PmenuSel ctermfg=Gray
@@ -59,9 +58,60 @@ set foldtext=MyFoldText()
 
 " }}}
 
+" Character Listing {{{
+
+set list
+"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set listchars=tab:▸\ 
+
+" Only shown when not in insert mode so I don't go insane.
+augroup trailing
+	au! 
+	
+	au InsertEnter * :set listchars-=trail:⌴
+augroup END
+
+" }}}
+
+" Line Return {{{
+
+" Make sure Vim returns to the same line when you reopen a file.
+augroup line_return
+	au!
+	au BufReadPost *
+		\ if line("'\"") > 0 && line("'\"") <= line("$") |
+		\     execute 'normal! g`"zvzz' |
+		\ endif
+augroup END
+
+" }}}
+
+" Terminal settings {{{
+
+set ttyfast
+set lazyredraw
+
+" support 256 color terminals
+if &term =~ "xterm" || &term =~ "256color"
+	 set t_Co=256
+endif
+
+" }}}
+
 " }}}
 
 " Filetype-specific ------------------------------------------------------ {{{
+
+" Puppet {{{
+
+augroup ft_puppet
+    au!
+
+    au Filetype puppet setlocal foldmethod=marker
+    au Filetype puppet setlocal foldmarker={,}
+augroup END
+
+" }}}
 
 " Vim {{{
 
