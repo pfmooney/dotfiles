@@ -14,13 +14,18 @@ set ruler               " display the cursor position
 set nohlsearch          " don't highlight search terms
 set bs=2                " allow useful backspace in insert mode
 
-" set visible tab-width to 4 characters
+" {{{ Tabs and indenting
+
 set tabstop=4
 set shiftwidth=4
+set shiftround
 
 " Enable fun indenting/functions
 set nosi
 set autoindent
+
+" }}}
+
 
 " Color/style {{{
 
@@ -35,7 +40,7 @@ hi PmenuSel ctermfg=Gray
 " }}}
 
 " Folding {{{
-"
+
 " map space-bar to toggle folding
 noremap <space> za
 
@@ -73,6 +78,23 @@ augroup END
 
 " }}}
 
+" Wildmenu completion {{{
+
+ set wildmenu
+ set wildmode=list:longest
+
+ set wildignore+=.hg,.git,.svn                    " Version control
+ set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+ set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+ set wildignore+=*.sw?                            " Vim swap files
+
+ set wildignore+=*.pyc                            " Python byte code
+
+ set wildignore+=*.orig                           " Merge resolution files
+
+" }}}
+
 " Line Return {{{
 
 " Make sure Vim returns to the same line when you reopen a file.
@@ -101,6 +123,16 @@ endif
 " }}}
 
 " Filetype-specific ------------------------------------------------------ {{{
+
+" C {{{
+
+augroup ft_c
+	au!
+
+	au FileType c setlocal foldmethod=marker foldmarker={,}
+augroup END
+
+" }}}
 
 " Puppet {{{
 
