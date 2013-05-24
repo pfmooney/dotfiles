@@ -1,9 +1,9 @@
 " Preamble --------------------------------------------------------------- {{{
 
+set nocompatible
 filetype off
 execute pathogen#infect()
 filetype plugin indent on
-set nocompatible
 
 " }}}
 
@@ -14,7 +14,7 @@ set ruler               " display the cursor position
 set nohlsearch          " don't highlight search terms
 set bs=2                " allow useful backspace in insert mode
 
-" {{{ Tabs and indenting
+" Tabs and indenting {{{
 
 set tabstop=4
 set shiftwidth=4
@@ -26,6 +26,16 @@ set autoindent
 
 " }}}
 
+" Trailing whitespace {{{
+
+augroup trailing
+	au!
+
+	" Only shown when not in insert mode
+	au InsertEnter * :set listchars-=trail:⌴
+augroup END
+
+" }}}
 
 " Color/style {{{
 
@@ -34,8 +44,8 @@ syntax on               " syntax highlighting is what the cool kids do
 set synmaxcol=800       " Don't try to highlight lines longer than 800 chars.
 
 " Fix crappy Pmenu colors
-hi Pmenu ctermfg=Gray
-hi PmenuSel ctermfg=Gray
+hi Pmenu guifg=#ffffff guibg=#444444 ctermfg=255 ctermbg=238
+hi PmenuSel guifg=#000000 guibg=#b1d631 ctermfg=0 ctermbg=148
 
 " }}}
 
@@ -45,19 +55,19 @@ hi PmenuSel ctermfg=Gray
 noremap <space> za
 
 function! MyFoldText() " {{{
-    let line = getline(v:foldstart)
+	let line = getline(v:foldstart)
 
-    let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
+	let nucolwidth = &fdc + &number * &numberwidth
+	let windowwidth = winwidth(0) - nucolwidth - 3
+	let foldedlinecount = v:foldend - v:foldstart
 
-    " expand tabs into spaces
-    let onetab = strpart('          ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
+	" expand tabs into spaces
+	let onetab = strpart('          ', 0, &tabstop)
+	let line = substitute(line, '\t', onetab, 'g')
 
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+	let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+	let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+	return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
 endfunction " }}}
 set foldtext=MyFoldText()
 
@@ -80,18 +90,18 @@ augroup END
 
 " Wildmenu completion {{{
 
- set wildmenu
- set wildmode=list:longest
+set wildmenu
+set wildmode=list:longest
 
- set wildignore+=.hg,.git,.svn                    " Version control
- set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
- set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
- set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
- set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.sw?                            " Vim swap files
 
- set wildignore+=*.pyc                            " Python byte code
+set wildignore+=*.pyc                            " Python byte code
 
- set wildignore+=*.orig                           " Merge resolution files
+set wildignore+=*.orig                           " Merge resolution files
 
 " }}}
 
