@@ -14,6 +14,14 @@ set ruler               " display the cursor position
 set nohlsearch          " don't highlight search terms
 set bs=2                " allow useful backspace in insert mode
 
+" Leader {{{
+"
+let mapleader = ","
+let maplocalleader = "\\"
+
+" }}}
+
+
 " Tabs and indenting {{{
 
 set tabstop=4
@@ -130,6 +138,14 @@ endif
 
 " }}}
 
+
+" Tabular {{{
+
+vnoremap <leader>tb :Tabular block<cr>
+nnoremap <leader>tb :Tabular block<cr>
+
+" }}}
+
 " }}}
 
 " Filetype-specific ------------------------------------------------------ {{{
@@ -150,8 +166,14 @@ augroup END
 augroup ft_puppet
     au!
 
-    au Filetype puppet setlocal foldmethod=marker
-    au Filetype puppet setlocal foldmarker={,}
+	au Filetype puppet setlocal foldmethod=marker
+	au Filetype puppet setlocal foldmarker={,}
+	" Conform to style guide for spaces/tabs
+	au Filetype puppet setlocal tabstop=2
+	au Filetype puppet setlocal shiftwidth=2
+	au Filetype puppet setlocal expandtab
+	" perform correct tabbing for => lists
+	au Filetype puppet AddTabularPattern block /=>
 augroup END
 
 " }}}
