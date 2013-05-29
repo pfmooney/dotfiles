@@ -116,13 +116,20 @@ set wildignore+=*.orig                           " Merge resolution files
 
 " Line Return {{{
 
+	" Return to line conditional on g_file_line_return
+fun! File_line_return()
+	if exists('b:file_line_return') && b:file_line_return != 1
+		return
+	endif
+	if line("'\"") > 0 && line("'\"") <= line("$") |
+	    execute 'normal! g`"zvzz' |
+	endif
+endfunction
+
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
 	au!
-	au BufReadPost *
-		\ if line("'\"") > 0 && line("'\"") <= line("$") |
-		\     execute 'normal! g`"zvzz' |
-		\ endif
+	au BufReadPost * call File_line_return()
 augroup END
 
 " }}}
@@ -175,6 +182,8 @@ augroup ft_gitcommit
 	au!
 	" Don't bother with listchars in git commit messages
 	au FileType gitcommit setlocal list!
+	" Start off on the first line
+	au FileType gitcommit let b:file_line_return=0
 augroup END
 
 " }}}
