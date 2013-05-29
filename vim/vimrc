@@ -1,6 +1,16 @@
 " Preamble --------------------------------------------------------------- {{{
 
-set nocompatible
+ set nocompatible
+
+" Plugin disables {{{
+ let g:pathogen_disabled = []
+
+if v:version < '703' || !has('python')
+	" Python-mode is kinda busted on RHEL6
+	call add(g:pathogen_disabled, 'python-mode')
+endif
+ " }}}
+
 filetype off
 execute pathogen#infect()
 filetype plugin indent on
@@ -20,7 +30,6 @@ let mapleader = ","
 let maplocalleader = "\\"
 
 " }}}
-
 
 " Tabs and indenting {{{
 
@@ -137,7 +146,6 @@ if &term =~ "xterm" || &term =~ "256color"
 endif
 
 " }}}
-
 
 " Tabular {{{
 
