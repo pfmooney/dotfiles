@@ -10,3 +10,5 @@ fi
 
 # Work-related functions
 alias dtterm='export TERM=dtterm'
+# Easy detection for other configs about old vim/python/etc
+export IS_RHEL6_HOST=`uname -r | awk -F- '{ if ($1 == "2.6.32") { print "YES" }}'`
