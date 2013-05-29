@@ -43,17 +43,6 @@ set autoindent
 
 " }}}
 
-" Trailing whitespace {{{
-
-augroup trailing
-	au!
-
-	" Only shown when not in insert mode
-	au InsertEnter * :set listchars-=trail:⌴
-augroup END
-
-" }}}
-
 " Color/style {{{
 
 set bg=dark             " black terminal background
@@ -157,6 +146,14 @@ nnoremap <leader>tb :Tabular block<cr>
 
 " }}}
 
+" Syntastic {{{
+
+nnoremap <leader>sc :SyntasticCheck<cr>
+nnoremap <leader>se :Errors<cr>
+nnoremap <leader>st :SyntasticToggleMode<cr>
+
+" }}}
+
 " }}}
 
 " Filetype-specific ------------------------------------------------------ {{{
@@ -168,6 +165,16 @@ augroup ft_c
 
 	au FileType c setlocal foldmethod=marker foldmarker={,}
 	au FileType c setlocal list!
+augroup END
+
+" }}}
+
+" Git Commit {{{
+
+augroup ft_gitcommit
+	au!
+	" Don't bother with listchars in git commit messages
+	au FileType gitcommit setlocal list!
 augroup END
 
 " }}}
@@ -185,6 +192,11 @@ augroup ft_puppet
 	au Filetype puppet setlocal expandtab
 	" perform correct tabbing for => lists
 	au Filetype puppet AddTabularPattern! block /^[^=]*\zs=>
+
+	au Filetype puppet let g:syntastic_puppet_lint_arguments=
+\'--no-class_parameter_defaults-check ' .
+\'--no-documentation-check ' .
+\'--no-autoloader_layout-check '
 augroup END
 
 " }}}
