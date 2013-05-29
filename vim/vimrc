@@ -85,7 +85,7 @@ set foldtext=MyFoldText()
 
 set list
 "set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
-set listchars=tab:▸\ 
+set listchars=tab:\>\-
 
 " Only shown when not in insert mode so I don't go insane.
 augroup trailing
