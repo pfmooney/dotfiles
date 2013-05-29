@@ -173,7 +173,7 @@ augroup ft_puppet
 	au Filetype puppet setlocal shiftwidth=2
 	au Filetype puppet setlocal expandtab
 	" perform correct tabbing for => lists
-	au Filetype puppet AddTabularPattern block /=>
+	au Filetype puppet AddTabularPattern! block /^[^=]*\zs=>
 augroup END
 
 " }}}
