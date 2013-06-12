@@ -146,6 +146,17 @@ endif
 
 " }}}
 
+
+" }}}
+
+" Plugin Settings ------------------------------------------------------- {{{
+
+" Python-Mode {{{
+
+let g:pymode_rope_auto_project = 1
+
+" }}}
+
 " Tabular {{{
 
 vnoremap <leader>tb :Tabular block<cr>
