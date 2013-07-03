@@ -146,6 +146,18 @@ endif
 
 " }}}
 
+" Key Binding Overrides {{{
+
+" Too often I hit the shifted version of these keys while line-selecting text.
+" Rebind the keys to pretend that I didn't hold the shift key down too long.
+nnoremap <S-k> k
+vnoremap <S-k> k
+nnoremap <S-H> h
+vnoremap <S-H> h
+nnoremap <S-L> l
+vnoremap <S-L> l
+
+" }}}
 
 " }}}
 
