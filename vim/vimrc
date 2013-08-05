@@ -43,6 +43,17 @@ set autoindent
 
 " }}}
 
+" Vim Tabs {{{
+
+nnoremap tl :tabnext<CR>
+nnoremap th :tabprev<CR>
+nnoremap tf :tabfirst<CR>
+nnoremap tg :tablast<CR>
+nnoremap tn :tabnew<CR>
+nnoremap td :tabclose<CR>
+
+" }}}
+
 " Color/style {{{
 
 set bg=dark             " black terminal background
