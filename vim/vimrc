@@ -210,6 +210,19 @@ augroup END
 
 " }}}
 
+" Javascript {{{
+
+augroup ft_javascript
+	au!
+
+	au FileType javascript setlocal foldmethod=marker foldmarker={,}
+	au Filetype javascript setlocal tabstop=2
+	au Filetype javascript setlocal shiftwidth=2
+	au Filetype javascript setlocal expandtab
+augroup END
+
+" }}}
+
 " Git Commit {{{
 
 augroup ft_gitcommit
