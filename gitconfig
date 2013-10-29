@@ -1,3 +1,5 @@
 [user]
 	name = pmooney
 	email = patrick.f.mooney@gmail.com
+[color]
+	ui = auto

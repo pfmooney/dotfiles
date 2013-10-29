@@ -1,3 +1,4 @@
 .netrwhist
 *.swp
 *.swo
+vim/bundle/*/doc/tags
