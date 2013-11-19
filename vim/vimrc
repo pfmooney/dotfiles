@@ -257,6 +257,19 @@ augroup END
 
 " }}}
 
+" Ruby {{{
+
+augroup ft_ruby
+    au!
+
+	au Filetype ruby setlocal foldmethod=syntax
+	" Conform to style guide for spaces/tabs
+	au Filetype ruby setlocal tabstop=2
+	au Filetype ruby setlocal shiftwidth=2
+	au Filetype ruby setlocal expandtab
+
+" }}}
+
 " Vim {{{
 
 augroup ft_vim
