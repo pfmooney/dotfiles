@@ -270,6 +270,19 @@ augroup ft_ruby
 
 " }}}
 
+" eRuby {{{
+
+augroup ft_eruby
+    au!
+
+	au Filetype eruby setlocal foldmethod=syntax
+	" Conform to style guide for spaces/tabs
+	au Filetype eruby setlocal tabstop=2
+	au Filetype eruby setlocal shiftwidth=2
+	au Filetype eruby setlocal expandtab
+
+" }}}
+
 " Vim {{{
 
 augroup ft_vim
