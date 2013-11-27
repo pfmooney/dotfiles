@@ -193,6 +193,10 @@ nnoremap <leader>sc :SyntasticCheck<cr>
 nnoremap <leader>se :Errors<cr>
 nnoremap <leader>st :SyntasticToggleMode<cr>
 
+let g:syntastic_mode_map = {}
+" Puppet checkers are too slow for active mode
+let g:syntastic_mode_map['passive_filetypes'] = ['puppet']
+
 " }}}
 
 " }}}
