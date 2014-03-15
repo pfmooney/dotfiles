@@ -14,7 +14,7 @@ relink .bashrc	$DOTFILES/bashrc
 
 relink .gitconfig	$DOTFILES/gitconfig
 
-relink .tmux.conf	$DOTFILES/tmux.conf
+relink .tmux.conf	$DOTFILES/tmux/tmux.conf
 
 relink .vim	$DOTFILES/vim
 relink .vimrc	$DOTFILES/vim/vimrc
