@@ -60,12 +60,22 @@ set bg=dark             " black terminal background
 syntax on               " syntax highlighting is what the cool kids do
 set synmaxcol=800       " Don't try to highlight lines longer than 800 chars.
 
+" Line numbers are nice
+set nu
+
+" Solarize that shit
+let g_solarized_visibility='low'
+let g:solarized_termcolors=256
+colorscheme solarized
+
+" Pre-solarized settings {{{
 " Make listchars more muted in color
-hi SpecialKey guifg=#5f87df ctermfg=68
+"hi SpecialKey guifg=#5f87df ctermfg=68
 
 " Fix crappy Pmenu colors
-hi Pmenu guifg=#ffffff guibg=#444444 ctermfg=255 ctermbg=238
-hi PmenuSel guifg=#000000 guibg=#b1d631 ctermfg=0 ctermbg=148
+"hi Pmenu guifg=#ffffff guibg=#444444 ctermfg=255 ctermbg=238
+"hi PmenuSel guifg=#000000 guibg=#b1d631 ctermfg=0 ctermbg=148
+" }}}
 
 " }}}
 
