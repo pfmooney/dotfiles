@@ -2,6 +2,7 @@
 set -o vi
 export EDITOR='vim'
 export PAGER='less -d'
+export HISTSIZE=10000
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
