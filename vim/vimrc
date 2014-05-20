@@ -187,6 +187,7 @@ vnoremap <S-L> l
 " Python-Mode {{{
 
 let g:pymode_rope_auto_project = 1
+let g:pymode_lint_mccabe_complexity = 9
 
 " }}}
 
