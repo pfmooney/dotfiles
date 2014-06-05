@@ -13,3 +13,17 @@ fi
 alias dtterm='export TERM=dtterm'
 # Easy detection for other configs about old vim/python/etc
 export IS_RHEL6_HOST=`uname -r | awk -F- '{ if ($1 == "2.6.32") { print "YES" }}'`
+alias ll='ls -l'
+
+# OSX-specific configuration
+if [ $(uname) = 'Darwin' ]; then
+	# Setup NVM
+	source $(brew --prefix nvm)/nvm.sh
+	# Allow easy access to manta setup
+	function mantaenv() {
+		export MANTA_KEY_ID=`ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n'`
+		export MANTA_URL=https://us-east.manta.joyent.com
+		export MANTA_USER=patrick.mooney
+	}
+	mantaenv
+fi
