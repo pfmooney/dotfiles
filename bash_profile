@@ -21,9 +21,13 @@ if [ $(uname) = 'Darwin' ]; then
 	source $(brew --prefix nvm)/nvm.sh
 	# Allow easy access to manta setup
 	function mantaenv() {
+		if [ "$1" ]; then
+			export MANTA_USER=$1
+		else
+			export MANTA_USER=patrick.mooney
+		fi
 		export MANTA_KEY_ID=`ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n'`
 		export MANTA_URL=https://us-east.manta.joyent.com
-		export MANTA_USER=patrick.mooney
 	}
 	mantaenv
 fi
