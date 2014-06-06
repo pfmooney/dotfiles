@@ -2,19 +2,19 @@
 flag="$@"
 
 function relink() {
-	ln -s -v $flag $2 $1
+	ln -fs -v $flag $2 $1
 }
 
 DOTFILES=~/.dotfiles
 
 cd
 
-relink .bash_profile $DOTFILES/bash_profile
-relink .bashrc	$DOTFILES/bashrc
+relink .bash_profile $DOTFILES/bash/profile
+relink .bashrc $DOTFILES/bash/rc
 
-relink .gitconfig	$DOTFILES/gitconfig
+relink .gitconfig $DOTFILES/gitconfig
 
-relink .tmux.conf	$DOTFILES/tmux/tmux.conf
+relink .tmux.conf $DOTFILES/tmux/tmux.conf
 
-relink .vim	$DOTFILES/vim
-relink .vimrc	$DOTFILES/vim/vimrc
+relink .vim $DOTFILES/vim
+relink .vimrc $DOTFILES/vim/vimrc
