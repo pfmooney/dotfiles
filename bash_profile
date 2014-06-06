@@ -17,6 +17,9 @@ alias ll='ls -l'
 
 # OSX-specific configuration
 if [ $(uname) = 'Darwin' ]; then
+	# Colorize 'ls' and friends
+	export CLICOLOR=1
+	export PS1='\u@\h:\W\$ '
 	# Setup NVM
 	source $(brew --prefix nvm)/nvm.sh
 	# Allow easy access to manta setup
