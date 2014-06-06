@@ -2,7 +2,7 @@
 flag="$@"
 
 function relink() {
-	ln -fs -v $flag $2 $1
+	ln -s -n -v $flag $2 $1
 }
 
 DOTFILES=~/.dotfiles
