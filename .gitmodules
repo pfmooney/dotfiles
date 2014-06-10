@@ -1,0 +1,3 @@
+[submodule "vim-node"]
+	path = vim/bundle/node
+	url = https://github.com/moll/vim-node.git
