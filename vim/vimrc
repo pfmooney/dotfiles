@@ -250,6 +250,16 @@ augroup END
 
 " }}}
 
+" Makefile {{{
+
+augroup ft_make
+	au!
+	" Don't bother with listchars in git commit messages
+	au FileType make setlocal ts=8
+augroup END
+
+" }}}
+
 " Puppet {{{
 
 augroup ft_puppet
