@@ -26,6 +26,29 @@ function mantaenv() {
 	fi
 }
 
+function sdcenv() {
+	if [ "$1" ]; then
+		export SDC_ACCOUNT=$1
+		if [ "$2" ]; then
+			export SDC_USER=$2
+		else
+			unset SDC_USER
+		fi
+		export SDC_URL='http://localhost:8080'
+		export SDC_KEY_ID=`ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n'`
+	fi
+	if ! caller | grep -q profile; then
+		env | grep SDC
+	fi
+}
+
+function sshpub() {
+	cat ~/.ssh/id_rsa.pub
+	if [[ "$TMUX" ]]; then
+		tmux set-buffer "$(cat ~/.ssh/id_rsa.pub)"
+	fi
+}
+
 # OSX-specific configuration
 if [ $(uname) = 'Darwin' ]; then
 	# Colorize 'ls' and friends
@@ -35,4 +58,5 @@ if [ $(uname) = 'Darwin' ]; then
 	source $(brew --prefix nvm)/nvm.sh
 	# Allow easy access to manta setup
 	mantaenv patrick.mooney
+	sdcenv patrick.mooney
 fi
