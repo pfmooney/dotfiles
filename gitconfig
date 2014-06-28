@@ -3,3 +3,5 @@
 	email = patrick.f.mooney@gmail.com
 [color]
 	ui = auto
+[push]
+	default = simple
