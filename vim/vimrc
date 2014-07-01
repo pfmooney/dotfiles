@@ -230,7 +230,7 @@ augroup END
 augroup ft_javascript
 	au!
 
-	au FileType javascript setlocal foldmethod=marker foldmarker={,}
+	au Filetype javascript call JavaScriptFold()
 	au Filetype javascript setlocal tabstop=2
 	au Filetype javascript setlocal shiftwidth=2
 	au Filetype javascript setlocal expandtab
