@@ -230,6 +230,9 @@ augroup END
 augroup ft_javascript
 	au!
 
+	" Highlight json files as javascript
+	au BufRead,BufNewFile *.json set filetype=javascript
+
 	au Filetype javascript call JavaScriptFold()
 	au Filetype javascript setlocal tabstop=2
 	au Filetype javascript setlocal shiftwidth=2
