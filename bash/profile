@@ -15,6 +15,9 @@ alias dtterm='export TERM=dtterm'
 export IS_RHEL6_HOST=`uname -r | awk -F- '{ if ($1 == "2.6.32") { print "YES" }}'`
 alias ll='ls -l'
 
+# Fedora's default for this is stupidly verbose
+unset PROMPT_COMMAND
+
 function mantaenv() {
 	if [ "$1" ]; then
 		export MANTA_USER=$1
