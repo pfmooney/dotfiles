@@ -66,7 +66,7 @@ if !exists("javascript_ignore_javaScriptdoc")
 	" syntax coloring for JSDoc comments (HTML)
 	"unlet b:current_syntax
 
-	syntax region javaScriptDocComment        matchgroup=javaScriptComment start="/\*\*\s*$"  end="\*/" contains=javaScriptDocTags,javaScriptCommentTodo,@javaScriptHtml,jsInJsdocExample,@Spell fold
+	syntax region javaScriptDocComment        matchgroup=javaScriptComment start="/\*\*\s*$"  end="\*/" contains=javaScriptDocTags,javaScriptCommentTodo,@javaScriptHtml,jsInJsdocExample,@Spell
 	syntax match  javaScriptDocTags           contained "@\(param\|argument\|returns\=\|requires\|exception\|throws\|type\|class\|extends\|see\|link\|member\|module\|method\|title\|namespace\|name\|memberof\|exports\|callback\|typedef\|property\|optional\|default\|base\|file\|mixes\|mixin\|alias\|const\|enum\|fires\|event\)\>" nextgroup=javaScriptDocParam,javaScriptDocSeeTag skipwhite
 	syntax match  javaScriptDocTags           contained "@\(beta\|deprecated\|description\|fileoverview\|author\|license\|version\|constructor\|private\|protected\|final\|ignore\|addon\|exec\)\>"
 	syntax match  javaScriptDocParam          contained "\%(#\|\w\|\.\|:\|\/\)\+"
