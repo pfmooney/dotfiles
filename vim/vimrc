@@ -180,6 +180,13 @@ vnoremap <S-L> l
 
 " }}}
 
+" QuickFix Overrides {{{
+
+" Support jsstyle/cstyle output
+set efm+=%f:\ %l:%m
+
+" }}}
+
 " }}}
 
 " Plugin Settings ------------------------------------------------------- {{{
