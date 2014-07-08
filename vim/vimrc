@@ -109,11 +109,12 @@ set list
 "set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set listchars=tab:\>\-
 
-" Only shown when not in insert mode so I don't go insane.
+match ErrorMsg '\s\+$'
+
 augroup trailing
-	au! 
-	
-	au InsertEnter * :set listchars-=trail:⌴
+	au!
+	au InsertEnter * :highlight clear ErrorMsg
+	au InsertLeave * :highlight ErrorMsg term=reverse cterm=reverse ctermfg=124 guifg=White guibg=Red
 augroup END
 
 " }}}
@@ -267,6 +268,12 @@ augroup ft_make
 	" Don't bother with listchars in git commit messages
 	au FileType make setlocal ts=8
 augroup END
+
+" }}}
+
+" Markdown {{{
+
+	au BufRead,BufNewFile *.md set filetype=markdown
 
 " }}}
 
