@@ -1,0 +1,18 @@
+priority 0
+
+# Use funciton name twice
+snippet proto "Prototype (proto)"
+${1:class_name}.prototype.${2:method_name} = function ${3:$2}(${4:first_argument}) {
+	${VISUAL}$0
+};
+
+endsnippet
+
+
+snippet ife "if ___ else"
+if (${1:condition}) {
+	${2://code}
+} else {
+	${3://code}
+}
+endsnippet

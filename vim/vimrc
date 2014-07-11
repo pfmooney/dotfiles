@@ -218,6 +218,15 @@ let g:syntastic_mode_map['passive_filetypes'] = ['puppet']
 
 " }}}
 
+
+" UltiSnips {{{
+
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" }}}
+
 " }}}
 
 " Filetype-specific ------------------------------------------------------ {{{

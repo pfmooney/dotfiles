@@ -1,3 +1,9 @@
 [submodule "vim-node"]
 	path = vim/bundle/node
 	url = https://github.com/moll/vim-node.git
+[submodule "vim/bundle/ultisnips"]
+	path = vim/bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips.git
+[submodule "vim/bundle/vim-snippets"]
+	path = vim/bundle/vim-snippets
+	url = https://github.com/honza/vim-snippets.git
