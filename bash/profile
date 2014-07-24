@@ -65,3 +65,8 @@ if [ $(uname) = 'Darwin' ]; then
 	mantaenv patrick.mooney
 	sdcenv patrick.mooney
 fi
+
+# Linux-specific configuration
+if [ $(uname) = 'Linux' ]; then
+	alias xkeys='~/.dotfiles/x11/xset.sh'
+fi
