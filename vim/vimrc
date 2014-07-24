@@ -16,6 +16,8 @@ NeoBundle 'honza/vim-snippets'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'godlygeek/tabular'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'scrooloose/nerdtree'
 
 
 " Conditional Plugin disables {{{
@@ -23,7 +25,7 @@ if v:version < '703' || !has('python')
 	" Python-mode is kinda busted on RHEL6
 	NeoBundleDisable 'python-mode'
 endif
- " }}}
+" }}}
 
 
 call neobundle#end()
@@ -160,7 +162,7 @@ fun! File_line_return()
 		return
 	endif
 	if line("'\"") > 0 && line("'\"") <= line("$") |
-	    execute 'normal! g`"zvzz' |
+		execute 'normal! g`"zvzz' |
 	endif
 endfunction
 
@@ -234,12 +236,18 @@ let g:syntastic_mode_map['passive_filetypes'] = ['puppet']
 
 " }}}
 
-
 " UltiSnips {{{
 
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" }}}
+
+" airline {{{
+
+" always show
+set laststatus=2
 
 " }}}
 
@@ -305,7 +313,7 @@ augroup END
 " Puppet {{{
 
 augroup ft_puppet
-    au!
+	au!
 
 	au Filetype puppet setlocal foldmethod=marker
 	au Filetype puppet setlocal foldmarker={,}
@@ -327,7 +335,7 @@ augroup END
 " Ruby {{{
 
 augroup ft_ruby
-    au!
+	au!
 
 	au Filetype ruby setlocal foldmethod=syntax
 	" Conform to style guide for spaces/tabs
@@ -340,7 +348,7 @@ augroup ft_ruby
 " eRuby {{{
 
 augroup ft_eruby
-    au!
+	au!
 
 	au Filetype eruby setlocal foldmethod=syntax
 	" Conform to style guide for spaces/tabs
