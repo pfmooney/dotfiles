@@ -1,8 +1,0 @@
-*.py[cod]
-.vimrc
-*.sw?
-*~
-.DS_Store
-.ropeproject
-tags
-todo.txt

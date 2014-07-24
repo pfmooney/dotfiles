@@ -1,19 +1,35 @@
 " Preamble --------------------------------------------------------------- {{{
 
- set nocompatible
+set nocompatible
 
-" Plugin disables {{{
- let g:pathogen_disabled = []
+set runtimepath+=~/.vim/bundle/neobundle.vim/
 
+filetype off
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'klen/python-mode'
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'honza/vim-snippets'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'godlygeek/tabular'
+
+
+" Conditional Plugin disables {{{
 if v:version < '703' || !has('python')
 	" Python-mode is kinda busted on RHEL6
-	call add(g:pathogen_disabled, 'python-mode')
+	NeoBundleDisable 'python-mode'
 endif
  " }}}
 
-filetype off
-execute pathogen#infect()
+
+call neobundle#end()
 filetype plugin indent on
+
+NeoBundleCheck
 
 " }}}
 
