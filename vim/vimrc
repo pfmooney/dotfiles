@@ -9,16 +9,24 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+" Eye candy
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'bling/vim-airline'
+
+" Language support
 NeoBundle 'klen/python-mode'
+
+" Snippets & completion
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'honza/vim-snippets'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'bling/vim-airline'
+
+" Utilties
 NeoBundle 'godlygeek/tabular'
-NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'scrooloose/syntastic'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'tpope/vim-fugitive' " git integration
+NeoBundle 'tpope/vim-sleuth' " tab/space detection
 
 
 " Conditional Plugin disables {{{
