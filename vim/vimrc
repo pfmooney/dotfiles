@@ -18,6 +18,7 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'Raimondi/delimitMate'
 
 
 " Conditional Plugin disables {{{
@@ -233,6 +234,7 @@ nnoremap <leader>st :SyntasticToggleMode<cr>
 let g:syntastic_mode_map = {}
 " Puppet checkers are too slow for active mode
 let g:syntastic_mode_map['passive_filetypes'] = ['puppet']
+let g:syntastic_javascript_checkers = ['jshint']
 
 " }}}
 

@@ -8,6 +8,11 @@ ${1:class_name}.prototype.${2:method_name} = function ${3:$2}(${4:first_argument
 
 endsnippet
 
+snippet f "Anonymous function" w
+function (${1:argument}) {
+	${VISUAL}$0
+}
+endsnippet
 
 snippet ife "if ___ else"
 if (${1:condition}) {
@@ -17,7 +22,12 @@ if (${1:condition}) {
 }
 endsnippet
 
-
 snippet req "require a nodejs module"
-require('${1:name}');
+var ${2:$1} = require('${1:name}');
+endsnippet
+
+snippet tap "tap/tape test"
+test('${1:name}', function (${3:t}) {
+	${2://test}
+});
 endsnippet
