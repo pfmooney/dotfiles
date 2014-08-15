@@ -26,7 +26,6 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'tpope/vim-fugitive' " git integration
-NeoBundle 'tpope/vim-sleuth' " tab/space detection
 
 
 " Conditional Plugin disables {{{
