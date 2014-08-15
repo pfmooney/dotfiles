@@ -136,10 +136,10 @@ set list
 "set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set listchars=tab:\>\-
 
-match ErrorMsg '\s\+$'
 
 augroup trailing
 	au!
+	au BufReadPost * :match ErrorMsg '\s\+$'
 	au InsertEnter * :highlight clear ErrorMsg
 	au InsertLeave * :highlight ErrorMsg term=reverse cterm=reverse ctermfg=124 guifg=White guibg=Red
 augroup END
@@ -205,6 +205,9 @@ nnoremap <S-H> h
 vnoremap <S-H> h
 nnoremap <S-L> l
 vnoremap <S-L> l
+
+" reset foldmethod and redraw screen when folding is hosed
+nnoremap <C-L> :let &fdm = &fdm<CR>:redraw!<CR>
 
 " }}}
 
