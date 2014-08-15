@@ -28,13 +28,30 @@ function mantaenv() {
 
 function sdcenv() {
 	if [ "$1" ]; then
-		export SDC_ACCOUNT=$1
+		case "$1" in
+		'east')
+			export SDC_URL='https://us-east-1.api.joyentcloud.com'
+			;;
+		'west')
+			export SDC_URL='https://us-west-1.api.joyentcloud.com'
+			;;
+		'sw')
+			export SDC_URL='https://us-sw-1.api.joyentcloud.com'
+			;;
+		'ams')
+			export SDC_URL='https://eu-ams-1.api.joyentcloud.com'
+			;;
+		*)
+			export SDC_URL="https://$1"
+		esac
 		if [ "$2" ]; then
-			export SDC_USER=$2
+			export SDC_ACCOUNT=$2
+		fi
+		if [ "$3" ]; then
+			export SDC_USER=$3
 		else
 			unset SDC_USER
 		fi
-		export SDC_URL='http://localhost:8080'
 		export SDC_KEY_ID=`ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n'`
 	fi
 	if ! caller | grep -q profile; then
@@ -63,7 +80,7 @@ if [ $(uname) = 'Darwin' ]; then
 	fi
 	# Allow easy access to manta setup
 	mantaenv patrick.mooney
-	sdcenv patrick.mooney
+	sdcenv west patrick.mooney
 fi
 
 # Linux-specific configuration
