@@ -49,6 +49,7 @@ set nobackup            " don't create backup files
 set ruler               " display the cursor position
 set nohlsearch          " don't highlight search terms
 set bs=2                " allow useful backspace in insert mode
+set nomodeline          " Disable modelines for security
 
 " Leader {{{
 "
@@ -319,6 +320,7 @@ augroup END
 " Markdown {{{
 
 	au BufRead,BufNewFile *.md set filetype=markdown
+	au BufRead,BufNewFile *.restdown set filetype=markdown
 
 " }}}
 
