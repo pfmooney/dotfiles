@@ -23,7 +23,7 @@ if (${1:condition}) {
 endsnippet
 
 snippet req "require a nodejs module"
-var ${2:$1} = require('${1:name}');
+var ${2:${1/\.\/([^\/]+\/)*//}} = require('${1:name}');
 endsnippet
 
 snippet tap "tap/tape test"
