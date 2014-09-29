@@ -3,7 +3,11 @@
 	email = patrick.f.mooney@gmail.com
 [color]
 	ui = auto
+
 [push]
 	default = simple
 [alias]
 	last = !sh -c "'if [ \"$TMUX\" ]; then tmux set-buffer $(git log -n1 --format='%H'); git log -n1; fi'"
+	up = pull --ff-only
+[remote "origin"]
+	fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
