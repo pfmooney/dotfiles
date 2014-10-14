@@ -17,7 +17,10 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'klen/python-mode'
 
 " Snippets & completion
-NeoBundle 'SirVer/ultisnips'
+if has('python')
+	" Ultisnips complains about python if it's missing
+	NeoBundle 'SirVer/ultisnips'
+endif
 NeoBundle 'honza/vim-snippets'
 
 " Utilties
