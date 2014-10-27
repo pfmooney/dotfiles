@@ -87,3 +87,9 @@ fi
 if [ $(uname) = 'Linux' ]; then
 	alias xkeys='~/.dotfiles/x11/xset.sh'
 fi
+
+if [ $(uname) = 'SunOS' ]; then
+	unalias grep
+	export PS1='[\u@\h \w]\$ '
+	export PATH="/opt/local/bin:$PATH"
+fi
