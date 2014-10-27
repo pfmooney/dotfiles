@@ -89,7 +89,14 @@ if [ $(uname) = 'Linux' ]; then
 fi
 
 if [ $(uname) = 'SunOS' ]; then
-	unalias grep
 	export PS1='[\u@\h \w]\$ '
 	export PATH="/opt/local/bin:$PATH"
+
+	# Support color from GNU ls/grep
+	if ls --help | grep -q color; then
+		alias ls='\ls --color=auto'
+	fi
+	if grep --help | grep -q color; then
+		alias grep='\grep --color=auto'
+	fi
 fi
