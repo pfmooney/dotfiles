@@ -72,6 +72,33 @@ function sshpub() {
 	fi
 }
 
+function pathinsertat() {
+	export PATH=$(awk -v path="$PATH" -v ins="$1" -v at="$2" '
+	BEGIN {
+		n = split(path, parts, ":")
+		out = ""
+		for (i = n; i > 0; i--) {
+			if (parts[i] == ins) {
+				continue;
+			}
+			if (out == "") {
+				out = parts[i];
+			} else {
+				out = parts[i] ":" out;
+			}
+			if (parts[i] == at && at != "") {
+				out = ins ":" out;
+				at = "";
+			}
+		}
+		if (at != "") {
+			out = ins ":" out;
+		}
+		print out;
+	}
+	')
+}
+
 # OSX-specific configuration
 if [ $(uname) = 'Darwin' ]; then
 	# Colorize 'ls' and friends
@@ -96,10 +123,8 @@ fi
 
 if [ $(uname) = 'SunOS' ]; then
 	export PS1='[\u@\h \w]\$ '
-	export PATH="/opt/local/bin:$PATH"
-
-	# /usr/sbin must take precedence for illumos builds
-	export PATH="/usr/sbin:$PATH"
+	pathinsertat '/opt/local/bin' '/usr/bin'
+	pathinsertat "~/.dotfiles/path/SunOS" '/opt/local/bin'
 
 	# Support color from GNU ls/grep
 	if ls --help | grep -q color; then

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# generate webrev and push to manta
+name=$1
+if [ -z "$name" ]; then
+	echo 'usage: mwebrev <name>'
+	exit 1
+fi
+
+if [ -e "$name" ]; then
+	echo "webrev exists: $name"
+	exit 1
+fi
+
+webrev -o "$name"
+tar cvf "$name.tar" "$name"
+muntar -f "$name.tar" ~~/public/webrev
+rm -r "$name" "$name.tar"
