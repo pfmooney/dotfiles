@@ -51,7 +51,8 @@ syntax keyword javaScriptPrototype      prototype
 syntax keyword javaScriptStatement      return with
 syntax keyword javaScriptGlobalObjects  Array Boolean Date Function Math Number Object RegExp String
 syntax keyword javaScriptExceptions     try catch throw finally Error EvalError RangeError ReferenceError SyntaxError TypeError URIError
-syntax keyword javaScriptReserved       abstract enum int short boolean export interface static byte extends long super char final native synchronized class float package throws const goto private transient debugger implements protected volatile double import public
+syntax keyword javaScriptReserved       abstract enum int short boolean export interface static byte extends long super char native synchronized class float package throws const goto private transient debugger implements protected volatile double import public
+" Removed from reserved - final
 "}}}
 " Comments {{{
 syntax keyword javaScriptCommentTodo      TODO FIXME XXX TBD contained
