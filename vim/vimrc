@@ -273,6 +273,7 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 set laststatus=2
 " airline disables virtual column by default (and that's stupid)
 let g:airline_section_z = '%3p %3l:%3c%3V'
+let g:airline_theme = 'murmur'
 
 " }}}
 
