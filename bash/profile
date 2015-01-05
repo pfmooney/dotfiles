@@ -110,6 +110,7 @@ if [ $(uname) = 'Darwin' ]; then
 		source $BREW_PREFIX/etc/bash_completion
 		alias git=$BREW_PREFIX/bin/git
 		alias vim=$BREW_PREFIX/bin/vim
+		alias ctags=$BREW_PREFIX/bin/ctags
 	fi
 	# Allow easy access to manta setup
 	mantaenv patrick.mooney
