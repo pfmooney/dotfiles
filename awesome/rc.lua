@@ -37,10 +37,10 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "x-terminal-emulator"
+terminal = "kconsole"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -99,7 +99,10 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" })
+mytextclock = awful.widget.textclock(
+    { align = "right" },
+    "%Y-%m-%d %H:%M", 60
+)
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -180,7 +183,7 @@ for s = 1, screen.count() do
         },
         mylayoutbox[s],
         mytextclock,
-        s == 1 and mysystray or nil,
+        s == screen.count() and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -188,36 +191,49 @@ end
 -- }}}
 
 -- {{{ Mouse bindings
+switchbuttons = awful.util.table.join(
+    awful.button({ modkey }, 4, awful.tag.viewnext),
+    awful.button({ modkey }, 5, awful.tag.viewprev)
+)
 root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    switchbuttons
 ))
 -- }}}
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+    -- Move between screens/tags
+    awful.key({ modkey }, "k", awful.tag.viewprev ),
+    awful.key({ modkey }, "j", awful.tag.viewnext ),
+    awful.key({ modkey }, "h", function () awful.screen.focus_relative( 1) end),
+    awful.key({ modkey }, "l", function () awful.screen.focus_relative(-1) end),
 
-    awful.key({ modkey,           }, "j",
+    -- Move windows between screens/tags
+    awful.key({ modkey, "Control" }, "k", awful.tag.viewprev ),
+    awful.key({ modkey, "Control" }, "j", awful.tag.viewnext ),
+    awful.key({ modkey, "Control" }, "h", function () awful.screen.focus_relative( 1) end),
+    awful.key({ modkey, "Control" }, "l", function () awful.screen.focus_relative(-1) end),
+
+    -- Move between windows in a tag
+    awful.key({ modkey,           }, "n",
         function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "k",
+    awful.key({ modkey, "Shift"   }, "n",
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
+
+    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+
     awful.key({ modkey,           }, "w", function () mymainmenu:show({keygrabber=true}) end),
 
     -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
+    -- awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
+    -- awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
@@ -232,12 +248,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
-    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
+    --awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
+    --awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
+    --awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
+    --awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
+    --awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
+    --awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
@@ -318,7 +334,10 @@ end
 clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
-    awful.button({ modkey }, 3, awful.mouse.client.resize))
+    awful.button({ modkey }, 2, awful.mouse.client.resize),
+    -- allow tag-switching on client windows too
+    switchbuttons
+)
 
 -- Set keys
 root.keys(globalkeys)
