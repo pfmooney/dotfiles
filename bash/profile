@@ -119,7 +119,8 @@ fi
 
 # Linux-specific configuration
 if [ $(uname) = 'Linux' ]; then
-	alias xkeys='~/.dotfiles/x11/xset.sh'
+	# Don't need slow/annoying apt-get suggestions
+	unset command_not_found_handle
 fi
 
 if [ $(uname) = 'SunOS' ]; then
