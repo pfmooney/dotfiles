@@ -192,8 +192,8 @@ end
 
 -- {{{ Mouse bindings
 switchbuttons = awful.util.table.join(
-    awful.button({ modkey }, 4, awful.tag.viewnext),
-    awful.button({ modkey }, 5, awful.tag.viewprev)
+    awful.button({ modkey }, 5, awful.tag.viewnext),
+    awful.button({ modkey }, 4, awful.tag.viewprev)
 )
 root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
@@ -393,4 +393,22 @@ end)
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+-- }}}
+
+
+-- {{{ Autorun
+-- Automatically run certain programs on startup
+do
+    local autorun_cmds = {
+        -- Set capslock as ctrl
+        "setxkbmap -layout us -option ctrl:nocaps",
+        -- Usable keyboard repeat rates
+        "xset r rate 180 30",
+        "xset dpms 0 0 900"
+    }
+    for k,v in pairs(autorun_cmds) do
+        awful.util.spawn_with_shell(v)
+    end
+end
 -- }}}
