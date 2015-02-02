@@ -99,6 +99,40 @@ function pathinsertat() {
 	')
 }
 
+# Cautiously update environment while inside tmux
+function tmeu() {
+	if [[ "$TMUX" ]]; then
+		local EUPDATE=$(tmux show-environment | awk "
+		BEGIN {
+			envallow = \"DISPLAY SSH_AGENT_PID SSH_ASKPASS\" \\
+			    \" SSH_AUTH_SOCK SSH_CONNECTION WINDOWID\" \\
+			    \" XAUTHORITY WINDOWID\";
+			split(envallow, parsed, \" \");
+			for (n in parsed) {
+				allow[parsed[n]] = n;
+			}
+		}
+		/^-[A-Z_]/ {
+			name = substr(\$1, 2);
+			if (name in allow) {
+				printf \"unset %s;\\n\", name;
+				printf \"export %s;\\n\", name;
+			}
+		}
+		/^[A-Z_]+=[-a-zA-Z0-9.\/ ]/ {
+			mid = index(\$0, \"=\");
+			name = substr(\$0, 1, mid-1);
+			value = substr(\$0, mid+1);
+			if (name in allow) {
+				printf \"export %s='%s';\\n\", name, value;
+			}
+		}
+		")
+		echo "$EUPDATE"
+		eval "$EUPDATE"
+	fi
+}
+
 # OSX-specific configuration
 if [ $(uname) = 'Darwin' ]; then
 	# Colorize 'ls' and friends
