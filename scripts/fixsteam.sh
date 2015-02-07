@@ -2,7 +2,11 @@
 # Copyright (C) 2013-2014 Michael Gilbert <mgilbert@debian.org>
 # License: MIT
 
-config=$HOME/.steam
+# Fedora path
+config=$HOME/.local/share/Steam
+# Debian path
+# config=$HOME/.steam
+
 ubuntu32=$config/ubuntu12_32
 
 # remove steam-runtime's libstdc++, which is incompatible with newer mesa drivers
