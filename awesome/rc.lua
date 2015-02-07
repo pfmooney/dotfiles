@@ -40,10 +40,8 @@ end
 -- Themes define colours, icons, and wallpapers
 beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
--- This is used later as the default terminal and editor to run.
-terminal = "kconsole"
-editor = os.getenv("EDITOR") or "editor"
-editor_cmd = terminal .. " -e " .. editor
+-- This is used later as the default terminal
+terminal = "st -e tmux"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -83,7 +81,6 @@ end
 -- Create a laucher widget and a main menu
 myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
 }
@@ -243,7 +240,7 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
+    awful.key({ modkey, "Control" }, "z", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
@@ -342,8 +339,14 @@ for i = 1, 9 do
 end
 
 clientbuttons = awful.util.table.join(
-    awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-    awful.button({ modkey }, 1, awful.mouse.client.move),
+    -- Raise on click is bullshit
+    -- awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
+    awful.button({ modkey }, 1,
+            function (c)
+                client.focus = c
+                c:raise()
+                awful.mouse.client.move(c)
+            end),
     awful.button({ modkey }, 2, awful.mouse.client.resize),
     -- allow tag-switching on client windows too
     switchbuttons
@@ -411,7 +414,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 do
     local autorun_cmds = {
         -- Set capslock as ctrl
-        "xsetroot -bg black",
+        "xsetroot -solid black",
         "setxkbmap -layout us -option ctrl:nocaps",
         -- Usable keyboard repeat rates
         "xset r rate 180 30",
