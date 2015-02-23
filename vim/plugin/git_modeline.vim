@@ -28,6 +28,7 @@ if (! exists("g:git_modeline_allowed_items"))
                 \ "cindent",     "cin",  "nocindent", "nocin",
                 \ "smartindent", "si",   "nosmartindent", "nosi",
                 \ "autoindent",  "ai",   "noautoindent", "noai",
+                \ "list", "nolist",
                 \ "spell",
                 \ "spelllang"
                 \ ]
