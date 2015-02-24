@@ -133,6 +133,10 @@ function tmeu() {
 	fi
 }
 
+# NVM setup
+source ~/.dotfiles/node/nvm/nvm.sh
+source ~/.dotfiles/node/nvm/bash_completion
+
 # OSX-specific configuration
 if [ $(uname) = 'Darwin' ]; then
 	# Colorize 'ls' and friends
