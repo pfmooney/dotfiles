@@ -144,7 +144,6 @@ if [ $(uname) = 'Darwin' ]; then
 	export PS1='\u@\h:\W\$ '
 	BREW_PREFIX=$(brew --prefix)
 	if [[ -d $BREW_PREFIX ]]; then
-		source $(brew --prefix nvm)/nvm.sh
 		source $BREW_PREFIX/etc/bash_completion
 		alias git=$BREW_PREFIX/bin/git
 		alias vim=$BREW_PREFIX/bin/vim
