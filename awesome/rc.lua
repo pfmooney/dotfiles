@@ -42,6 +42,8 @@ beautiful.init(awful.util.getdir("config") .. "/theme.lua")
 
 -- This is used later as the default terminal
 terminal = "st -e tmux"
+-- Standard lockscreen
+screenlock = "slock"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -241,6 +243,7 @@ globalkeys = awful.util.table.join(
 
     -- Standard program
     awful.key({ modkey, "Control" }, "z", function () awful.util.spawn(terminal) end),
+    awful.key({ modkey, "Control", "Mod1" }, "l", function () awful.util.spawn(screenlock) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
