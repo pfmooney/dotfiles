@@ -11,6 +11,7 @@ fi
 
 alias ll='ls -l'
 alias grep='grep --color=auto'
+alias tmat='tmux att -t'
 
 # Fedora's default for this is stupidly verbose
 unset PROMPT_COMMAND
@@ -133,10 +134,6 @@ function tmeu() {
 	fi
 }
 
-# NVM setup
-source ~/.dotfiles/node/nvm/nvm.sh
-source ~/.dotfiles/node/nvm/bash_completion
-
 # OSX-specific configuration
 if [ $(uname) = 'Darwin' ]; then
 	# Colorize 'ls' and friends
@@ -152,12 +149,20 @@ if [ $(uname) = 'Darwin' ]; then
 	# Allow easy access to manta setup
 	mantaenv patrick.mooney
 	sdcenv west patrick.mooney
+
+	# NVM setup
+	source ~/.dotfiles/node/nvm/nvm.sh
+	source ~/.dotfiles/node/nvm/bash_completion
 fi
 
 # Linux-specific configuration
 if [ $(uname) = 'Linux' ]; then
 	# Don't need slow/annoying apt-get suggestions
 	unset command_not_found_handle
+
+	# NVM setup
+	source ~/.dotfiles/node/nvm/nvm.sh
+	source ~/.dotfiles/node/nvm/bash_completion
 fi
 
 if [ $(uname) = 'SunOS' ]; then
