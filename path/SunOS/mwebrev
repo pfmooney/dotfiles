@@ -16,3 +16,6 @@ webrev -o "$name"
 tar cvf "$name.tar" "$name"
 muntar -f "$name.tar" ~~/public/webrev
 rm -r "$name" "$name.tar"
+
+echo "WEBREV URL:"
+echo "$MANTA_URL/$MANTA_USER/public/webrev/$name/index.html"
