@@ -98,6 +98,11 @@ let g_solarized_visibility='low'
 let g:solarized_termcolors=256
 colorscheme solarized
 
+" Draw a nice guide at 80 cols
+if exists('+colorcolumn')
+	set colorcolumn=80
+endif
+
 " Pre-solarized settings {{{
 " Make listchars more muted in color
 "hi SpecialKey guifg=#5f87df ctermfg=68
