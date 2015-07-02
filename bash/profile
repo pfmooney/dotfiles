@@ -168,7 +168,7 @@ fi
 if [ $(uname) = 'SunOS' ]; then
 	export PS1='[\u@\h \w]\$ '
 	pathinsertat '/opt/local/bin' '/usr/bin'
-	pathinsertat "~/.dotfiles/path/SunOS" '/opt/local/bin'
+	pathinsertat "$(readlink -f ~/.dotfiles/path/SunOS)" '/opt/local/bin'
 
 	# Support color from GNU ls/grep
 	if ls --help | grep -q color; then
