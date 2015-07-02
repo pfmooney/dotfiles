@@ -325,6 +325,15 @@ augroup END
 
 " }}}
 
+" Go {{{
+
+augroup ft_go
+	au!
+	au FileType go setlocal foldmethod=syntax
+augroup END
+
+" }}}
+
 " Makefile {{{
 
 augroup ft_make
