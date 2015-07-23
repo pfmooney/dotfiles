@@ -123,16 +123,17 @@ function! MyFoldText() " {{{
 	let line = getline(v:foldstart)
 
 	let nucolwidth = &fdc + &number * &numberwidth
-	let windowwidth = winwidth(0) - nucolwidth - 3
-	let foldedlinecount = v:foldend - v:foldstart
+	let windowwidth = winwidth(0) - nucolwidth
+	let foldedlinecount = 1 + v:foldend - v:foldstart
 
 	" expand tabs into spaces
 	let onetab = strpart('          ', 0, &tabstop)
 	let line = substitute(line, '\t', onetab, 'g')
 
-	let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-	let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-	return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+	let linemsg = '…[' . foldedlinecount . ']'
+	let linelimit = (windowwidth  > 80) ? (80 - len(linemsg)) : (windowwidth - len(linemsg))
+	let line = strpart(line, 0, linelimit)
+	return line . repeat(' ', 80 - len(line) - len(linemsg)) . linemsg
 endfunction " }}}
 set foldtext=MyFoldText()
 
@@ -143,6 +144,7 @@ set foldtext=MyFoldText()
 set list
 "set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set listchars=tab:\>\-
+set fillchars=fold:\ ,vert:\|
 
 
 augroup trailing
