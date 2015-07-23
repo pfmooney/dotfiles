@@ -298,6 +298,18 @@ augroup ft_c
 augroup END
 
 " }}}
+"
+" C++ {{{
+
+augroup ft_cpp
+	au!
+
+	" Mirror settings for C
+	au FileType cpp setlocal foldmethod=marker foldmarker={,}
+	au FileType cpp setlocal list!
+augroup END
+
+" }}}
 
 " Javascript {{{
 
