@@ -295,6 +295,8 @@ augroup ft_c
 
 	au FileType c setlocal foldmethod=marker foldmarker={,}
 	au FileType c setlocal list!
+	" shiftround messes with block comments and illumos continuation style
+	au FileType c setlocal noshiftround
 augroup END
 
 " }}}
@@ -307,6 +309,7 @@ augroup ft_cpp
 	" Mirror settings for C
 	au FileType cpp setlocal foldmethod=marker foldmarker={,}
 	au FileType cpp setlocal list!
+	au FileType cpp setlocal noshiftround
 augroup END
 
 " }}}
