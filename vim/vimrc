@@ -10,7 +10,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Eye candy
-NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'pfmooney/vim-pmolokai'
 NeoBundle 'bling/vim-airline'
 
 " Language support
@@ -86,6 +86,7 @@ nnoremap td :tabclose<CR>
 
 " Color/style {{{
 
+colorscheme pmolokai
 set bg=dark             " black terminal background
 syntax on               " syntax highlighting is what the cool kids do
 set synmaxcol=800       " Don't try to highlight lines longer than 800 chars.
@@ -93,10 +94,6 @@ set synmaxcol=800       " Don't try to highlight lines longer than 800 chars.
 " Line numbers are nice
 set nu
 
-" Solarize that shit
-let g_solarized_visibility='low'
-let g:solarized_termcolors=256
-colorscheme solarized
 
 " Draw a nice guide at 80 cols
 if exists('+colorcolumn')
