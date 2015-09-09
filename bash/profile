@@ -18,7 +18,10 @@ unset PROMPT_COMMAND
 
 function mantaenv() {
 	if [ "$1" ]; then
-		AGENT_KEY=$(ssh-add -l | awk '{print $2}')
+		AGENT_KEY=$(ssh-add -l -E md5 | awk '
+			$2 ~ /^MD5:/ {print substr($2, 5)}
+			$2 ~ /^..:/ {print $2}
+		')
 		if [ "$AGENT_KEY" ]; then
 			export MANTA_KEY_ID="$AGENT_KEY"
 		else
@@ -59,7 +62,15 @@ function sdcenv() {
 		else
 			unset SDC_USER
 		fi
-		export SDC_KEY_ID=`ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n'`
+		AGENT_KEY=$(ssh-add -l -E md5 | awk '
+			$2 ~ /^MD5:/ {print substr($2, 5)}
+			$2 ~ /^..:/ {print $2}
+		')
+		if [ "$AGENT_KEY" ]; then
+			export SDC_KEY_ID="$AGENT_KEY"
+		else
+			export SDC_KEY_ID=`ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n'`
+		fi
 	fi
 	if ! caller | grep -q profile; then
 		env | grep SDC
