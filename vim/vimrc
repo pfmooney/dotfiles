@@ -53,6 +53,7 @@ set ruler               " display the cursor position
 set nohlsearch          " don't highlight search terms
 set bs=2                " allow useful backspace in insert mode
 set nomodeline          " Disable modelines for security
+set diffopt+=vertical   " Default to vsplits for vimdiff
 
 " Leader {{{
 "
