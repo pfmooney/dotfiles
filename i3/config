@@ -10,8 +10,8 @@
 set $mod Mod4
 
 # Output definitions
-set $mon0 DVI-0
-set $mon1 DVI-1
+set $mon0 DisplayPort-0
+set $mon1 HDMI-0
 
 # Workspace definitions
 set $ws_st "1: st"
@@ -39,7 +39,8 @@ client.urgent           #C10004 #900000 #ffffff #900000
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id "st -e tmux"
+bindsym $mod+Return exec --no-startup-id "st -f 'Office Code Pro:style=Light,Regular:pixelsize=22' -e tmux"
+bindsym $mod+Shift+Return exec --no-startup-id "st -f 'Office Code Pro:style=Light,Regular,pixelsize=14'-e tmux"
 
 bindsym $mod+Control+Mod1+l exec --no-startup-id slock
 
@@ -70,11 +71,14 @@ bindsym $mod+Shift+l move right
 bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+Shift+Tab move container to workspace back_and_forth; workspace back_and_forth
 
-# split in horizontal orientation
-bindsym $mod+Shift+minus split h
+# scratchpad
+bindsym $mod+grave scratchpad show
+bindsym $mod+Shift+grave move scratchpad
 
-# split in vertical orientation
-bindsym $mod+Shift+backslash split v
+# split
+bindsym $mod+Shift+minus split v
+# vsplit
+bindsym $mod+Shift+backslash split h
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -179,7 +183,7 @@ bar {
 }
 
 # Class defines
-for_window [class="Google-chrome"] layout tabbed, move container to workspace $ws_www
+for_window [class="Google-chrome"] move container to workspace $ws_www
 for_window [class="Pidgin"] move container to workspace $ws_im
 for_window [class="Clementine"] move container to workspace $ws_tunes
 for_window [class="Steam"] move container to workspace $ws_steam
