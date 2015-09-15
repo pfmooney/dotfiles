@@ -12,6 +12,11 @@ if [ -e "$name" ]; then
 	exit 1
 fi
 
+# No sense in continuing without manta keys
+if ! ssh-add -l ; then
+	exit 1
+fi
+
 webrev -o "$name"
 tar cvf "$name.tar" "$name"
 muntar -f "$name.tar" ~~/public/webrev
