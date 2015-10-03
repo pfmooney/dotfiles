@@ -190,5 +190,7 @@ if [ $(uname) = 'SunOS' ]; then
 	fi
 
 	# Allow easy access to manta setup
-	mantaenv patrick.mooney
+	if [ $SSH_AUTH_SOCK ]; then
+		mantaenv patrick.mooney
+	fi
 fi
