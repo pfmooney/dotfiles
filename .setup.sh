@@ -22,3 +22,13 @@ relink .tmux.conf $DOTFILES/tmux/tmux.conf
 
 relink .vim $DOTFILES/vim
 relink .vimrc $DOTFILES/vim/vimrc
+
+relink .i3 $DOTFILES/i3
+relink .i3status.conf $DOTFILES/i3/status.conf
+relink .config/dunst $DOTFILES/i3
+
+relink .mutt $DOTFILES/mutt
+relink .offlineimaprc $DOTFILES/mutt/offlineimaprc
+relink .msmtprc $DOTFILES/mutt/msmtprc
+relink .urlview $DOTFILES/mutt/urlview
+relink .notmuch-config $DOTFILES/mutt/notmuch-config
