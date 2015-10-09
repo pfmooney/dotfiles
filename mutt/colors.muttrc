@@ -1,0 +1,47 @@
+color normal    color15         default
+color error     brightcolor15   color196
+color indicator color15         color235
+color status    brightcolor39   color233
+color markers   color142        color233
+
+color hdrdefault    color245        color233
+color header        brightcolor214  color233 "^(Subject): "
+color signature     color243        default
+
+color body      color137        default [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
+color body      color137        default ((https?|ftp)://|www)+[\-\.\;@,/%~_:?&=\#a-zA-Z0-9+]+
+color bold      brightcolor15   default
+color search    brightcolor16   color221
+
+color quoted    color243    default
+color quoted1   color211    default
+color quoted2   color222    default
+color quoted3   color214    default
+color quoted4   color154    default
+
+color tilde         color240        default
+color tree          color240        color233
+color attachment    brightcolor211  default
+
+# http://www.mutt.org/doc/manual/manual-4.html#ss4.2
+# color index color241 color233 ~A
+# color index color241 color233 ~Q
+# color index color243 color233 ~P
+color index    brightcolor211  default  ~F
+color index    color243        default  ~Q
+color index    color196        default  ~D
+color index    color221        default  ~N
+# highlight tag last for precendence
+color index    brightcolor39   default  ~T
+
+# Colorize inline diffs, really helpful for LKML or other mailing lists where
+# mails frequently include patches.
+color body     brightcolor15       default '^diff .*'
+color body     brightcolor15       default '^[Ii]{1}ndex .*'
+color body     brightcolor15       default '^=+$'
+color body     brightcolor15       default '^(---|\+\+\+) .*'
+color body     brightcolor15       default '^@@ .*'
+color body     color121            default '^\+([^\+].*)?$'
+color body     color211            default '^-([^-].*)?$'
+
+# vim: et:sw=4:ts=4

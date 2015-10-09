@@ -1,0 +1,35 @@
+[general]
+ui = TTY.TTYUI
+accounts = pmooney
+pythonfile = ~/.mutt/offlineimap.py
+fsync = False
+debug = true
+
+[mbnames]
+enabled = yes
+filename = ~/.mutt/mailboxes
+header = "mailboxes "
+peritem = "+%(foldername)s"
+sep = " "
+footer = "\n"
+
+[Account pmooney]
+localrepository = pmooney-local
+remoterepository = pmooney-remote
+status_backend = sqlite
+#postsynchook = notmuch new
+
+[Repository pmooney-local]
+type = Maildir
+localfolders = ~/.mail/pmooney-pfmooney.com
+sep = /
+
+[Repository pmooney-remote]
+type = IMAP
+remoteuser = pmooney@pfmooney.com
+remotepasseval = get_mailpw(account="pmooney@pfmooney.com")
+remotehost = ssl.pfmooney.com
+sslcacertfile  = ~/.mutt/ssl.pem
+ssl = yes
+maxconnections = 1
+realdelete = no
