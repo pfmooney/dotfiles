@@ -147,7 +147,7 @@ set fillchars=fold:\ ,vert:\|
 
 augroup trailing
 	au!
-	au BufReadPost * :match ErrorMsg '\s\+$'
+	au BufReadPre * :match ErrorMsg '\s\+$'
 	au InsertEnter * :highlight clear ErrorMsg
 	au InsertLeave * :highlight ErrorMsg term=reverse cterm=reverse ctermfg=124 guifg=White guibg=Red
 augroup END
@@ -345,6 +345,17 @@ augroup END
 augroup ft_go
 	au!
 	au FileType go setlocal foldmethod=syntax
+augroup END
+
+" }}}
+
+" Mail {{{
+augroup ft_mail
+	au!
+
+	au FileType mail setlocal fo+=wa
+	au FileType mail :match none
+
 augroup END
 
 " }}}
