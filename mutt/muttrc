@@ -39,6 +39,7 @@ set use_from             # respect the From: address the editor sends back
 set sort             = threads
 set sort_aux         = reverse-date
 set sleep_time = 0 # do not pause when switching folders
+set text_flowed
 
 source ~/.mutt/colors.muttrc
 
@@ -50,7 +51,7 @@ set envelope_from                    # which from?
 set sig_dashes                       # dashes before sig
 set edit_headers                     # show headers when composing
 set fast_reply                       # skip to compose when replying
-set askcc                            # ask for CC:
+unset askcc                          # do not ask for CC:
 set fcc_attach                       # save attachments with the body
 unset mime_forward                   # forward attachments as part of body
 set forward_format = "Fw: %s"        # format of subject when forwarding
@@ -111,6 +112,7 @@ set spoolfile = "+INBOX"
 
 # Alternate email addresses.
 alternates patrick.f.mooney@gmail.com pmooney@iastate.edu
+set hostname = "pfmooney.com"
 
 # Other special folders.
 set postponed = "+Drafts"
@@ -120,6 +122,9 @@ set from     = "pmooney@pfmooney.com"
 set sendmail = "msmtp -a pmooney@pfmooney.com"
 set sendmail_wait = 0 # no please don't silently fail, email is important
 set record   = +Sent
+
+# Contacts
+set query_command = "pc_query -c ~/.mutt/pycard.conf -m '%s'"
 
 # }}}
 # Key Bindings {{{
@@ -140,8 +145,11 @@ bind index,pager \Cb previous-page
 bind index d noop
 bind index D noop
 
-
+# Make quitting an explicit action
+bind index q noop
 bind index \Cx quit
+
+
 macro index ,r '<enter-command>source ~/.mutt/muttrc<enter>' "reload config"
 #bind index q noop
 
@@ -166,11 +174,17 @@ macro index,pager,browser gl        \
 macro index *n '<untag-pattern>~A<enter>' "Untag all"
 macro index *a '<tag-pattern>~A<enter>' "Tag all"
 
-macro index I '<tag-prefix><clear-flag>N' "Mark as read"
-macro index U '<tag-prefix><set-flag>N' "Mark as unread"
-macro index v '<tag-prefix><save-message>?<toggle-mailboxes><search>' "Move to folder"
-folder-hook . 'macro index \# "<tag-prefix><save-message>=Trash<enter>" "Delete message"'
-folder-hook =Trash 'macro index \# "<tag-prefix><delete-message>" "Delete message"'
+macro index I '<tag-prefix-cond><clear-flag>N' "Mark as read"
+macro index U '<tag-prefix-cond><set-flag>N' "Mark as unread"
+macro index v '<tag-prefix-cond><save-message>?<toggle-mailboxes><search>' "Move to folder"
+
+# Send to trash from post folders, delete permanently from trash
+folder-hook . 'macro index \# "<tag-prefix-cond><save-message>=Trash<enter>" "Delete message"'
+folder-hook =Trash 'macro index \# "<tag-prefix-cond><delete-message>" "Delete message"'
+
+# Recall postponed messages straight from drafts
+folder-hook . 'bind pager <return> next-line'
+folder-hook =Drafts 'bind pager <return> recall-message'
 
 bind generic    x  tag-entry
 bind index      x  tag-thread
@@ -190,11 +204,10 @@ macro index ,t \
 
 # Sync email
 macro index O "<shell-escape>offlineimap<enter><enter-command>source ~/.mutt/mailboxes<enter>" "run offlineimap to sync all mail"
-macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
+macro index o "<shell-escape>offlineimap -qf INBOX -k mbnames:enabled=no<enter>" "run offlineimap to sync inbox"
 
 # }}}
 # Pager {{{
-
 bind pager k previous-undeleted
 bind pager j next-undeleted
 bind pager gg top
@@ -207,9 +220,22 @@ macro pager gu '<enter-command>set pipe_decode<enter><pipe-entry>urlview<enter><
 folder-hook . 'macro pager \# "<save-message>=Trash<enter>" "Delete message"'
 folder-hook =Trash 'macro pager \# "<delete-message>" "Delete message"'
 
+bind pager q exit
+bind pager i noop
 
 bind pager R  group-reply
 bind pager N  search-opposite
+bind pager ,a view-attachments
+# }}}
+# Browser {{{
+bind browser q exit
+# }}}
+# Compose {{{
+#
+bind compose w noop
+bind compose y noop
+bind compose \cy send-message
+
 # }}}
 # Attachment {{{
 

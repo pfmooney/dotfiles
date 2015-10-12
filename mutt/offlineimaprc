@@ -1,9 +1,9 @@
 [general]
-ui = TTY.TTYUI
+ui = ttyui
 accounts = pmooney
 pythonfile = ~/.mutt/offlineimap.py
 fsync = False
-debug = true
+#debug = true
 
 [mbnames]
 enabled = yes
@@ -31,5 +31,5 @@ remotepasseval = get_mailpw(account="pmooney@pfmooney.com")
 remotehost = ssl.pfmooney.com
 sslcacertfile  = ~/.mutt/ssl.pem
 ssl = yes
-maxconnections = 1
+maxconnections = 2
 realdelete = no
