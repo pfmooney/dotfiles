@@ -295,6 +295,7 @@ augroup ft_c
 	au FileType c setlocal list!
 	" shiftround messes with block comments and illumos continuation style
 	au FileType c setlocal noshiftround
+
 augroup END
 
 " }}}
@@ -308,6 +309,7 @@ augroup ft_cpp
 	au FileType cpp setlocal foldmethod=marker foldmarker={,}
 	au FileType cpp setlocal list!
 	au FileType cpp setlocal noshiftround
+
 augroup END
 
 " }}}
@@ -324,6 +326,7 @@ augroup ft_javascript
 	au Filetype javascript setlocal tabstop=2
 	au Filetype javascript setlocal shiftwidth=2
 	au Filetype javascript setlocal expandtab
+
 augroup END
 
 " }}}
@@ -332,10 +335,12 @@ augroup END
 
 augroup ft_gitcommit
 	au!
+
 	" Don't bother with listchars in git commit messages
 	au FileType gitcommit setlocal list!
 	" Start off on the first line
 	au FileType gitcommit let b:file_line_return=0
+
 augroup END
 
 " }}}
@@ -344,7 +349,9 @@ augroup END
 
 augroup ft_go
 	au!
+
 	au FileType go setlocal foldmethod=syntax
+
 augroup END
 
 " }}}
@@ -353,8 +360,10 @@ augroup END
 augroup ft_mail
 	au!
 
+	" Enable line-folding (and don't highlight the trailing spaces)
 	au FileType mail setlocal fo+=wa
 	au FileType mail :match none
+	au FileType mail setlocal spell
 
 augroup END
 
@@ -364,8 +373,9 @@ augroup END
 
 augroup ft_make
 	au!
-	" Don't bother with listchars in git commit messages
+
 	au FileType make setlocal ts=8
+
 augroup END
 
 " }}}
@@ -374,6 +384,17 @@ augroup END
 
 	au BufRead,BufNewFile *.md set filetype=markdown
 	au BufRead,BufNewFile *.restdown set filetype=markdown
+
+" }}}
+
+" muttrc {{{
+
+augroup ft_muttrc
+	au!
+
+	au Filetype muttrc setlocal foldmethod=marker
+
+augroup END
 
 " }}}
 
@@ -433,6 +454,7 @@ augroup ft_vim
 	au FileType vim setlocal foldmethod=marker
 	au FileType help setlocal textwidth=78
 	au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+
 augroup END
 
 " }}}
