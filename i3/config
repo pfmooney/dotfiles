@@ -14,12 +14,7 @@ set $mon0 DisplayPort-0
 set $mon1 HDMI-0
 
 # Workspace definitions
-set $ws_st "1: st"
 set $ws_www "2: www"
-set $ws_steam "3: steam"
-set $ws_game "4: game"
-set $ws_im "6: im"
-set $ws_tunes "10: tunes"
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -71,6 +66,12 @@ bindsym $mod+Shift+l move right
 bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+Shift+Tab move container to workspace back_and_forth; workspace back_and_forth
 
+# screen switching
+bindsym $mod+Control+h focus output $mon0
+bindsym $mod+Control+l focus output $mon1
+bindsym $mod+Control+j workspace next_on_output
+bindsym $mod+Control+k workspace prev_on_output
+
 # scratchpad
 bindsym $mod+grave scratchpad show
 bindsym $mod+Shift+grave move scratchpad
@@ -99,30 +100,29 @@ bindsym $mod+a focus parent
 # focus the child container
 bindsym $mod+d focus child
 
-
-workspace $ws_st output $mon0
+workspace 1 output $mon0
 workspace $ws_www output $mon0
-workspace $ws_steam output $mon0
-workspace $ws_game output $mon0
+workspace 3 output $mon0
+workspace 4 output $mon0
 workspace 5 output $mon0
 
-workspace $ws_im output $mon1
+workspace 6 output $mon1
 workspace 7 output $mon1
 workspace 8 output $mon1
 workspace 9 output $mon1
-workspace $ws_tunes output $mon1
+workspace 0 output $mon1
 
 # switch to workspace
-bindsym $mod+1 workspace $ws_st
+bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace $ws_www
-bindsym $mod+3 workspace $ws_steam
-bindsym $mod+4 workspace $ws_game
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace $ws_im
+bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace $ws_tunes
+bindsym $mod+0 workspace 0
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
@@ -161,18 +161,6 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-mode "screen" {
-        bindsym h focus output $mon0
-        bindsym l focus output $mon1
-        bindsym j workspace next_on_output
-        bindsym k workspace prev_on_output
-
-        bindsym bracketleft mode "default"
-        bindsym $mod+bracketleft mode "default"
-        bindsym Control+bracketleft mode "default"
-}
-bindsym $mod+z mode "screen"
-
 # No capslock is best capslock
 exec_always --no-startup-id "setxkbmap -layout us -option ctrl:nocaps"
 # Usable keyboard repeat rates
@@ -187,11 +175,7 @@ bar {
 }
 
 # Class defines
-for_window [class="Google-chrome"] move container to workspace $ws_www
-for_window [class="Pidgin"] move container to workspace $ws_im
-for_window [class="Clementine"] move container to workspace $ws_tunes
-for_window [class="Steam"] move container to workspace $ws_steam
-for_window [class="dota_linux"] fullscreen enable, move container to workspace $ws_game
+for_window [class="Firefox"] move container to workspace $ws_www
 
 # audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
