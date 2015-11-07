@@ -29,6 +29,7 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'tpope/vim-fugitive' " git integration
+NeoBundle 'vim-utils/vim-man'
 
 
 " Conditional Plugin disables {{{
