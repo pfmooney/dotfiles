@@ -6,7 +6,7 @@ if [ $(uname) = 'Darwin' ]; then
 fi
 
 if [ $(uname) = 'Linux' ]; then
-	if [ "$DISPLAY" -a -f /usr/bin/google-chrome ]; then
-		/usr/bin/google-chrome "$1"
+	if [ "$DISPLAY" -a -f /usr/bin/firefox ]; then
+		/usr/bin/firefox "$1"
 	fi
 fi

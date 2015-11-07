@@ -41,6 +41,9 @@ set sort_aux         = reverse-date
 set sleep_time = 0 # do not pause when switching folders
 set text_flowed
 
+auto_view text/html
+alternative_order text/plain text/enriched text/html
+
 source ~/.mutt/colors.muttrc
 
 # }}}
@@ -49,6 +52,7 @@ source ~/.mutt/colors.muttrc
 set realname = "Patrick Mooney"      # who am i?
 set envelope_from                    # which from?
 set sig_dashes                       # dashes before sig
+set sig_on_top
 set edit_headers                     # show headers when composing
 set fast_reply                       # skip to compose when replying
 unset askcc                          # do not ask for CC:
@@ -138,12 +142,16 @@ bind index j        next-entry
 bind index gg       first-entry
 bind index G        last-entry
 bind index p        recall-message
-bind index <space>  collapse-thread
 bind index N        search-opposite
 bind index,pager \Cf next-page
 bind index,pager \Cb previous-page
 bind index d noop
 bind index D noop
+
+# Folding
+bind index zm       collapse-all
+bind index zR       collapse-all
+bind index <space>  collapse-thread
 
 # Make quitting an explicit action
 bind index q noop
