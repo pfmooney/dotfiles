@@ -3,8 +3,12 @@
 # generate webrev and push to manta
 name=$1
 if [ -z "$name" ]; then
-	echo 'usage: mwebrev <name>'
-	exit 1
+	# Try to run with the current branch if it is of the appropriate format
+	name=$(git rev-parse --abbrev-ref HEAD | grep -E '^OS-[0-9]{1,}$')
+	if [ -z "$name" ]; then
+		echo 'usage: mwebrev <name>'
+		exit 1
+	fi
 fi
 
 if [ -e "$name" ]; then
