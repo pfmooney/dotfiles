@@ -292,7 +292,11 @@ let g:airline_theme = 'murmur'
 augroup ft_c
 	au!
 
-	au FileType c setlocal foldmethod=marker foldmarker={,}
+	" Don't fold comments or '#if 0' blocks
+	let c_no_comment_fold = 1
+	let c_no_if0_fold = 1
+
+	au FileType c setlocal foldmethod=syntax
 	au FileType c setlocal list!
 	" shiftround messes with block comments and illumos continuation style
 	au FileType c setlocal noshiftround
