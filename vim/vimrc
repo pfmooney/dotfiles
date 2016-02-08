@@ -11,7 +11,8 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Eye candy
 NeoBundle 'pfmooney/vim-pmolokai'
-NeoBundle 'bling/vim-airline'
+NeoBundle 'vim-airline/vim-airline', 'e7de5f451a26eb2138d710e59a3e7b95a848a901'
+NeoBundle 'vim-airline/vim-airline-themes', '6d3710e4b12963c78a599b9f69a58b8da23728d2'
 
 " Language support
 NeoBundle 'klen/python-mode'
