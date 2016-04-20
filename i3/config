@@ -37,10 +37,10 @@ bindsym $mod+Shift+Return exec --no-startup-id "st -f 'Office Code Pro:style=Reg
 bindsym $mod+Control+Mod1+l exec --no-startup-id slock
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+w kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec dmenu_run
+bindsym $mod+space exec --no-startup-id dmenu_run
 
 # change focus
 bindsym $mod+h focus left
@@ -81,10 +81,14 @@ bindsym $mod+Shift+backslash split h
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
+# disable scroll wheel on window titles
+bindsym button4 nop
+bindsym button5 nop
+
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+w layout tabbed
+bindsym $mod+Shift+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -141,7 +145,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'Exit  i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -171,7 +175,14 @@ exec_always --no-startup-id "xsetroot -solid black"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+	output $mon0
+	mode hide
+	status_command i3status
+}
+bar {
+	output $mon1
+	mode hide
+	status_command i3status
 }
 
 # Class defines
@@ -179,6 +190,6 @@ for_window [class="Firefox"] layout tabbed
 for_window [class="google-chrome"] layout tabbed
 
 # audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -c0 set Front 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -c0 set Front 5%-
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
