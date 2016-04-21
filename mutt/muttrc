@@ -35,9 +35,11 @@ set beep_new             # bell on new mails
 set thorough_search      # strip headers and eval mimes before searching
 set send_charset="utf-8:us-ascii:iso-8859-1"
 set use_from             # respect the From: address the editor sends back
+set print_command='enscript -Email --pretty-print -p - | ps2pdf - out.pdf'
 
 set sort             = threads
 set sort_aux         = reverse-date
+set strict_threads   = yes
 set sleep_time = 0 # do not pause when switching folders
 set text_flowed
 
