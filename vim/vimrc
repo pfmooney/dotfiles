@@ -382,6 +382,9 @@ augroup END
 augroup ft_make
 	au!
 
+	" Several suffixes are used for Makefiles in illumos
+	au BufRead,BufNewFile Makefile.* set filetype=make
+
 	au FileType make setlocal ts=8
 
 augroup END
