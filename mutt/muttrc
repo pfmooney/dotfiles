@@ -192,6 +192,10 @@ macro index v '<tag-prefix-cond><save-message>?<toggle-mailboxes><search>' "Move
 folder-hook . 'macro index \# "<tag-prefix-cond><save-message>=Trash<enter>" "Delete message"'
 folder-hook =Trash 'macro index \# "<tag-prefix-cond><delete-message>" "Delete message"'
 
+# Unthread message in the Sent fold
+folder-hook . 'set sort = threads'
+folder-hook =Sent 'set sort = reverse-last-date-received'
+
 # Recall postponed messages straight from drafts
 folder-hook . 'bind pager <return> next-line'
 folder-hook =Drafts 'bind pager <return> recall-message'
