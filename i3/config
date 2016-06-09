@@ -31,8 +31,8 @@ client.urgent           #C10004 #900000 #ffffff #900000
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id "st -f 'Office Code Pro:style=Regular:pixelsize=22' -e tmux"
-bindsym $mod+Shift+Return exec --no-startup-id "st -f 'Office Code Pro:style=Regular,pixelsize=14'-e tmux"
+bindsym $mod+Return exec --no-startup-id "st -e tmux"
+bindsym $mod+Shift+Return exec --no-startup-id "st -e tmux attach"
 
 bindsym $mod+Control+Mod1+l exec --no-startup-id slock
 
