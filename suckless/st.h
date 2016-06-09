@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char font[] = "Office Code Pro:style=Light,Regular:pixelsize=14";
+static char font[] = "Mononoki:style=Regular:pixelsize=22";
 static int borderpx = 0;
 
 /*
@@ -26,6 +26,13 @@ static char vtiden[] = "\033[?6c";
 /* Kerning / character bounding-box multipliers */
 static float cwscale = 1.0;
 static float chscale = 1.0;
+
+/*
+ * Format position/height of underline rectangle.
+ * (custom)
+ */
+#define UL_POS(asc, ch)		((ch) - (ch)/14)
+#define UL_HEIGHT(asc, ch)	((ch)/14)
 
 /*
  * word delimiter string
@@ -67,7 +74,6 @@ static char termname[] = "xterm-256color";
 
 static unsigned int tabspaces = 8;
 
-
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
@@ -94,6 +100,7 @@ static const char *colorname[] = {
 
 	/* more colors can be added after 255 to use with DefaultXX */
 	"#cccccc",
+	"#555555",
 	"wheat"
 };
 
@@ -102,10 +109,19 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor
  */
-static unsigned int defaultfg = 257;
+static unsigned int defaultfg = 258;
 static unsigned int defaultbg = 0;
 static unsigned int defaultcs = 256;
+static unsigned int defaultrcs = 257;
 
+/*
+ * Default shape of cursor
+ * 2: Block ("█")
+ * 4: Underline ("_")
+ * 6: Bar ("|")
+ * 7: Snowman ("☃")
+ */
+static unsigned int cursorshape = 2;
 
 /*
  * Default colour and shape of the mouse cursor
@@ -122,9 +138,11 @@ static unsigned int mousebg = 0;
 static unsigned int defaultitalic = 11;
 static unsigned int defaultunderline = 7;
 
-/* Internal mouse shortcuts. */
-/* Beware that overloading Button1 will disable the selection. */
-static Mousekey mshortcuts[] = {
+/*
+ * Internal mouse shortcuts.
+ * Beware that overloading Button1 will disable the selection.
+ */
+static MouseShortcut mshortcuts[] = {
 	/* button               mask            string */
 	{ Button4,              XK_ANY_MOD,     "\031" },
 	{ Button5,              XK_ANY_MOD,     "\005" },
@@ -145,6 +163,7 @@ static Shortcut shortcuts[] = {
 	{ MODKEY|ShiftMask,     XK_Insert,      clippaste,      {.i =  0} },
 	{ MODKEY,               XK_Num_Lock,    numlock,        {.i =  0} },
 };
+
 
 /*
  * Special keys (change & recompile st.info accordingly)
@@ -187,6 +206,11 @@ static uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
  * Note that if you want to use ShiftMask with selmasks, set this to an other
  * modifier, set to 0 to not use it. */
 static uint forceselmod = ShiftMask;
+
+
+#define	SAMask	ShiftMask|Mod1Mask
+#define	SACMask	ShiftMask|Mod1Mask|ControlMask
+#define	SCMask	ShiftMask|ControlMask
 
 static Key key[] = {
 	/* keysym           mask            string      appkey appcursor crlf */
@@ -249,6 +273,13 @@ static Key key[] = {
 	{ XK_Up,            ShiftMask,      "\033[1;2A",     0,    0,    0},
 	{ XK_Up,            ControlMask,    "\033[1;5A",     0,    0,    0},
 	{ XK_Up,            Mod1Mask,       "\033[1;3A",     0,    0,    0},
+
+	/* xterm shift-alt arrow keys */
+	{ XK_Up,            SAMask,         "\033[1;4A",     0,    0,    0},
+	{ XK_Down,          SAMask,         "\033[1;4B",     0,    0,    0},
+	{ XK_Left,          SAMask,         "\033[1;4D",     0,    0,    0},
+	{ XK_Right,         SAMask,         "\033[1;4C",     0,    0,    0},
+
 	{ XK_Up,            XK_ANY_MOD,     "\033[A",        0,   -1,    0},
 	{ XK_Up,            XK_ANY_MOD,     "\033OA",        0,   +1,    0},
 	{ XK_Down,          ShiftMask,      "\033[1;2B",     0,    0,    0},
@@ -267,10 +298,28 @@ static Key key[] = {
 	{ XK_Right,         XK_ANY_MOD,     "\033[C",        0,   -1,    0},
 	{ XK_Right,         XK_ANY_MOD,     "\033OC",        0,   +1,    0},
 	{ XK_ISO_Left_Tab,  ShiftMask,      "\033[Z",        0,    0,    0},
+
 	{ XK_Return,        Mod1Mask,       "\033\r",        0,    0,   -1},
 	{ XK_Return,        Mod1Mask,       "\033\r\n",      0,    0,   +1},
+
+	/*
+	 * xterm-style formatOtherKeys
+	 * CSI Ps ; Ps u
+	 * Ps1 = keycode
+	 * Ps2 = mask + 1
+	 * 1 - shift
+	 * 2 - meta
+	 * 4 - ctrl
+	 */
+	{ XK_Return,        ShiftMask,      "\033[13;2u",   0,    0,    0},
+	{ XK_Return,        SAMask,         "\033[13;4u",   0,    0,    0},
+	{ XK_Return,        ControlMask,    "\033[13;5u",   0,    0,    0},
+	{ XK_Return,        SCMask,         "\033[13;6u",   0,    0,    0},
+	{ XK_Return,        SACMask,        "\033[13;8u",   0,    0,    0},
+
 	{ XK_Return,        XK_ANY_MOD,     "\r",            0,    0,   -1},
 	{ XK_Return,        XK_ANY_MOD,     "\r\n",          0,    0,   +1},
+
 	{ XK_Insert,        ShiftMask,      "\033[4l",      -1,    0,    0},
 	{ XK_Insert,        ShiftMask,      "\033[2;2~",    +1,    0,    0},
 	{ XK_Insert,        ControlMask,    "\033[L",       -1,    0,    0},
@@ -397,4 +446,13 @@ static Key key[] = {
 static uint selmasks[] = {
 	[SEL_RECTANGULAR] = Mod1Mask,
 };
+
+/*
+ * Printable characters in ASCII, used to estimate the advance width
+ * of single wide characters.
+ */
+static char ascii_printable[] =
+	" !\"#$%&'()*+,-./0123456789:;<=>?"
+	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
+	"`abcdefghijklmnopqrstuvwxyz{|}~";
 
