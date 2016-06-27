@@ -42,6 +42,9 @@ function sdcenv() {
 		'east')
 			export SDC_URL='https://us-east-1.api.joyentcloud.com'
 			;;
+		'east3b')
+			export SDC_URL='https://us-east-3b.api.joyentcloud.com'
+			;;
 		'west')
 			export SDC_URL='https://us-west-1.api.joyentcloud.com'
 			;;
