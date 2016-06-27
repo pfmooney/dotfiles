@@ -160,6 +160,14 @@ if [ $(uname) = 'Darwin' ]; then
 		alias vim=$BREW_PREFIX/bin/vim
 		alias ctags=$BREW_PREFIX/bin/ctags
 	fi
+	PKGSRC_PREFIX='/opt/pkg'
+	if [[ -d $PKGSRC_PREFIX ]]; then
+		pathinsertat "$PKGSRC_PREFIX/bin" '/usr/local/bin'
+		alias git=$PKGSRC_PREFIX/bin/git
+		alias vim=$PKGSRC_PREFIX/bin/vim
+		alias ctags=$PKGSRC_PREFIX/bin/exctags
+	fi
+
 	# Allow easy access to manta setup
 	mantaenv patrick.mooney
 	sdcenv west patrick.mooney
