@@ -171,20 +171,12 @@ if [ $(uname) = 'Darwin' ]; then
 	# Allow easy access to manta setup
 	mantaenv patrick.mooney
 	sdcenv west patrick.mooney
-
-	# NVM setup
-	source ~/.dotfiles/node/nvm/nvm.sh
-	source ~/.dotfiles/node/nvm/bash_completion
 fi
 
 # Linux-specific configuration
 if [ $(uname) = 'Linux' ]; then
 	# Don't need slow/annoying apt-get suggestions
 	unset command_not_found_handle
-
-	# NVM setup
-	source ~/.dotfiles/node/nvm/nvm.sh
-	source ~/.dotfiles/node/nvm/bash_completion
 fi
 
 if [ $(uname) = 'SunOS' ]; then
