@@ -1,5 +1,5 @@
 #!/bin/bash
-set -o vi
+set -o emacs
 export EDITOR='vim'
 export PAGER='less -d'
 export HISTSIZE=50000
