@@ -284,6 +284,13 @@ set laststatus=2
 let g:airline_section_z = '%3p %3l:%3c%3V'
 let g:airline_theme = 'murmur'
 
+if $LANG =~ "UTF-8" || $LANG =~ "utf-8"
+	let g:airline_left_sep = ''
+	let g:airline_left_alt_sep = ''
+	let g:airline_right_sep = ''
+	let g:airline_right_alt_sep = ''
+endif
+
 " }}}
 
 " }}}
