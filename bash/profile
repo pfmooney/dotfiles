@@ -9,12 +9,10 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-alias ll='ls -l'
-alias grep='grep --color=auto'
-alias tmat='tmux att -t'
-
 # Fedora's default for this is stupidly verbose
 unset PROMPT_COMMAND
+
+SCRIPTAWK=awk
 
 function mantaenv() {
 	if [ "$1" ]; then
@@ -88,7 +86,7 @@ function sshpub() {
 }
 
 function pathinsertat() {
-	export PATH=$(awk -v path="$PATH" -v ins="$1" -v at="$2" '
+	export PATH=$($SCRIPTAWK -v path="$PATH" -v ins="$1" -v at="$2" '
 	BEGIN {
 		n = split(path, parts, ":")
 		out = ""
@@ -182,6 +180,13 @@ fi
 
 if [ $(uname) = 'SunOS' ]; then
 	export PS1='[\u@\h \w]\$ '
+
+	# Special OmniOS overrides
+	if uname -v | grep -qv joyent; then
+		SCRIPTAWK=nawk
+		pathinsertat '/usr/gnu/bin' '/usr/bin'
+	fi
+
 	pathinsertat '/opt/local/bin' '/usr/bin'
 	pathinsertat "$(readlink -f ~/.dotfiles/path/SunOS)" '/opt/local/bin'
 
@@ -198,3 +203,8 @@ if [ $(uname) = 'SunOS' ]; then
 		mantaenv patrick.mooney
 	fi
 fi
+
+# Add aliases last to avoid messing with earlier logic
+alias ll='ls -l'
+alias grep='grep --color=auto'
+alias tmat='tmux att -t'
