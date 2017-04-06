@@ -5,7 +5,7 @@ export PAGER='less -d'
 export HISTSIZE=50000
 
 # Source global definitions
-if [ -f /etc/bashrc ]; then
+if [[ -f /etc/bashrc ]]; then
 	. /etc/bashrc
 fi
 
@@ -15,14 +15,16 @@ unset PROMPT_COMMAND
 SCRIPTAWK=awk
 
 function mantaenv() {
-	if [ "$1" ]; then
-		AGENT_KEY=$(ssh-add -l -E sha256 | awk '
-			$2 ~ /^SHA/ {print $2; exit(0) }
-		')
-		if [ "$AGENT_KEY" ]; then
-			export MANTA_KEY_ID="$AGENT_KEY"
+	if [[ -n $1 ]]; then
+		if [[ -n $SSH_AGENT_SOCK ]]; then
+			AGENT_KEY=$(ssh-add -l -E sha256 | awk '
+				$2 ~ /^SHA/ {print $2; exit(0) }
+			')
 		else
-			export MANTA_KEY_ID=`ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n'`
+			AGENT_KEY=$(ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n')
+		fi
+		if [[ -n $AGENT_KEY ]]; then
+			export MANTA_KEY_ID="$AGENT_KEY"
 		fi
 
 		export MANTA_USER=$1
@@ -34,7 +36,7 @@ function mantaenv() {
 }
 
 function sdcenv() {
-	if [ "$1" ]; then
+	if [[ -n $1 ]]; then
 		case "$1" in
 		'east')
 			export SDC_URL='https://us-east-1.api.joyentcloud.com'
@@ -54,21 +56,23 @@ function sdcenv() {
 		*)
 			export SDC_URL="https://$1"
 		esac
-		if [ "$2" ]; then
+		if [[ -n $2 ]]; then
 			export SDC_ACCOUNT=$2
 		fi
-		if [ "$3" ]; then
+		if [[ -n $3 ]]; then
 			export SDC_USER=$3
 		else
 			unset SDC_USER
 		fi
-		AGENT_KEY=$(ssh-add -l -E sha256 | awk '
-			$2 ~ /^SHA/ {print $2; exit(0) }
-		')
-		if [ "$AGENT_KEY" ]; then
-			export SDC_KEY_ID="$AGENT_KEY"
+		if [[ -n $SSH_AGENT_SOCK ]]; then
+			AGENT_KEY=$(ssh-add -l -E sha256 | awk '
+				$2 ~ /^SHA/ {print $2; exit(0) }
+			')
 		else
-			export SDC_KEY_ID=`ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n'`
+			AGENT_KEY=`ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n'`
+		fi
+		if [[ -n $AGENT_KEY ]]; then
+			export SDC_KEY_ID="$AGENT_KEY"
 		fi
 	fi
 	if ! caller | grep -q profile; then
@@ -78,7 +82,7 @@ function sdcenv() {
 
 function sshpub() {
 	cat ~/.ssh/id_rsa.pub
-	if [[ "$TMUX" ]]; then
+	if [[ -n $TMUX ]]; then
 		tmux set-buffer "$(cat ~/.ssh/id_rsa.pub)"
 	fi
 }
@@ -112,7 +116,7 @@ function pathinsertat() {
 
 # Cautiously update environment while inside tmux
 function tmeu() {
-	if [[ "$TMUX" ]]; then
+	if [[ -n $TMUX ]]; then
 		local EUPDATE=$(tmux show-environment | awk "
 		BEGIN {
 			envallow = \"DISPLAY SSH_AGENT_PID SSH_ASKPASS\" \\
@@ -145,7 +149,13 @@ function tmeu() {
 }
 
 # OSX-specific configuration
-if [ $(uname) = 'Darwin' ]; then
+if [[ $(uname) = 'Darwin' ]]; then
+
+	# The system-provided agent is old and bad
+	if [[ $SSH_AUTH_SOCK =~ /tmp/launch- ]]; then
+		unset SSH_AUTH_SOCK
+	fi
+
 	# Colorize 'ls' and friends
 	export CLICOLOR=1
 	export PS1='\u@\h:\W\$ '
@@ -171,12 +181,12 @@ if [ $(uname) = 'Darwin' ]; then
 fi
 
 # Linux-specific configuration
-if [ $(uname) = 'Linux' ]; then
+if [[ $(uname) = 'Linux' ]]; then
 	# Don't need slow/annoying apt-get suggestions
 	unset command_not_found_handle
 fi
 
-if [ $(uname) = 'SunOS' ]; then
+if [[ $(uname) = 'SunOS' ]]; then
 	export PS1='[\u@\h \w]\$ '
 
 	# Special OmniOS overrides
@@ -197,7 +207,7 @@ if [ $(uname) = 'SunOS' ]; then
 	fi
 
 	# Allow easy access to manta setup
-	if [ $SSH_AUTH_SOCK ]; then
+	if [[ -n $SSH_AUTH_SOCK ]]; then
 		mantaenv patrick.mooney
 	fi
 fi
