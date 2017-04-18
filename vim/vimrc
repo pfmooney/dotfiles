@@ -290,6 +290,14 @@ if $LANG =~ "UTF-8" || $LANG =~ "utf-8"
 	let g:airline_right_alt_sep = ''
 endif
 
+" Allow airline to manage the tabline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+" Autohide tabline when only one tab is present
+let g:airline#extensions#tabline#buffer_min_count = 2
+" Show only the last portion of the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+
 " }}}
 
 " }}}
