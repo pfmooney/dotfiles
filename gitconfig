@@ -20,4 +20,5 @@
 	pr = !sh -c 'git fetch ${2:-origin} "pull/$1/head:pr$1"' -
 	up = pull --ff-only
 	ds = diff --stat
+	dsc = diff --stat --cached
 	st = status --short
