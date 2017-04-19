@@ -16,7 +16,7 @@ SCRIPTAWK=awk
 
 function mantaenv() {
 	if [[ -n $1 ]]; then
-		if [[ -n $SSH_AGENT_SOCK ]]; then
+		if [[ -n $SSH_AUTH_SOCK ]]; then
 			AGENT_KEY=$(ssh-add -l -E sha256 | awk '
 				$2 ~ /^SHA/ {print $2; exit(0) }
 			')
@@ -64,7 +64,7 @@ function sdcenv() {
 		else
 			unset SDC_USER
 		fi
-		if [[ -n $SSH_AGENT_SOCK ]]; then
+		if [[ -n $SSH_AUTH_SOCK ]]; then
 			AGENT_KEY=$(ssh-add -l -E sha256 | awk '
 				$2 ~ /^SHA/ {print $2; exit(0) }
 			')
