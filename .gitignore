@@ -2,3 +2,4 @@
 *.swp
 *.swo
 vim/bundle/*/doc/tags
+mutt/ca.pem

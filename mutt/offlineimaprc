@@ -29,7 +29,7 @@ type = IMAP
 remoteuser = pmooney@pfmooney.com
 remotepasseval = get_mailpw(account="pmooney@pfmooney.com")
 remotehost = ssl.pfmooney.com
-sslcacertfile  = ~/.mutt/ssl.pem
+sslcacertfile  = ~/.mutt/ca.pem
 ssl = yes
 maxconnections = 2
 realdelete = no
