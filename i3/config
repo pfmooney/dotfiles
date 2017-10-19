@@ -188,7 +188,7 @@ bar {
 
 # Class defines
 for_window [class="Firefox"] layout tabbed
-for_window [class="google-chrome"] layout tabbed
+for_window [class="Google-chrome"] layout tabbed
 
 # audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -c0 set Front 5%+
