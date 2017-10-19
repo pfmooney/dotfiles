@@ -34,7 +34,8 @@ floating_modifier $mod
 bindsym $mod+Return exec --no-startup-id "st -e tmux"
 bindsym $mod+Shift+Return exec --no-startup-id "st -e tmux attach"
 
-bindsym $mod+Control+Mod1+l exec --no-startup-id slock
+bindsym $mod+Control+Mod1+l exec --no-startup-id "i3lock -c 000000 -f"
+bindsym $mod+Control+Mod1+k exec --no-startup-id "xset dpms force standby && i3lock -c 000000 -f"
 
 # kill focused window
 bindsym $mod+w kill
