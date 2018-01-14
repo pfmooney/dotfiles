@@ -58,6 +58,9 @@ set bs=2                " allow useful backspace in insert mode
 set nomodeline          " Disable modelines for security
 set diffopt+=vertical   " Default to vsplits for vimdiff
 
+" Better line-joining behavior (especially inside comments)
+set fo+=j
+
 " Leader {{{
 "
 let mapleader = ","
