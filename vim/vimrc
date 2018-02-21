@@ -59,7 +59,9 @@ set nomodeline          " Disable modelines for security
 set diffopt+=vertical   " Default to vsplits for vimdiff
 
 " Better line-joining behavior (especially inside comments)
-set fo+=j
+if v:version > 703
+	set fo+=j
+endif
 
 " Leader {{{
 "
