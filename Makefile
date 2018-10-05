@@ -2,6 +2,7 @@
 
 LN = ln -s
 DF = ~/.dotfiles
+MD = mkdir -p
 
 ifdef F
     LN += -f
@@ -31,6 +32,9 @@ wm:
 	$(LN) $(DF)/i3			~/.i3
 	$(LN) $(DF)/i3/status.conf	~/.i3status.conf
 	$(LN) $(DF)/i3			~/.config/dunst
+	$(MD)				~/.config/rofi
+	$(LN) $(DF)/i3/rofi.conf	~/.config/rofi/config
+
 
 .PHONY: mail
 mail:

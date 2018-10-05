@@ -41,7 +41,7 @@ bindsym $mod+Control+Mod1+k exec --no-startup-id "xset dpms force standby && i3l
 bindsym $mod+w kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec --no-startup-id dmenu_run
+bindsym $mod+space exec --no-startup-id rofi -show run
 
 # change focus
 bindsym $mod+h focus left
