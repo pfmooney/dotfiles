@@ -1,4 +1,151 @@
 #!/bin/bash
-if [ -r ~/.bash_profile ]; then
-	. ~/.bash_profile
+set -o emacs
+export EDITOR='vim'
+export PAGER='less -d'
+export HISTSIZE=50000
+
+# Source global definitions
+if [[ -f /etc/bashrc ]]; then
+	. /etc/bashrc
 fi
+
+function mantaenv() {
+	if [[ -z $1 ]]; then
+		if ! caller | grep -q profile; then
+			env | grep MANTA_
+		fi
+		return
+	fi
+
+	if [[ ( -n $2 ) && ( -n $SSH_AUTH_SOCK ) ]]; then
+		local AGENT_KEY=$(ssh-add -l -E sha256 | \
+			awk -v "tst=$2" '$2 ~ /^SHA/ && $3 ~ tst {print $2; exit(0) }')
+		if [[ -n $AGENT_KEY ]]; then
+			export MANTA_KEY_ID="$AGENT_KEY"
+		fi
+	fi
+
+	export MANTA_USER=$1
+	export MANTA_URL=https://us-east.manta.joyent.com
+}
+
+function pathinsertat() {
+	local SCRIPTAWK=awk
+	if [[ -n $3 ]]; then
+		SCRIPTAWK=$3
+	fi
+
+	export PATH=$($SCRIPTAWK -v path="$PATH" -v ins="$1" -v at="$2" '
+	BEGIN {
+		n = split(path, parts, ":")
+		out = ""
+		for (i = n; i > 0; i--) {
+			if (parts[i] == ins) {
+				continue;
+			}
+			if (out == "") {
+				out = parts[i];
+			} else {
+				out = parts[i] ":" out;
+			}
+			if (parts[i] == at && at != "") {
+				out = ins ":" out;
+				at = "";
+			}
+		}
+		if (at != "") {
+			out = ins ":" out;
+		}
+		print out;
+	}
+	')
+}
+
+# Cautiously update environment while inside tmux
+function tmeu() {
+	if [[ -n $TMUX ]]; then
+		local EUPDATE=$(tmux show-environment | awk "
+		BEGIN {
+			envallow = \"DISPLAY SSH_AGENT_PID SSH_ASKPASS\" \\
+			    \" SSH_AUTH_SOCK SSH_CONNECTION WINDOWID\" \\
+			    \" XAUTHORITY WINDOWID\";
+			split(envallow, parsed, \" \");
+			for (n in parsed) {
+				allow[parsed[n]] = n;
+			}
+		}
+		/^-[A-Z_]/ {
+			name = substr(\$1, 2);
+			if (name in allow) {
+				printf \"unset %s;\\n\", name;
+				printf \"export %s;\\n\", name;
+			}
+		}
+		/^[A-Z_]+=[-a-zA-Z0-9.\/ ]/ {
+			mid = index(\$0, \"=\");
+			name = substr(\$0, 1, mid-1);
+			value = substr(\$0, mid+1);
+			if (name in allow) {
+				printf \"export %s='%s';\\n\", name, value;
+			}
+		}
+		")
+		echo "$EUPDATE"
+		eval "$EUPDATE"
+	fi
+}
+
+# OSX-specific configuration
+if [[ $(uname) = 'Darwin' ]]; then
+
+	# The system-provided agent is old and bad
+	if [[ $SSH_AUTH_SOCK =~ /tmp/launch- ]]; then
+		unset SSH_AUTH_SOCK
+	fi
+
+	# Colorize 'ls' and friends
+	export CLICOLOR=1
+	export PS1='\u@\h:\W\$ '
+	PKGSRC_PREFIX='/opt/pkg'
+	if [[ -d $PKGSRC_PREFIX ]]; then
+		pathinsertat "$PKGSRC_PREFIX/bin" '/usr/local/bin'
+		alias git=$PKGSRC_PREFIX/bin/git
+		alias vim=$PKGSRC_PREFIX/bin/vim
+		export EDITOR=$PKGSRC_PREFIX/bin/vim
+		alias ctags=$PKGSRC_PREFIX/bin/exctags
+	fi
+fi
+
+# Linux-specific configuration
+if [[ $(uname) = 'Linux' ]]; then
+	# Don't need slow/annoying apt-get suggestions
+	unset command_not_found_handle
+
+	# Fedora's default for this is stupidly verbose
+	unset PROMPT_COMMAND
+fi
+
+if [[ $(uname) = 'SunOS' ]]; then
+	export PS1='[\u@\h \w]\$ '
+
+	# Special OmniOS overrides
+	if uname -v | grep -qv joyent; then
+		pathinsertat '/usr/gnu/bin' '/usr/bin' 'nawk'
+	fi
+
+	pathinsertat '/opt/local/bin' '/usr/bin' 'nawk'
+	pathinsertat "$(readlink -f ~/.dotfiles/path/SunOS)" '/opt/local/bin' 'nawk'
+
+	# Support color from GNU ls/grep
+	if ls --help | grep -q color; then
+		alias ls='\ls --color=auto'
+	fi
+	if grep --help | grep -q color; then
+		alias grep='\grep --color=auto'
+	fi
+fi
+
+# Add aliases last to avoid messing with earlier logic
+alias ll='ls -l'
+alias grep='grep --color=auto'
+alias tmat='tmux att -t'
