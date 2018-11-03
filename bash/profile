@@ -9,85 +9,32 @@ if [[ -f /etc/bashrc ]]; then
 	. /etc/bashrc
 fi
 
-# Fedora's default for this is stupidly verbose
-unset PROMPT_COMMAND
-
-SCRIPTAWK=awk
-
 function mantaenv() {
-	if [[ -n $1 ]]; then
-		if [[ -n $SSH_AUTH_SOCK ]]; then
-			AGENT_KEY=$(ssh-add -l -E sha256 | awk '
-				$2 ~ /^SHA/ {print $2; exit(0) }
-			')
-		else
-			AGENT_KEY=$(ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n')
+	if [[ -z $1 ]]; then
+		if ! caller | grep -q profile; then
+			env | grep MANTA_
 		fi
+		return
+	fi
+
+	if [[ ( -n $2 ) && ( -n $SSH_AUTH_SOCK ) ]]; then
+		local AGENT_KEY=$(ssh-add -l -E sha256 | \
+			awk -v "tst=$2" '$2 ~ /^SHA/ && $3 ~ tst {print $2; exit(0) }')
 		if [[ -n $AGENT_KEY ]]; then
 			export MANTA_KEY_ID="$AGENT_KEY"
 		fi
+	fi
 
-		export MANTA_USER=$1
-		export MANTA_URL=https://us-east.manta.joyent.com
-	fi
-	if ! caller | grep -q profile; then
-		env | grep MANTA
-	fi
-}
-
-function sdcenv() {
-	if [[ -n $1 ]]; then
-		case "$1" in
-		'east')
-			export SDC_URL='https://us-east-1.api.joyentcloud.com'
-			;;
-		'east3b')
-			export SDC_URL='https://us-east-3b.api.joyentcloud.com'
-			;;
-		'west')
-			export SDC_URL='https://us-west-1.api.joyentcloud.com'
-			;;
-		'sw')
-			export SDC_URL='https://us-sw-1.api.joyentcloud.com'
-			;;
-		'ams')
-			export SDC_URL='https://eu-ams-1.api.joyentcloud.com'
-			;;
-		*)
-			export SDC_URL="https://$1"
-		esac
-		if [[ -n $2 ]]; then
-			export SDC_ACCOUNT=$2
-		fi
-		if [[ -n $3 ]]; then
-			export SDC_USER=$3
-		else
-			unset SDC_USER
-		fi
-		if [[ -n $SSH_AUTH_SOCK ]]; then
-			AGENT_KEY=$(ssh-add -l -E sha256 | awk '
-				$2 ~ /^SHA/ {print $2; exit(0) }
-			')
-		else
-			AGENT_KEY=`ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n'`
-		fi
-		if [[ -n $AGENT_KEY ]]; then
-			export SDC_KEY_ID="$AGENT_KEY"
-		fi
-	fi
-	if ! caller | grep -q profile; then
-		env | grep SDC
-	fi
-}
-
-function sshpub() {
-	cat ~/.ssh/id_rsa.pub
-	if [[ -n $TMUX ]]; then
-		tmux set-buffer "$(cat ~/.ssh/id_rsa.pub)"
-	fi
+	export MANTA_USER=$1
+	export MANTA_URL=https://us-east.manta.joyent.com
 }
 
 function pathinsertat() {
+	local SCRIPTAWK=awk
+	if [[ -n $3 ]]; then
+		SCRIPTAWK=$3
+	fi
+
 	export PATH=$($SCRIPTAWK -v path="$PATH" -v ins="$1" -v at="$2" '
 	BEGIN {
 		n = split(path, parts, ":")
@@ -159,13 +106,6 @@ if [[ $(uname) = 'Darwin' ]]; then
 	# Colorize 'ls' and friends
 	export CLICOLOR=1
 	export PS1='\u@\h:\W\$ '
-	BREW_PREFIX=$(brew --prefix)
-	if [[ -d $BREW_PREFIX ]]; then
-		source $BREW_PREFIX/etc/bash_completion
-		alias git=$BREW_PREFIX/bin/git
-		alias vim=$BREW_PREFIX/bin/vim
-		alias ctags=$BREW_PREFIX/bin/ctags
-	fi
 	PKGSRC_PREFIX='/opt/pkg'
 	if [[ -d $PKGSRC_PREFIX ]]; then
 		pathinsertat "$PKGSRC_PREFIX/bin" '/usr/local/bin'
@@ -174,16 +114,15 @@ if [[ $(uname) = 'Darwin' ]]; then
 		export EDITOR=$PKGSRC_PREFIX/bin/vim
 		alias ctags=$PKGSRC_PREFIX/bin/exctags
 	fi
-
-	# Allow easy access to manta setup
-	mantaenv patrick.mooney
-	sdcenv west patrick.mooney
 fi
 
 # Linux-specific configuration
 if [[ $(uname) = 'Linux' ]]; then
 	# Don't need slow/annoying apt-get suggestions
 	unset command_not_found_handle
+
+	# Fedora's default for this is stupidly verbose
+	unset PROMPT_COMMAND
 fi
 
 if [[ $(uname) = 'SunOS' ]]; then
@@ -191,12 +130,11 @@ if [[ $(uname) = 'SunOS' ]]; then
 
 	# Special OmniOS overrides
 	if uname -v | grep -qv joyent; then
-		SCRIPTAWK=nawk
-		pathinsertat '/usr/gnu/bin' '/usr/bin'
+		pathinsertat '/usr/gnu/bin' '/usr/bin' 'nawk'
 	fi
 
-	pathinsertat '/opt/local/bin' '/usr/bin'
-	pathinsertat "$(readlink -f ~/.dotfiles/path/SunOS)" '/opt/local/bin'
+	pathinsertat '/opt/local/bin' '/usr/bin' 'nawk'
+	pathinsertat "$(readlink -f ~/.dotfiles/path/SunOS)" '/opt/local/bin' 'nawk'
 
 	# Support color from GNU ls/grep
 	if ls --help | grep -q color; then
@@ -204,11 +142,6 @@ if [[ $(uname) = 'SunOS' ]]; then
 	fi
 	if grep --help | grep -q color; then
 		alias grep='\grep --color=auto'
-	fi
-
-	# Allow easy access to manta setup
-	if [[ -n $SSH_AUTH_SOCK ]]; then
-		mantaenv patrick.mooney
 	fi
 fi
 
