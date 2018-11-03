@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Heed any local overrides
-if [ -r ~/.bash_profile.local ]; then
+if [[ -r ~/.bash_profile.local ]]; then
 	. ~/.bash_profile.local
 fi
 
 # The rest should reside in bashrc
-if [ -r ~/.bashrc ]; then
+if [[ -r ~/.bashrc ]]; then
 	. ~/.bashrc
 fi
