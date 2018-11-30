@@ -4,6 +4,7 @@ accounts = pmooney
 pythonfile = ~/.mutt/offlineimap.py
 fsync = False
 #debug = true
+metadata = ~/mail/.offlineimap
 
 [mbnames]
 enabled = yes
@@ -21,7 +22,7 @@ status_backend = sqlite
 
 [Repository pmooney-local]
 type = Maildir
-localfolders = ~/.mail/pmooney-pfmooney.com
+localfolders = ~/mail/pmooney-pfmooney.com
 sep = /
 
 [Repository pmooney-remote]

@@ -18,7 +18,7 @@ set editor = "vim -c 'normal! }' -c 'redraw'"
 # }}}
 # Basic Options {{{
 
-set folder = ~/.mail/pmooney-pfmooney.com # mailbox location
+set folder = ~/mail/pmooney-pfmooney.com # mailbox location
 
 set wait_key = no        # shut up, mutt
 set mbox_type = Maildir  # mailbox type
@@ -205,7 +205,7 @@ bind index      x  tag-thread
 bind pager      x  tag-message
 
 #notmuch search
-set my_notmuch_cache = ~/.mail/.notmuch
+set my_notmuch_cache = ~/mail/.notmuch
 
 macro index ,s \
     "<enter-command><enter><shell-escape>notmuch-mutt -o $my_notmuch_cache --prompt search<enter><change-folder-readonly>$my_notmuch_cache<enter>" \
