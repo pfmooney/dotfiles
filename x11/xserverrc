@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Set the default delay/repeat params
+EXTRA_OPTS="-ardelay 180 -arinterval 30"
+
+exec /usr/bin/X -nolisten tcp $EXTRA_OPTS "$@"
