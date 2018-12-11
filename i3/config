@@ -191,8 +191,8 @@ for_window [class="Firefox"] layout tabbed
 for_window [class="Google-chrome"] layout tabbed
 
 # audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -c0 set Front 5%+
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -c0 set Front 5%-
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -c0 set Master 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -c0 set Master 5%-
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 # screen brightness
