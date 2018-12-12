@@ -17,6 +17,7 @@ NeoBundle 'vim-airline/vim-airline-themes', '6d3710e4b12963c78a599b9f69a58b8da23
 " Language support
 NeoBundle 'klen/python-mode'
 NeoBundle 'mmalecki/vim-node.js', '6f48575e748c22ccb3782bc02eb319b2b1b0f85d'
+NeoBundle 'saltstack/salt-vim', '6ca9e3500cc39dd417b411435d58a1b720b331cc'
 
 
 " Snippets & completion
