@@ -21,7 +21,7 @@ NeoBundle 'saltstack/salt-vim', '6ca9e3500cc39dd417b411435d58a1b720b331cc'
 NeoBundle 'scrooloose/nerdtree', '72c3656799289d4635520c28e17f737066ce19d6'
 NeoBundle 'tpope/vim-fugitive', '8bf74ceef3659a9e5201dbc90a27f037b8f97908'
 NeoBundle 'vim-utils/vim-man', 'cfdc78f52707b4df76cbe57552a7c8c28a390da4'
-
+NeoBundle 'ctrlpvim/ctrlp.vim', 'bde7a2950adaa82e894d7bdf69e3e7383e40d229'
 
 call neobundle#end()
 filetype plugin indent on
@@ -278,6 +278,23 @@ let g:lightline = {
 		\ 't': 'TERM',
 	\ }
 \ }
+
+" }}}
+
+" ctrlp {{{
+
+if executable('ag')
+  " Use ag over grep
+  " set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
+
+  " ag is normall fast enough that CtrlP doesn't need to cache
+  " Projects like illumos and freebsd break that notion
+  " let g:ctrlp_use_caching = 0
+  let g:ctrlp_clear_cache_on_exit = 0
+endif
 
 " }}}
 
