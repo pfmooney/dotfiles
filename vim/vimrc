@@ -315,6 +315,7 @@ augroup ft_c
 	au FileType c setlocal list!
 	" shiftround messes with block comments and illumos continuation style
 	au FileType c setlocal noshiftround
+	au FileType c setlocal ts=8 sw=8 list
 
 augroup END
 
@@ -329,6 +330,7 @@ augroup ft_cpp
 	au FileType cpp setlocal foldmethod=marker foldmarker={,}
 	au FileType cpp setlocal list!
 	au FileType cpp setlocal noshiftround
+	au FileType cpp setlocal ts=8 sw=8 list
 
 augroup END
 
