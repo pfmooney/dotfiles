@@ -10,37 +10,17 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Eye candy
-NeoBundle 'pfmooney/vim-pmolokai'
-NeoBundle 'vim-airline/vim-airline', '70c16f4c46f11395bbbc30b2f0a6822669e7df87'
-NeoBundle 'vim-airline/vim-airline-themes', '6d3710e4b12963c78a599b9f69a58b8da23728d2'
+NeoBundle 'pfmooney/vim-pmolokai', 'c3a0477fd7ac91bd9a4983ba1f1f472315c05a10'
+NeoBundle 'itchyny/lightline.vim', '9f4f2284cc26939eb597f70cc819c1db5d579cc8'
 
 " Language support
-NeoBundle 'klen/python-mode'
 NeoBundle 'mmalecki/vim-node.js', '6f48575e748c22ccb3782bc02eb319b2b1b0f85d'
 NeoBundle 'saltstack/salt-vim', '6ca9e3500cc39dd417b411435d58a1b720b331cc'
 
-
-" Snippets & completion
-if has('python')
-	" Ultisnips complains about python if it's missing
-	NeoBundle 'SirVer/ultisnips'
-endif
-NeoBundle 'honza/vim-snippets'
-
 " Utilties
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'tpope/vim-fugitive' " git integration
-NeoBundle 'vim-utils/vim-man'
-
-
-" Conditional Plugin disables {{{
-if v:version < '703' || !has('python')
-	" Python-mode is kinda busted on RHEL6
-	NeoBundleDisable 'python-mode'
-endif
-" }}}
+NeoBundle 'scrooloose/nerdtree', '72c3656799289d4635520c28e17f737066ce19d6'
+NeoBundle 'tpope/vim-fugitive', '8bf74ceef3659a9e5201dbc90a27f037b8f97908'
+NeoBundle 'vim-utils/vim-man', 'cfdc78f52707b4df76cbe57552a7c8c28a390da4'
 
 
 call neobundle#end()
@@ -246,13 +226,6 @@ set tags=./tags;~/
 
 " Plugin Settings ------------------------------------------------------- {{{
 
-" Python-Mode {{{
-
-let g:pymode_rope_auto_project = 1
-let g:pymode_lint_mccabe_complexity = 9
-
-" }}}
-
 " Tabular {{{
 
 vnoremap <leader>tb :Tabular block<cr>
@@ -281,28 +254,30 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " }}}
 
-" airline {{{
+" lightline {{{
 
 " always show
 set laststatus=2
-" airline disables virtual column by default (and that's stupid)
-let g:airline_section_z = '%3p %3l:%3c%3V'
-let g:airline_theme = 'murmur'
-
-if $LANG =~ "UTF-8" || $LANG =~ "utf-8"
-	let g:airline_left_sep = ''
-	let g:airline_left_alt_sep = ''
-	let g:airline_right_sep = ''
-	let g:airline_right_alt_sep = ''
-endif
-
-" Allow airline to manage the tabline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-" Autohide tabline when only one tab is present
-let g:airline#extensions#tabline#buffer_min_count = 2
-" Show only the last portion of the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
+" See statusline for lineinfo documentation
+let g:lightline = {
+	\ 'colorscheme': 'one',
+	\ 'component': {
+		\ 'lineinfo': '%3l:%-5(%c%V%)'
+	\ },
+	\ 'mode_map': {
+		\ 'n' : 'NORM',
+		\ 'i' : 'INS ',
+		\ 'R' : 'REP ',
+		\ 'v' : 'VIS ',
+		\ 'V' : 'V-L ',
+		\ "\<C-v>": 'V-B ',
+		\ 'c' : 'COMM',
+		\ 's' : 'SEL ',
+		\ 'S' : 'S-L ',
+		\ "\<C-s>": 'S-B ',
+		\ 't': 'TERM',
+	\ }
+\ }
 
 " }}}
 
