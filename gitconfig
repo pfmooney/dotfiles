@@ -22,3 +22,4 @@
 	ds = diff --stat
 	dsc = diff --stat --cached
 	st = status --short
+	cpick = cherry-pick
