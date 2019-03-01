@@ -15,6 +15,12 @@
 [receive]
 	fsckObjects = true
 
+[fetch.fsck]
+	# Ignore warts in the illumos repo
+	badEmail = ignore
+	missingSpaceBeforeEmail = ignore
+	missingNameBeforeEmail = ignore
+
 [alias]
 	last = !sh -c "'if [ \"$TMUX\" ]; then tmux set-buffer $(git log -n1 --format='%H'); git log -n1; fi'"
 	pr = !sh -c 'git fetch ${2:-origin} "pull/$1/head:pr$1"' -
