@@ -17,7 +17,7 @@ footer = "\n"
 [Account pmooney]
 localrepository = pmooney-local
 remoterepository = pmooney-remote
-status_backend = sqlite
+#status_backend = sqlite
 #postsynchook = notmuch new
 
 [Repository pmooney-local]
@@ -30,7 +30,7 @@ type = IMAP
 remoteuser = pmooney@pfmooney.com
 remotepasseval = get_mailpw(account="pmooney@pfmooney.com")
 remotehost = ssl.pfmooney.com
-sslcacertfile  = ~/.mutt/ca.pem
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 ssl = yes
 maxconnections = 2
 realdelete = no
