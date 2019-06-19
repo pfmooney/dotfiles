@@ -90,15 +90,6 @@ if exists('+colorcolumn')
 	set colorcolumn=80
 endif
 
-" Pre-solarized settings {{{
-" Make listchars more muted in color
-"hi SpecialKey guifg=#5f87df ctermfg=68
-
-" Fix crappy Pmenu colors
-"hi Pmenu guifg=#ffffff guibg=#444444 ctermfg=255 ctermbg=238
-"hi PmenuSel guifg=#000000 guibg=#b1d631 ctermfg=0 ctermbg=148
-" }}}
-
 " }}}
 
 " Folding {{{
@@ -162,7 +153,7 @@ set wildignore+=*.orig                           " Merge resolution files
 
 " Line Return {{{
 
-	" Return to line conditional on g_file_line_return
+" Return to line conditional on g_file_line_return
 fun! File_line_return()
 	if exists('b:file_line_return') && b:file_line_return != 1
 		return
@@ -194,15 +185,6 @@ endif
 
 " Key Binding Overrides {{{
 
-" Too often I hit the shifted version of these keys while line-selecting text.
-" Rebind the keys to pretend that I didn't hold the shift key down too long.
-nnoremap <S-k> k
-vnoremap <S-k> k
-nnoremap <S-H> h
-vnoremap <S-H> h
-nnoremap <S-L> l
-vnoremap <S-L> l
-
 " reset foldmethod and redraw screen when folding is hosed
 nnoremap <C-L> :let &fdm = &fdm<CR>:redraw!<CR>
 
@@ -225,34 +207,6 @@ set tags=./tags;~/
 " }}}
 
 " Plugin Settings ------------------------------------------------------- {{{
-
-" Tabular {{{
-
-vnoremap <leader>tb :Tabular block<cr>
-nnoremap <leader>tb :Tabular block<cr>
-
-" }}}
-
-" Syntastic {{{
-
-nnoremap <leader>sc :SyntasticCheck<cr>
-nnoremap <leader>se :Errors<cr>
-nnoremap <leader>st :SyntasticToggleMode<cr>
-
-let g:syntastic_mode_map = {}
-" Puppet checkers are too slow for active mode
-let g:syntastic_mode_map['passive_filetypes'] = ['puppet']
-let g:syntastic_javascript_checkers = ['jshint']
-
-" }}}
-
-" UltiSnips {{{
-
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-" }}}
 
 " lightline {{{
 
@@ -386,7 +340,6 @@ augroup ft_mail
 	au FileType mail setlocal fo+=w
 	au FileType mail :match none
 	au FileType mail setlocal spell
-	au FileType mail let b:airline_whitespace_disabled=1
 
 augroup END
 
