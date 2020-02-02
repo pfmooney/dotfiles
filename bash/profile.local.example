@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Use the piv-agent by default
+if [[ -z $SSH_AUTH_SOCK ]]; then
+	export SSH_AUTH_SOCK="/run/user/$UID/piv-ssh-default.socket"
+fi
+
+# Start X on tty1 login
+if [[ $(tty) == '/dev/tty1' ]]; then
+	exec startx
+fi
