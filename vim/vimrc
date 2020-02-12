@@ -235,7 +235,7 @@ augroup END
 
 " }}}
 
-" Git Commit {{{
+" Git {{{
 
 augroup ft_gitcommit
 	au!
@@ -244,6 +244,15 @@ augroup ft_gitcommit
 	au FileType gitcommit setlocal list!
 	" Start off on the first line
 	au FileType gitcommit let b:file_line_return=0
+
+augroup END
+
+augroup ft_fugitive
+	au!
+
+	" Disable trailing space highlighting
+	au FileType fugitive :match none
+	" Don't bother with listchars in git commit messages
 
 augroup END
 
