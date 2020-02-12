@@ -40,14 +40,8 @@ if v:version > 703
 	set fo+=j
 endif
 
-" Leader {{{
-"
 let mapleader = ","
 let maplocalleader = "\\"
-
-" }}}
-
-" Tabs and indenting {{{
 
 set tabstop=4
 set shiftwidth=4
@@ -57,20 +51,12 @@ set shiftround
 set nosi
 set autoindent
 
-" }}}
-
-" Vim Tabs {{{
-
 nnoremap tl :tabnext<CR>
 nnoremap th :tabprev<CR>
 nnoremap tf :tabfirst<CR>
 nnoremap tg :tablast<CR>
 nnoremap tn :tabnew<CR>
 nnoremap td :tabclose<CR>
-
-" }}}
-
-" Color/style {{{
 
 colorscheme pmolokai
 set bg=dark             " black terminal background
@@ -85,13 +71,10 @@ if exists('+colorcolumn')
 	set colorcolumn=+1
 endif
 
-" }}}
-
-" Folding {{{
-
 " map space-bar to toggle folding
 noremap <space> za
 
+" customize summary for folded items
 function! MyFoldText() " {{{
 	let line = getline(v:foldstart)
 
@@ -110,26 +93,17 @@ function! MyFoldText() " {{{
 endfunction " }}}
 set foldtext=MyFoldText()
 
-" }}}
-
-" Character Listing {{{
-
 set list
-"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set listchars=tab:\>\-
 set fillchars=fold:\ ,vert:\|
 
-
+" highlight trailing spaces
 augroup trailing
 	au!
 	au BufReadPre * :match ErrorMsg '\s\+$'
 	au InsertEnter * :highlight clear ErrorMsg
 	au InsertLeave * :highlight ErrorMsg term=reverse cterm=reverse ctermfg=124 guifg=White guibg=Red
 augroup END
-
-" }}}
-
-" Wildmenu completion {{{
 
 set wildmenu
 set wildmode=list:longest
@@ -139,14 +113,8 @@ set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
 set wildignore+=*.sw?                            " Vim swap files
-
 set wildignore+=*.pyc                            " Python byte code
-
 set wildignore+=*.orig                           " Merge resolution files
-
-" }}}
-
-" Line Return {{{
 
 " Return to line conditional on g_file_line_return
 fun! File_line_return()
@@ -164,10 +132,6 @@ augroup line_return
 	au BufReadPost * call File_line_return()
 augroup END
 
-" }}}
-
-" Terminal settings {{{
-
 set ttyfast
 set lazyredraw
 
@@ -176,28 +140,14 @@ if &term =~ "xterm" || &term =~ "256color"
 	set t_Co=256
 endif
 
-" }}}
-
-" Key Binding Overrides {{{
-
 " reset foldmethod and redraw screen when folding is hosed
 nnoremap <C-L> :let &fdm = &fdm<CR>:redraw!<CR>
-
-" }}}
-
-" QuickFix Overrides {{{
 
 " Support jsstyle/cstyle output
 set efm+=%f:\ %l:%m
 
-" }}}
-
-" CTags {{{
-
+" ctags search
 set tags=./tags;~/
-
-" }}}
-
 
 " }}}
 
