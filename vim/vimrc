@@ -105,6 +105,9 @@ augroup trailing
 	au InsertLeave * :highlight ErrorMsg term=reverse cterm=reverse ctermfg=124 guifg=White guibg=Red
 augroup END
 
+" Leave paste mode when leaving insert mode
+autocmd InsertLeave * set nopaste
+
 set wildmenu
 set wildmode=list:longest
 
