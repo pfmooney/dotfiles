@@ -80,10 +80,9 @@ set synmaxcol=800       " Don't try to highlight lines longer than 800 chars.
 " Line numbers are nice
 set nu
 
-
-" Draw a nice guide at 80 cols
+" Draw highlight column at textwidth limit
 if exists('+colorcolumn')
-	set colorcolumn=80
+	set colorcolumn=+1
 endif
 
 " }}}
