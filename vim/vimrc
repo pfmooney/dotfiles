@@ -28,12 +28,40 @@ filetype plugin indent on
 
 " General Settings ------------------------------------------------------- {{{
 
-set nobackup            " don't create backup files
-set ruler               " display the cursor position
-set nohlsearch          " don't highlight search terms
-set bs=2                " allow useful backspace in insert mode
+set nobackup
+set ruler
+set nohlsearch
+set bs=indent,eol,start
 set nomodeline          " Disable modelines for security
 set diffopt+=vertical   " Default to vsplits for vimdiff
+
+set nosmartindent
+set autoindent
+
+set bg=dark
+syntax on
+set synmaxcol=800       " stop highlighting after 800 columns
+set nu
+
+" custom colors
+colorscheme pmolokai
+
+set list
+set listchars=tab:\>\-
+set fillchars=fold:\ ,vert:\|
+
+set ttyfast
+set lazyredraw
+if &term =~ "xterm" || &term =~ "256color"
+	" support 256 color terminals
+	set t_Co=256
+endif
+
+" Draw highlight column at textwidth limit
+if exists('+colorcolumn')
+	set colorcolumn=+1
+endif
+
 
 " Better line-joining behavior (especially inside comments)
 if v:version > 703
@@ -47,29 +75,12 @@ set tabstop=4
 set shiftwidth=4
 set shiftround
 
-" Enable fun indenting/functions
-set nosi
-set autoindent
-
 nnoremap tl :tabnext<CR>
 nnoremap th :tabprev<CR>
 nnoremap tf :tabfirst<CR>
 nnoremap tg :tablast<CR>
 nnoremap tn :tabnew<CR>
 nnoremap td :tabclose<CR>
-
-colorscheme pmolokai
-set bg=dark             " black terminal background
-syntax on               " syntax highlighting is what the cool kids do
-set synmaxcol=800       " Don't try to highlight lines longer than 800 chars.
-
-" Line numbers are nice
-set nu
-
-" Draw highlight column at textwidth limit
-if exists('+colorcolumn')
-	set colorcolumn=+1
-endif
 
 " map space-bar to toggle folding
 noremap <space> za
@@ -93,9 +104,8 @@ function! MyFoldText() " {{{
 endfunction " }}}
 set foldtext=MyFoldText()
 
-set list
-set listchars=tab:\>\-
-set fillchars=fold:\ ,vert:\|
+" reset foldmethod and redraw screen when folding is hosed
+nnoremap <C-L> :let &fdm = &fdm<CR>:redraw!<CR>
 
 " highlight trailing spaces
 augroup trailing
@@ -134,17 +144,6 @@ augroup line_return
 	au!
 	au BufReadPost * call File_line_return()
 augroup END
-
-set ttyfast
-set lazyredraw
-
-" support 256 color terminals
-if &term =~ "xterm" || &term =~ "256color"
-	set t_Co=256
-endif
-
-" reset foldmethod and redraw screen when folding is hosed
-nnoremap <C-L> :let &fdm = &fdm<CR>:redraw!<CR>
 
 " Support jsstyle/cstyle output
 set efm+=%f:\ %l:%m
@@ -245,6 +244,7 @@ augroup ft_gitcommit
 
 	" Don't bother with listchars in git commit messages
 	au FileType gitcommit setlocal list!
+	au FileType gitcommit setlocal spell
 	" Start off on the first line
 	au FileType gitcommit let b:file_line_return=0
 
