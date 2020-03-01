@@ -21,6 +21,11 @@ Plug 'tpope/vim-fugitive', { 'commit': '21ed53300186ae7cdfae8714fafe822097039bd7
 Plug 'vim-utils/vim-man', { 'commit': 'cfdc78f52707b4df76cbe57552a7c8c28a390da4' }
 Plug 'junegunn/fzf.vim', { 'commit': '467c3277884240f7b5430f8f4d600e3415c38f3b' }
 
+" LSP
+Plug 'prabirshrestha/async.vim', {'commit': 'f67ecb5a1120d0d0fb9312afcf262c829b218ca2' }
+Plug 'prabirshrestha/vim-lsp', {'commit': '5537feca35b6c481f1862a5275f016d7aa60b381' }
+
+
 call plug#end()
 filetype plugin indent on
 
@@ -179,6 +184,39 @@ let g:lightline = {
 		\ 't': 'TERM',
 	\ }
 \ }
+
+" }}}
+
+" vim-lsp {{{
+
+if exepath(expand('~/.cargo/bin/ra_lsp_server')) != ""
+	au User lsp_setup call lsp#register_server({
+			\ 'name': 'rust-analyzer',
+			\ 'cmd': {server_info->[expand('~/.cargo/bin/ra_lsp_server')]},
+			\ 'whitelist': ['rust'],
+			\ })
+endif
+
+let g:lsp_signs_error = {'text': '✗'}
+let g:lsp_signs_warning = {'text': '!'}
+
+function! s:on_lsp_buffer_enabled() abort
+	setlocal omnifunc=lsp#complete
+	setlocal signcolumn=auto
+	nmap <buffer> <leader>ll <plug>(lsp-definition)
+	nmap <buffer> <leader>ld <plug>(lsp-document-diagnostics)
+	nmap <buffer> <leader>lr <plug>(lsp-rename)
+	nmap <buffer> <leader>lh <plug>(lsp-hover)
+	nmap <buffer> <leader>lf <plug>(lsp-document-format)
+endfunction
+
+
+augroup lsp_install
+	au!
+	" call s:on_lsp_buffer_enabled only for languages that has the server registered.
+	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
 
 " }}}
 
