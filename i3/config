@@ -167,7 +167,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # No capslock is best capslock
-exec_always --no-startup-id "setxkbmap -layout us -option ctrl:nocaps"
+exec_always --no-startup-id "setxkbmap -layout us -option ctrl:nocaps -option compose:ralt"
 # Usable keyboard repeat rates
 exec_always --no-startup-id "xset r rate 180 30"
 exec_always --no-startup-id "xset dpms 0 0 900"
