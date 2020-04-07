@@ -10,7 +10,7 @@ tabspaces: 8
 # Font configuration (changes require restart)
 font:
   normal:
-    family: Hack
+    family: Go Mono
   size: 9
 
 # If `true`, bold text is drawn using the bright color variants.
