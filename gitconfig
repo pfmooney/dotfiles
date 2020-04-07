@@ -31,3 +31,5 @@
 	dsc = diff --stat --cached
 	st = status --short
 	cpick = cherry-pick
+	cid = !sh -c 'echo "Change-Id: I$(git show --format=fuller | git hash-object --stdin)"'
+	root = rev-parse --show-toplevel
