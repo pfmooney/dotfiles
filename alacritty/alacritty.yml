@@ -5,8 +5,6 @@ window:
 scrolling:
   history: 0
 
-tabspaces: 8
-
 # Font configuration (changes require restart)
 font:
   normal:
