@@ -23,7 +23,7 @@ Plug 'junegunn/fzf.vim', { 'commit': '467c3277884240f7b5430f8f4d600e3415c38f3b' 
 
 " LSP
 Plug 'prabirshrestha/async.vim', {'commit': 'f67ecb5a1120d0d0fb9312afcf262c829b218ca2' }
-Plug 'prabirshrestha/vim-lsp', {'commit': '5537feca35b6c481f1862a5275f016d7aa60b381' }
+Plug 'prabirshrestha/vim-lsp', {'commit': '174e4bf82e87ebf9a9a76dfb3b19f05ac9044f07' }
 
 
 call plug#end()
@@ -196,6 +196,9 @@ if exepath(expand('~/.cargo/bin/ra_lsp_server')) != ""
 			\ 'whitelist': ['rust'],
 			\ })
 endif
+
+" vim-lsp has annoying behavior in files it shouldn't care about
+let g:lsp_auto_enable = 0
 
 let g:lsp_signs_error = {'text': '✗'}
 let g:lsp_signs_warning = {'text': '!'}
@@ -400,6 +403,14 @@ augroup ft_eruby
 	au Filetype eruby setlocal tabstop=2
 	au Filetype eruby setlocal shiftwidth=2
 	au Filetype eruby setlocal expandtab
+
+" }}}
+
+" rust {{{
+augroup ft_rust
+	au!
+
+	au Filetype rust call lsp#enable()
 
 " }}}
 
