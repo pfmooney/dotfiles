@@ -1,6 +1,8 @@
 window:
   dynamic_padding: true
   startup_mode: Windowed
+  # Allow terminal applications to change Alacritty's window title.
+  dynamic_title: true
 
 scrolling:
   history: 0
@@ -57,9 +59,6 @@ selection:
 
   # When set to `true`, selected text will be copied to the primary clipboard.
   save_to_clipboard: false
-
-# Allow terminal applications to change Alacritty's window title.
-dynamic_title: true
 
 cursor:
   style: Block
