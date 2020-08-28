@@ -9,26 +9,6 @@ if [[ -f /etc/bashrc ]]; then
 	. /etc/bashrc
 fi
 
-function mantaenv() {
-	if [[ -z $1 ]]; then
-		if ! caller | grep -q profile; then
-			env | grep MANTA_
-		fi
-		return
-	fi
-
-	if [[ ( -n $2 ) && ( -n $SSH_AUTH_SOCK ) ]]; then
-		local AGENT_KEY=$(ssh-add -l -E sha256 | \
-			awk -v "tst=$2" '$2 ~ /^SHA/ && $3 ~ tst {print $2; exit(0) }')
-		if [[ -n $AGENT_KEY ]]; then
-			export MANTA_KEY_ID="$AGENT_KEY"
-		fi
-	fi
-
-	export MANTA_USER=$1
-	export MANTA_URL=https://us-east.manta.joyent.com
-}
-
 function pathinsertat() {
 	local SCRIPTAWK=awk
 	if [[ -n $3 ]]; then
