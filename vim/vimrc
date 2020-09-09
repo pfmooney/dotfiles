@@ -22,8 +22,7 @@ Plug 'vim-utils/vim-man', { 'commit': 'cfdc78f52707b4df76cbe57552a7c8c28a390da4'
 Plug 'junegunn/fzf.vim', { 'commit': '467c3277884240f7b5430f8f4d600e3415c38f3b' }
 
 " LSP
-Plug 'prabirshrestha/async.vim', {'commit': 'f67ecb5a1120d0d0fb9312afcf262c829b218ca2' }
-Plug 'prabirshrestha/vim-lsp', {'commit': '174e4bf82e87ebf9a9a76dfb3b19f05ac9044f07' }
+Plug 'prabirshrestha/vim-lsp', {'commit': 'a9ac38e0f4cdb80a48e13a0192a5e80a38adda46' }
 
 
 call plug#end()
@@ -189,12 +188,18 @@ let g:lightline = {
 
 " vim-lsp {{{
 
-if exepath(expand('~/.cargo/bin/ra_lsp_server')) != ""
+let ra_cmd = exepath('rust-analyzer')
+if ra_cmd != ""
+	if resolve(ra_cmd) =~ "rustup"
+		let ra_cmd = [ra_cmd, "+nightly"]
+	else
+		let ra_cmd = [ra_cmd]
+	endif
 	au User lsp_setup call lsp#register_server({
-			\ 'name': 'rust-analyzer',
-			\ 'cmd': {server_info->[expand('~/.cargo/bin/ra_lsp_server')]},
-			\ 'whitelist': ['rust'],
-			\ })
+		\ 'name': 'rust-analyzer',
+		\ 'cmd': ra_cmd,
+		\ 'whitelist': ['rust'],
+		\ })
 endif
 
 " vim-lsp has annoying behavior in files it shouldn't care about
@@ -413,6 +418,7 @@ augroup ft_rust
 	au!
 
 	au Filetype rust call lsp#enable()
+	au Filetype rust nmap <buffer> <C-]> <plug>(lsp-definition)
 
 " }}}
 
