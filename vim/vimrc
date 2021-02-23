@@ -14,6 +14,7 @@ Plug 'itchyny/lightline.vim', { 'commit': 'f7dd47eb55aed259cbc3e913f78c4ab21b350
 Plug 'mmalecki/vim-node.js', { 'commit': '6f48575e748c22ccb3782bc02eb319b2b1b0f85d' }
 Plug 'saltstack/salt-vim', { 'commit': '6ca9e3500cc39dd417b411435d58a1b720b331cc' }
 Plug 'rust-lang/rust.vim', { 'commit': '8293adcd9c5645379133bea4d77de30b1476528c' }
+Plug 'cespare/vim-toml', { 'commit': '897cb4eaa81a0366bc859effe14116660d4015cd' }
 
 " Utilties
 Plug 'scrooloose/nerdtree', { 'commit': '72c3656799289d4635520c28e17f737066ce19d6', 'on':  'NERDTreeToggle' }
@@ -23,7 +24,7 @@ Plug 'vim-utils/vim-man', { 'commit': 'cfdc78f52707b4df76cbe57552a7c8c28a390da4'
 Plug 'junegunn/fzf.vim', { 'commit': '467c3277884240f7b5430f8f4d600e3415c38f3b' }
 
 " LSP
-Plug 'prabirshrestha/vim-lsp', {'commit': 'a9ac38e0f4cdb80a48e13a0192a5e80a38adda46' }
+Plug 'prabirshrestha/vim-lsp', {'commit': '21a29936ed74b2212e1904cca6c22bff4e27b637' }
 
 
 call plug#end()
@@ -86,6 +87,10 @@ nnoremap tf :tabfirst<CR>
 nnoremap tg :tablast<CR>
 nnoremap tn :tabnew<CR>
 nnoremap td :tabclose<CR>
+
+" Avoid nonsense when accidentally shift-K-ing
+nnoremap <S-k> k
+vnoremap <S-k> k
 
 " map space-bar to toggle folding
 noremap <space> za
@@ -200,7 +205,12 @@ if ra_cmd != ""
 		\ 'name': 'rust-analyzer',
 		\ 'cmd': ra_cmd,
 		\ 'whitelist': ['rust'],
-		\ })
+		\ 'initialization_options': {
+			\ 'diagnostics': {
+				\ 'disabled': ['unresolved-import'],
+			\ }
+		\ },
+	\ })
 endif
 
 " vim-lsp has annoying behavior in files it shouldn't care about
@@ -232,6 +242,7 @@ function! s:on_lsp_buffer_enabled() abort
 	nmap <buffer> <leader>lr <plug>(lsp-rename)
 	nmap <buffer> <leader>lh <plug>(lsp-hover)
 	nmap <buffer> <leader>lf <plug>(lsp-document-format)
+	nmap <buffer> <leader>la <plug>(lsp-code-action)
 	nmap <buffer> <silent> <leader>lc :call Close_all_location_windows()<CR>
 endfunction
 
