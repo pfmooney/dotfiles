@@ -1,0 +1,6 @@
+configuration {
+  location: 2;
+  theme: "Monokai";
+  fixed-num-lines: false;
+  font: "mono 16";
+}

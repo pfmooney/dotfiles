@@ -34,6 +34,7 @@ wm:
 	$(LN) $(DF)/i3			~/.config/dunst
 	$(MD)				~/.config/rofi
 	$(LN) $(DF)/i3/rofi.conf	~/.config/rofi/config
+	$(LN) $(DF)/i3/rofi.rasi	~/.config/rofi/config.rasi
 
 
 .PHONY: mail
