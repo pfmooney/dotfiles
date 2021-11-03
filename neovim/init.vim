@@ -13,7 +13,7 @@ Plug 'rust-lang/rust.vim', { 'commit': '8293adcd9c5645379133bea4d77de30b1476528c
 Plug 'cespare/vim-toml', { 'commit': '897cb4eaa81a0366bc859effe14116660d4015cd' }
 
 " Utilties
-Plug 'tpope/vim-fugitive', { 'commit': '21ed53300186ae7cdfae8714fafe822097039bd7' }
+Plug 'tpope/vim-fugitive', { 'commit': '2a53d7924877b38b3d82fba188fd9053bfbc646e' }
 Plug 'tpope/vim-commentary', { 'commit': 'f8238d70f873969fb41bf6a6b07ca63a4c0b82b1' }
 
 " LSP

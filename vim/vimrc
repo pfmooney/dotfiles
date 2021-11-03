@@ -18,7 +18,7 @@ Plug 'cespare/vim-toml', { 'commit': '897cb4eaa81a0366bc859effe14116660d4015cd' 
 
 " Utilties
 Plug 'scrooloose/nerdtree', { 'commit': '72c3656799289d4635520c28e17f737066ce19d6', 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fugitive', { 'commit': '21ed53300186ae7cdfae8714fafe822097039bd7' }
+Plug 'tpope/vim-fugitive', { 'commit': '2a53d7924877b38b3d82fba188fd9053bfbc646e' }
 Plug 'tpope/vim-commentary', { 'commit': 'f8238d70f873969fb41bf6a6b07ca63a4c0b82b1' }
 Plug 'vim-utils/vim-man', { 'commit': 'cfdc78f52707b4df76cbe57552a7c8c28a390da4' }
 Plug 'junegunn/fzf.vim', { 'commit': '467c3277884240f7b5430f8f4d600e3415c38f3b' }
