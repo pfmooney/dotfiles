@@ -94,6 +94,13 @@ nvim_lsp.rust_analyzer.setup {
              virtual_text = false,
          }
      ),
+  },
+  settings = {
+    ["rust-analyzer"] = {
+      checkOnSave = {
+        extraArgs = { "--target-dir", "target/ra-check" }
+      }
+    }
   }
 }
 
