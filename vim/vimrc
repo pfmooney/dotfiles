@@ -208,6 +208,9 @@ if ra_cmd != ""
 		\ 'initialization_options': {
 			\ 'diagnostics': {
 				\ 'disabled': ['unresolved-import'],
+			\ },
+			\ 'checkOnSave': {
+				\ 'extraArgs': ['--target-dir', 'target/ra-check']
 			\ }
 		\ },
 	\ })
