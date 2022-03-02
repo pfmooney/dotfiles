@@ -86,6 +86,10 @@ end
 
 nvim_lsp.rust_analyzer.setup {
   on_attach = on_attach,
+  -- Prevent git (run via cargo) from breaking nvim
+  cmd_env = {
+    GIT_ASKPASS = "/bin/false",
+  },
   flags = {
     debounce_text_changes = 150,
   },
