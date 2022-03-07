@@ -12,6 +12,7 @@ vim.o.bg = "dark"
 vim.wo.list = true
 vim.wo.number = true
 vim.o.listchars = "tab:>-"
+vim.o.fillchars = "fold: "
 
 -- always show
 opt.laststatus=2
