@@ -87,26 +87,21 @@ end
 
 nvim_lsp.rust_analyzer.setup {
   on_attach = on_attach,
-  -- Prevent git (run via cargo) from breaking nvim
   cmd_env = {
-    GIT_ASKPASS = "/bin/false",
+    CARGO_TARGET_DIR = "target/ra-check"
   },
   flags = {
     debounce_text_changes = 150,
   },
   handlers = {
-     ["textDocument/publishDiagnostics"] = vim.lsp.with(
-         vim.lsp.diagnostic.on_publish_diagnostics, {
-             virtual_text = false,
-         }
-     ),
+    ["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = false,
+      }
+    ),
   },
   settings = {
-    ["rust-analyzer"] = {
-      checkOnSave = {
-        extraArgs = { "--target-dir", "target/ra-check" }
-      }
-    }
+    ["rust-analyzer"] = {}
   }
 }
 

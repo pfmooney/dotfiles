@@ -24,7 +24,7 @@ Plug 'vim-utils/vim-man', { 'commit': 'cfdc78f52707b4df76cbe57552a7c8c28a390da4'
 Plug 'junegunn/fzf.vim', { 'commit': '467c3277884240f7b5430f8f4d600e3415c38f3b' }
 
 " LSP
-Plug 'prabirshrestha/vim-lsp', {'commit': '21a29936ed74b2212e1904cca6c22bff4e27b637' }
+Plug 'prabirshrestha/vim-lsp', {'commit': 'da80b018311b811eceac86fd0a59c521ffa9d2ab' }
 
 
 call plug#end()
@@ -204,16 +204,17 @@ if ra_cmd != ""
 	au User lsp_setup call lsp#register_server({
 		\ 'name': 'rust-analyzer',
 		\ 'cmd': ra_cmd,
+		\ 'env': { 'CARGO_TARGET_DIR': 'target/ra-check' },
 		\ 'whitelist': ['rust'],
 		\ 'initialization_options': {
 			\ 'diagnostics': {
 				\ 'disabled': ['unresolved-import'],
 			\ },
-			\ 'checkOnSave': {
-				\ 'extraArgs': ['--target-dir', 'target/ra-check']
-			\ }
 		\ },
 	\ })
+"		\ 'checkOnSave': {
+"			\ 'extraArgs': ['--target-dir', 'target/ra-check']
+"		\ }
 endif
 
 " vim-lsp has annoying behavior in files it shouldn't care about
