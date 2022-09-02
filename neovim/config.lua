@@ -13,6 +13,8 @@ vim.wo.list = true
 vim.wo.number = true
 vim.o.listchars = "tab:>-"
 vim.o.fillchars = "fold: "
+-- Show only the menu, not the preview (in a scratch window)
+vim.o.completeopt = "menu"
 
 -- always show
 opt.laststatus=2
@@ -109,13 +111,40 @@ local function noremap(mode, lhs, rhs)
   vim.api.nvim_set_keymap(mode, lhs, rhs, { noremap = true })
 end
 
+local telescope = require('telescope')
+telescope.setup {
+  defaults = {
+    file_sorter = telescope.get_fuzzy_file
+  },
+  pickers = {
+    buffers = {
+      mappings = {
+        i = {
+          ["<c-d>"] = require('telescope.actions').delete_buffer,
+        }
+      }
+    }
+  }
+}
+
 noremap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>")
 noremap("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>")
 noremap("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>")
 noremap("n", "<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>")
-noremap("n", "<leader>fd", "<cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<cr>")
+noremap("n", "<leader>fd", "<cmd>lua require('telescope.builtin').diagnostics()<cr>")
+noremap("n", "<leader>fr", "<cmd>lua require('telescope.builtin').git_files()<cr>")
+noremap("n", "<leader>ft", "<cmd>lua require('telescope.builtin').tags({ only_sort_tags = true })<cr>")
+
+noremap("n", "<leader>flr", "<cmd>lua require('telescope.builtin').lsp_references()<cr>")
+noremap("n", "<leader>fld", "<cmd>lua require('telescope.builtin').diagnostics()<cr>")
+noremap("n", "<leader>fls", "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>")
 
 noremap("n", "<space>", "za");
+
+noremap("n", "tl", ":tabnext<cr>")
+noremap("n", "th", ":tabprev<cr>")
+noremap("n", "tn", ":tabnew<cr>")
+noremap("n", "td", ":tabclose<cr>")
 
 
 u.create_augroup('ft-lua', {
