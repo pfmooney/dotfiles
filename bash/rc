@@ -123,6 +123,11 @@ if [[ $(uname) = 'SunOS' ]]; then
 	if grep --help | grep -q color; then
 		alias grep='\grep --color=auto'
 	fi
+
+	# Use ncurses to reset terminal
+	if [[ -x /usr/gnu/bin/reset ]]; then
+		alias reset='/usr/gnu/bin/reset; tput sgr0'
+	fi
 fi
 
 # Add aliases last to avoid messing with earlier logic
