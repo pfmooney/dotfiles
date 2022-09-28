@@ -26,6 +26,7 @@ basic:
 	$(LN) $(DF)/tmux/tmux.conf	~/.tmux.conf
 	$(LN) $(DF)/vim			~/.vim
 	$(LN) $(DF)/vim/vimrc		~/.vimrc
+	$(LN) $(DF)/neovim		~/.config/nvim
 
 .PHONY: wm
 wm:
