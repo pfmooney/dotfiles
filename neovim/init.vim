@@ -21,7 +21,7 @@ Plug 'neovim/nvim-lspconfig', { 'commit': '443b6a8f87ef52ac252b982d9bd1afb8092e3
 
 " Telescope (and more)
 Plug 'nvim-lua/popup.nvim', { 'commit': 'b7404d35d5d3548a82149238289fa71f7f6de4ac' }
-Plug 'nvim-lua/plenary.nvim', { 'commit': '1da13add868968802157a0234136d5b1fbc34dfe' }
+Plug 'nvim-lua/plenary.nvim', { 'commit': '9e7c62856e47053ec7b17f82c5da0f1e678d92c8' }
 Plug 'nvim-telescope/telescope.nvim', { 'commit': '1a91238a6ad7a1f77fabdbee7225692a04b20d48' }
 
 call plug#end()
