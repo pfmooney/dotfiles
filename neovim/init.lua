@@ -60,6 +60,7 @@ require('lazy').setup({
   {
     'j-hui/fidget.nvim',
     commit = '0ba1e16d07627532b6cae915cc992ecac249fb97',
+    opts = {},
   },
 
   -- Telescope (and more)
@@ -74,13 +75,43 @@ require('lazy').setup({
   {
     'nvim-telescope/telescope.nvim',
     commit = '942fe5faef47b21241e970551eba407bc10d9547',
+    config = function()
+      require('telescope').setup({
+        defaults = {
+          file_sorter = require('telescope').get_fuzzy_file
+        },
+        pickers = {
+          buffers = {
+            mappings = {
+              i = {
+                ["<c-d>"] = require('telescope.actions').delete_buffer,
+              }
+            }
+          }
+        }
+      })
+
+      local tb = require('telescope.builtin')
+      vim.keymap.set('n', '<leader>ff', tb.find_files, { desc = "Find files" })
+      vim.keymap.set('n', '<leader>fg', tb.live_grep, { desc = "Grep files" })
+      vim.keymap.set('n', '<leader>fb', tb.buffers, { desc = "Find buffer" })
+      vim.keymap.set('n', '<leader>fh', tb.help_tags, { desc = "Find help" })
+      vim.keymap.set('n', '<leader>fd', tb.diagnostics, { desc = "Find diagnostics" })
+      vim.keymap.set('n', '<leader>fr', tb.git_files, { desc = "Find git files" })
+      vim.keymap.set('n', '<leader>ft', function()
+        tb.tags({ only_sort_tags = true })
+      end, { desc = "Find tags" })
+
+      vim.keymap.set('n', '<leader>flr', tb.lsp_references, { desc = "Find LSP references" })
+      vim.keymap.set('n', '<leader>fld', tb.diagnostics, { desc = "Find LSP diagnostics" })
+      vim.keymap.set('n', '<leader>fls', tb.lsp_workspace_symbols, { desc = "Find LSP symbols" })
+    end,
+
+
   },
 })
 
 
-local fn = vim.fn -- to call Vim functions e.g. fn.bufnr()
-local g = vim.g -- a table to access global variables
-local opt = vim.opt -- to set options
 local u = require('utils')
 
 vim.o.bg = "dark"
@@ -105,41 +136,44 @@ u.create_augroup('line-return', {
 })
 
 
-local nvim_lsp = require('lspconfig')
-
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
   --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
   -- Mappings.
-  local opts = { noremap=true, silent=true }
+  local function nmap(keys, func, desc)
+    if desc then
+      desc = 'LSP: ' .. desc
+    end
+
+    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+  end
 
   -- ctags-style definition navigation
-  buf_set_keymap('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  nmap('<C-]>', vim.lsp.buf.definition, "Goto definition")
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  nmap('gD', vim.lsp.buf.declaration, "Goto declaration")
+  nmap('K', vim.lsp.buf.hover, "Display over info")
+  nmap('gi', vim.lsp.buf.implementation, "Goto implementation")
+  nmap('<C-k>', vim.lsp.buf.signature_help, "Display signature help")
+  nmap('<space>D', vim.lsp.buf.type_definition, "Type definition")
+  nmap('<space>rn', vim.lsp.buf.rename, "Rename symbol")
+  nmap('<space>ca', vim.lsp.buf.code_action, "Display code actions")
+  nmap('gr', vim.lsp.buf.references, "List symbol references")
+  nmap('<space>e', vim.diagnostic.open_float, "Diagnostic hover")
+  nmap('[d', vim.diagnostic.goto_prev, "Previous diagonistic")
+  nmap(']d', vim.diagnostic.goto_next, "Next diagnostic")
   -- consider using setqflist()?
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
-
+  nmap('<space>q', vim.diagnostic.setloclist, "Load diagnostics list")
+  nmap('<space>f', function()
+    vim.lsp.buf.format({ async = true })
+  end, "Format buffer")
 end
 
+local nvim_lsp = require('lspconfig')
 nvim_lsp.rust_analyzer.setup {
   on_attach = on_attach,
   cmd_env = {
@@ -160,46 +194,12 @@ nvim_lsp.rust_analyzer.setup {
   }
 }
 
-require('fidget').setup {}
+vim.keymap.set('n', '<space>', 'za');
 
-local function noremap(mode, lhs, rhs)
-  vim.api.nvim_set_keymap(mode, lhs, rhs, { noremap = true })
-end
-
-local telescope = require('telescope')
-telescope.setup {
-  defaults = {
-    file_sorter = telescope.get_fuzzy_file
-  },
-  pickers = {
-    buffers = {
-      mappings = {
-        i = {
-          ["<c-d>"] = require('telescope.actions').delete_buffer,
-        }
-      }
-    }
-  }
-}
-
-noremap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>")
-noremap("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>")
-noremap("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>")
-noremap("n", "<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>")
-noremap("n", "<leader>fd", "<cmd>lua require('telescope.builtin').diagnostics()<cr>")
-noremap("n", "<leader>fr", "<cmd>lua require('telescope.builtin').git_files()<cr>")
-noremap("n", "<leader>ft", "<cmd>lua require('telescope.builtin').tags({ only_sort_tags = true })<cr>")
-
-noremap("n", "<leader>flr", "<cmd>lua require('telescope.builtin').lsp_references()<cr>")
-noremap("n", "<leader>fld", "<cmd>lua require('telescope.builtin').diagnostics()<cr>")
-noremap("n", "<leader>fls", "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<cr>")
-
-noremap("n", "<space>", "za");
-
-noremap("n", "tl", ":tabnext<cr>")
-noremap("n", "th", ":tabprev<cr>")
-noremap("n", "tn", ":tabnew<cr>")
-noremap("n", "td", ":tabclose<cr>")
+vim.keymap.set('n', 'tl', ':tabnext<cr>')
+vim.keymap.set('n', 'th', ':tabprev<cr>')
+vim.keymap.set('n', 'tn', ':tabnew<cr>')
+vim.keymap.set('n', 'td', ':tabclose<cr>')
 
 
 u.create_augroup('ft-lua', {
@@ -214,11 +214,9 @@ u.create_augroup('ft-vim', {
   { 'BufWinEnter', '*.txt', "if &ft == 'help' | wincmd L | endif" },
 })
 
-
-
 -- Don't fold comments or '#if 0' blocks
-g.c_no_comment_fold = 1
-g.c_no_if0_fold = 1
+vim.g.c_no_comment_fold = 1
+vim.g.c_no_if0_fold = 1
 
 u.create_augroup('ft-c', {
   { 'FileType', 'c', 'setlocal foldmethod=syntax' },
