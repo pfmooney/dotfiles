@@ -17,11 +17,12 @@ Plug 'tpope/vim-commentary', { 'commit': 'f8238d70f873969fb41bf6a6b07ca63a4c0b82
 
 " LSP
 Plug 'neovim/nvim-lspconfig', { 'commit': '443b6a8f87ef52ac252b982d9bd1afb8092e3e24' }
+Plug 'j-hui/fidget.nvim', { 'commit': '0ba1e16d07627532b6cae915cc992ecac249fb97' }
 
 " Telescope (and more)
 Plug 'nvim-lua/popup.nvim', { 'commit': 'b7404d35d5d3548a82149238289fa71f7f6de4ac' }
-Plug 'nvim-lua/plenary.nvim', { 'commit': '9a0d3bf7b832818c042aaf30f692b081ddd58bd9' }
-Plug 'nvim-telescope/telescope.nvim', { 'commit': 'c1a2af0af69e80e14e6b226d3957a064cd080805' }
+Plug 'nvim-lua/plenary.nvim', { 'commit': '253d34830709d690f013daf2853a9d21ad7accab' }
+Plug 'nvim-telescope/telescope.nvim', { 'commit': '942fe5faef47b21241e970551eba407bc10d9547' }
 
 call plug#end()
 filetype plugin indent on
