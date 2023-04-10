@@ -105,9 +105,18 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>flr', tb.lsp_references, { desc = "Find LSP references" })
       vim.keymap.set('n', '<leader>fld', tb.diagnostics, { desc = "Find LSP diagnostics" })
       vim.keymap.set('n', '<leader>fls', tb.lsp_workspace_symbols, { desc = "Find LSP symbols" })
+
+      -- override spellcheck UI
+      vim.keymap.set('n', 'z=', function()
+        tb.spell_suggest(require("telescope.themes").get_cursor({}))
+      end, { desc = "Spelling suggestions" })
     end,
+  },
 
-
+  {
+    'folke/which-key.nvim',
+    commit = '4b73390eec680b4c061ea175eb32c0ff3412271d',
+    opts = {},
   },
 })
 
