@@ -51,6 +51,11 @@ require('lazy').setup({
     'tpope/vim-commentary',
     commit = 'f8238d70f873969fb41bf6a6b07ca63a4c0b82b1',
   },
+  {
+    'lewis6991/gitsigns.nvim',
+    commit = '372d5cb485f2062ac74abc5b33054abac21d8b58',
+    opts = {},
+  },
 
   -- LSP
   {
@@ -59,14 +64,14 @@ require('lazy').setup({
   },
   {
     'j-hui/fidget.nvim',
-    commit = '0ba1e16d07627532b6cae915cc992ecac249fb97',
+    commit = '90c22e47be057562ee9566bad313ad42d622c1d3',
     opts = {},
   },
 
   -- Telescope (and more)
   {
     'nvim-lua/plenary.nvim',
-    commit = '253d34830709d690f013daf2853a9d21ad7accab',
+    commit = '9ce85b0f7dcfe5358c0be937ad23e456907d410b',
   },
   {
     'nvim-lua/popup.nvim',
@@ -74,11 +79,18 @@ require('lazy').setup({
   },
   {
     'nvim-telescope/telescope.nvim',
-    commit = '942fe5faef47b21241e970551eba407bc10d9547',
+    -- v0.1.3
+    commit = '54930e1abfc94409e1bb9266e752ef8379008592',
     config = function()
       require('telescope').setup({
         defaults = {
-          file_sorter = require('telescope').get_fuzzy_file
+          file_sorter = require('telescope').get_fuzzy_file,
+          mappings = {
+            i = {
+              -- Make ^[ exit insert mode just like <esc>
+              ["<c-[>"] = function() vim.cmd [[stopinsert]] end,
+            }
+          }
         },
         pickers = {
           buffers = {
