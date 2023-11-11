@@ -67,6 +67,10 @@ require('lazy').setup({
     commit = '90c22e47be057562ee9566bad313ad42d622c1d3',
     opts = {},
   },
+  {
+    'ray-x/lsp_signature.nvim',
+    commit = '33250c84c7a552daf28ac607d9d9e82f88cd0907',
+  },
 
   -- Telescope (and more)
   {
@@ -192,6 +196,9 @@ local on_attach = function(client, bufnr)
   nmap('<space>f', function()
     vim.lsp.buf.format({ async = true })
   end, "Format buffer")
+
+  --
+  require('lsp_signature').on_attach({}, bufnr)
 end
 
 local nvim_lsp = require('lspconfig')
@@ -246,4 +253,11 @@ u.create_augroup('ft-c', {
   { 'FileType', 'c', 'setlocal noshiftround' },
   { 'FileType', 'c', 'setlocal ts=8 sw=8 list' },
   { 'FileType', 'c', 'setlocal tw=80' },
+})
+
+u.create_augroup('ft-rust', {
+  -- Module-wide comments (starting with //!) are confusing to the
+  -- capitalization checker, so turn it off.
+  { 'FileType', 'rust', 'setlocal spellcapcheck=syntax' },
+  { 'FileType', 'rust', 'setlocal tw=80' },
 })
