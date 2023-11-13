@@ -9,35 +9,34 @@ ifdef F
 endif
 
 .PHONY: base
-base: submodules basic
+base: basic
 
 .PHONY: all
-all: submodules basic wm mail
+all: basic wm
 
-.PHONY: submodules
-submodules: .gitmodules
+.PHONY: setup
+setup: .gitmodules
 	git submodule update --init
+	$(MD) ~/.config
 
-.PHONY: base
-basic:
+.PHONY: basic
+basic: setup
 	$(LN) $(DF)/bash/profile	~/.bash_profile
 	$(LN) $(DF)/bash/rc		~/.bashrc
 	$(LN) $(DF)/gitconfig		~/.gitconfig
-	$(LN) $(DF)/tmux/tmux.conf	~/.tmux.conf
 	$(LN) $(DF)/vim			~/.vim
 	$(LN) $(DF)/vim/vimrc		~/.vimrc
 	$(LN) $(DF)/neovim		~/.config/nvim
+	$(LN) $(DF)/tmux		~/.config/tmux
 
 .PHONY: wm
-wm:
-	$(LN) $(DF)/i3			~/.i3
-	$(LN) $(DF)/i3/status.conf	~/.i3status.conf
-	$(LN) $(DF)/i3			~/.config/dunst
-	$(MD)				~/.config/rofi
-	$(LN) $(DF)/i3/rofi.conf	~/.config/rofi/config
-	$(LN) $(DF)/i3/rofi.rasi	~/.config/rofi/config.rasi
+wm: setup
+	$(LN) $(DF)/i3			~/.config/i3
+	$(LN) $(DF)/i3status		~/.config/i3status
+	$(LN) $(DF)/rofi		~/.config/rofi
 
 
+# deprecated
 .PHONY: mail
 mail:
 	$(LN) $(DF)/mutt		~/.mutt
