@@ -204,6 +204,7 @@ end
 local nvim_lsp = require('lspconfig')
 nvim_lsp.rust_analyzer.setup {
   on_attach = on_attach,
+  cmd = {'rustup', 'run', 'stable', 'rust-analyzer'},
   cmd_env = {
     CARGO_TARGET_DIR = "target/ra-check"
   },
