@@ -6,12 +6,21 @@ vim.g.mapleader = ","
 
 require('lazy').setup({
   {
-    'pfmooney/vim-pmolokai',
-    commit = 'c3a0477fd7ac91bd9a4983ba1f1f472315c05a10',
-    config = function()
-      -- Set colorscheme once it's loaded
-      vim.cmd([[colorscheme pmolokai]])
-    end,
+    'folke/tokyonight.nvim',
+    commit = '0fae425aaab04a5f97666bd431b96f2f19c36935',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      transparent = true,
+      on_highlights = function(hl, c)
+        hl.TelescopeNormal = {
+          bg = c.transparent
+        }
+        hl.TelescopeBorder = {
+          bg = c.transparent
+        }
+      end,
+    },
   },
   {
     'itchyny/lightline.vim',
@@ -140,6 +149,7 @@ require('lazy').setup({
 local u = require('utils')
 
 vim.o.bg = "dark"
+vim.cmd([[colorscheme tokyonight-moon]])
 
 vim.wo.list = true
 vim.wo.number = true
