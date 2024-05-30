@@ -187,7 +187,7 @@ bar {
 }
 
 # Class defines
-for_window [class="Firefox"] layout tabbed
+for_window [class="firefox"] layout tabbed
 for_window [class="Google-chrome"] layout tabbed
 
 # audio controls
