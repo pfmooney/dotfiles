@@ -12,12 +12,16 @@ require('lazy').setup({
     priority = 1000,
     opts = {
       transparent = true,
+      terminal_colors = false,
       on_highlights = function(hl, c)
         hl.TelescopeNormal = {
           bg = c.transparent
         }
         hl.TelescopeBorder = {
           bg = c.transparent
+        }
+        hl.Folded = {
+          bg = c.bg_dark
         }
       end,
     },
