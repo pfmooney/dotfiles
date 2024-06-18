@@ -162,6 +162,11 @@ vim.o.completeopt = "menu"
 
 -- Return to same line in file
 function file_line_return()
+  -- Do not bother with line return on git commit messages
+  if vim.bo.filetype == "gitcommit" then
+    return
+  end
+
   local prev_line = vim.fn.line("'\"");
   local file_end = vim.fn.line("$");
   if prev_line > 0 and prev_line <= file_end then
