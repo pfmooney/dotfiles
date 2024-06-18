@@ -13,13 +13,11 @@ require('lazy').setup({
     opts = {
       transparent = true,
       terminal_colors = false,
+      on_colors = function(c)
+        c.bg_float = c.transparent
+        c.bg_sidebar = c.transparent
+      end,
       on_highlights = function(hl, c)
-        hl.TelescopeNormal = {
-          bg = c.transparent
-        }
-        hl.TelescopeBorder = {
-          bg = c.transparent
-        }
         hl.Folded = {
           bg = c.bg_dark
         }
