@@ -225,20 +225,24 @@ nvim_lsp.rust_analyzer.setup {
   cmd_env = {
     CARGO_TARGET_DIR = "target/ra-check"
   },
-  flags = {
-    debounce_text_changes = 150,
-  },
-  handlers = {
-    ["textDocument/publishDiagnostics"] = vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = false,
-      }
-    ),
-  },
   settings = {
     ["rust-analyzer"] = {}
   }
 }
+
+-- Deal with diagnostic cancellations (fixed in 0.11)
+if vim.fn.has('nvim-0.11') == 0 then
+  for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
+    local default_diagnostic_handler = vim.lsp.handlers[method]
+    vim.lsp.handlers[method] = function(err, result, context, config)
+      if err ~= nil and err.code == -32802 then
+        return
+      end
+      return default_diagnostic_handler(err, result, context, config)
+    end
+  end
+end
+
 
 vim.keymap.set('n', '<space>', 'za');
 
