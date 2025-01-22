@@ -160,6 +160,7 @@ set efm+=%f:\ %l:%m
 
 " ctags search
 set tags=./tags;~/
+set csto=1 " prefer ctags over cscope
 
 " }}}
 
