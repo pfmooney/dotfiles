@@ -162,6 +162,9 @@ set efm+=%f:\ %l:%m
 set tags=./tags;~/
 set csto=1 " prefer ctags over cscope
 
+nmap <leader>/c :cs find c <C-R>=expand("<cword>")<CR><CR>
+nmap <leader>/t :cs find t <C-R>=expand("<cword>")<CR><CR>
+
 " }}}
 
 " Plugin Settings ------------------------------------------------------- {{{
