@@ -25,29 +25,34 @@ require('lazy').setup({
     },
   },
   {
-    'itchyny/lightline.vim',
-    commit = 'b1e91b41f5028d65fa3d31a425ff21591d5d957f',
+    'nvim-lualine/lualine.nvim',
+    commit = 'f4f791f67e70d378a754d02da068231d2352e5bc',
     config = function()
-      -- always show status
-      vim.opt.laststatus=2
-      -- See statusline for lineinfo documentation
-      vim.g.lightline = {
-        colorscheme = "one",
-        component = {
-          lineinfo = "%3l:%-5(%c%V%)"
-        },
-        mode_map = {
-          n = "NORM",
-          i = "INS ",
-          R = "REP ",
-          v = "VIS ",
-          V = "V-L ",
-          ["<C-v>"] = "V-B ",
-          c = "COMM",
-          s = "SEL ",
-          S = "S-L ",
-          ["<C-s>"] = "S-B ",
-          t = "TERM",
+      function fmt_location()
+        local line = vim.fn.line('.');
+        local cc = vim.fn.charcol('.');
+        local vc = vim.fn.virtcol('.');
+        if cc == vc then
+          return string.format('%3d:%-5d', line, cc)
+        else
+          return string.format('%3d:%d-%d', line, cc, vc)
+        end
+      end
+
+      require('lualine').setup {
+        theme = 'codedark',
+        options = { section_separators = '', component_separators = '|' },
+        sections = {
+          lualine_b = { 'diagnostics' },
+          lualine_x = {
+            {
+              'fileformat',
+              icons_enabled = false,
+            },
+            'encoding',
+            'filetype',
+          },
+          lualine_z = { fmt_location },
         }
       }
     end,
@@ -67,6 +72,21 @@ require('lazy').setup({
     commit = '372d5cb485f2062ac74abc5b33054abac21d8b58',
     opts = {},
   },
+  {
+    'MunifTanjim/nui.nvim',
+    commit = '53e907ffe5eedebdca1cd503b00aa8692068ca46',
+  },
+  {
+    "julienvincent/hunk.nvim",
+    commit = 'b475ba0011e4b8ef7d7ddecd9764ee1a5f41366d',
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+    },
+    cmd = { "DiffEditor" },
+    config = function()
+      require("hunk").setup()
+    end,
+  },
 
   -- LSP
   {
@@ -75,7 +95,7 @@ require('lazy').setup({
   },
   {
     'j-hui/fidget.nvim',
-    commit = '90c22e47be057562ee9566bad313ad42d622c1d3',
+    commit = 'b61e8af9b8b68ee0ec7da5fb7a8c203aae854f2e',
     opts = {},
   },
   {
