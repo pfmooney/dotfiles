@@ -28,12 +28,15 @@ basic: setup
 	$(LN) $(DF)/vim/vimrc		~/.vimrc
 	$(LN) $(DF)/neovim		~/.config/nvim
 	$(LN) $(DF)/tmux		~/.config/tmux
+	$(LN) $(DF)/jj			~/.config/jj
 
 .PHONY: wm
 wm: setup
 	$(LN) $(DF)/i3			~/.config/i3
 	$(LN) $(DF)/i3status		~/.config/i3status
 	$(LN) $(DF)/rofi		~/.config/rofi
+	$(LN) $(DF)/alacritty		~/.config/alacritty/
+	$(LN) $(DF)/wezterm		~/.config/wezterm
 
 
 # deprecated
