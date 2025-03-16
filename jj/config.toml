@@ -1,0 +1,28 @@
+[user]
+name = "Patrick Mooney"
+email = "pmooney@pfmooney.com"
+
+[snapshot]
+auto-track = "none()"
+
+[ui]
+pager = "less -d -r -F --redraw-on-quit"
+diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+ui.conflict-marker-style = "git"
+default-command = "log"
+
+[templates]
+# 6a6a636c is hex("jjcl")
+draft_commit_description = '''
+concat(
+  description,
+  if(
+    !description.contains("Change-Id: I"),
+    "\n\n" ++ "JJ: Change-Id: I6a6a636c" ++ change_id.normal_hex() ++ "\n",
+  ),
+  surround(
+    "\nJJ: This commit contains the following changes:\n", "",
+    indent("JJ:     ", diff.summary()),
+  ),
+)
+'''
