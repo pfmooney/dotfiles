@@ -8,8 +8,11 @@ auto-track = "none()"
 [ui]
 pager = "less -d -r -F --redraw-on-quit"
 diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
-ui.conflict-marker-style = "git"
+conflict-marker-style = "git"
 default-command = "log"
+
+[colors]
+commit_id = "bright blue"
 
 [templates]
 # 6a6a636c is hex("jjcl")
