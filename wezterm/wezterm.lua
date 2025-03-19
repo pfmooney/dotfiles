@@ -13,7 +13,30 @@ config.colors = {
   foreground = "#f5deb3", -- -fg wheat
   cursor_bg = "#cccccc",
   cursor_border = "#cccccc",
+
+  -- xterm colors
+  ansi = {
+    '#000000', -- black
+    '#cd0000', -- red
+    '#00cd00', -- green
+    '#cdcd00', -- yellow
+    '#0000ee', -- blue
+    '#cd00cd', -- magenta
+    '#00cdcd', -- cyan
+    '#e5e5e5', -- white
+  },
+  brights = {
+    '#7f7f7f',
+    '#ff0000',
+    '#00ff00',
+    '#ffff00',
+    '#5c5cff',
+    '#ff00ff',
+    '#00ffff',
+    '#ffffff',
+  },
 }
+config.bold_brightens_ansi_colors = "No"
 
 config.enable_tab_bar = false
 config.enable_scroll_bar = false
