@@ -303,3 +303,8 @@ u.create_augroup('ft-rust', {
   { 'FileType', 'rust', 'setlocal spellcapcheck=syntax' },
   { 'FileType', 'rust', 'setlocal tw=80' },
 })
+
+vim.api.nvim_create_autocmd({'BufRead', 'BufNewFile'}, {
+  pattern = {'Makefile.*'},
+  command = "set filetype=make"
+})
