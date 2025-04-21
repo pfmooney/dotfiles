@@ -69,7 +69,7 @@ require('lazy').setup({
   },
   {
     'lewis6991/gitsigns.nvim',
-    commit = '372d5cb485f2062ac74abc5b33054abac21d8b58',
+    commit = '7010000889bfb6c26065e0b0f7f1e6aa9163edd9',
     opts = {},
   },
   {
@@ -91,7 +91,7 @@ require('lazy').setup({
   -- LSP
   {
     'neovim/nvim-lspconfig',
-    commit = '443b6a8f87ef52ac252b982d9bd1afb8092e3e24',
+    commit = '4ea9083b6d3dff4ddc6da17c51334c3255b7eba5',
   },
   {
     'j-hui/fidget.nvim',
@@ -106,7 +106,7 @@ require('lazy').setup({
   -- Telescope (and more)
   {
     'nvim-lua/plenary.nvim',
-    commit = '9ce85b0f7dcfe5358c0be937ad23e456907d410b',
+    commit = '857c5ac632080dba10aae49dba902ce3abf91b35',
   },
   {
     'nvim-lua/popup.nvim',
@@ -115,7 +115,7 @@ require('lazy').setup({
   {
     'nvim-telescope/telescope.nvim',
     -- v0.1.3
-    commit = '54930e1abfc94409e1bb9266e752ef8379008592',
+    commit = 'a4ed82509cecc56df1c7138920a1aeaf246c0ac5',
     config = function()
       require('telescope').setup({
         defaults = {
@@ -162,7 +162,7 @@ require('lazy').setup({
 
   {
     'folke/which-key.nvim',
-    commit = '4b73390eec680b4c061ea175eb32c0ff3412271d',
+    commit = 'fcbf4eea17cb299c02557d576f0d568878e354a4',
     opts = {},
   },
 })
