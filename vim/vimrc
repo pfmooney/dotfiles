@@ -2,6 +2,17 @@
 
 set nocompatible
 
+" Early Overrides -------------------------------------------------------- {{{
+
+" Anything to be loaded or setup before vim-plug starts loading runtime bits
+
+
+" Several suffixes are used for Makefiles in illumos
+" These otherwise conflict with some default matches like *.man
+au BufRead,BufNewFile Makefile.* setf make
+
+" }}}
+
 filetype off
 
 call plug#begin('~/.vim/plugged')
@@ -376,10 +387,8 @@ augroup END
 augroup ft_make
 	au!
 
-	" Several suffixes are used for Makefiles in illumos
-	au BufRead,BufNewFile Makefile.* set filetype=make
-
 	au FileType make setlocal ts=8
+	au FileType make setlocal tw=80
 
 augroup END
 
