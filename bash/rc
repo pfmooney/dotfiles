@@ -130,6 +130,10 @@ if [[ $(uname) = 'SunOS' ]]; then
 	fi
 fi
 
+if [[ -f ~/.cargo/env ]]; then
+	source ~/.cargo/env
+fi
+
 # Add aliases last to avoid messing with earlier logic
 alias ll='ls -l'
 alias grep='grep --color=auto'

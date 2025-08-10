@@ -61,7 +61,7 @@ require('lazy').setup({
   -- Utilities
   {
     'tpope/vim-fugitive',
-    commit = '96c1009fcf8ce60161cc938d149dd5a66d570756',
+    commit = '4a745ea72fa93bb15dd077109afbb3d1809383f2',
   },
   {
     'tpope/vim-commentary',
@@ -87,6 +87,11 @@ require('lazy').setup({
       require("hunk").setup()
     end,
   },
+  {
+    "sindrets/diffview.nvim",
+    commit = '4516612fe98ff56ae0415a259ff6361a89419b0a',
+  },
+
 
   -- LSP
   {
@@ -96,7 +101,13 @@ require('lazy').setup({
   {
     'j-hui/fidget.nvim',
     commit = 'b61e8af9b8b68ee0ec7da5fb7a8c203aae854f2e',
-    opts = {},
+    opts = {
+      notification = {
+        window = {
+          relative = 'win',
+        },
+      },
+    },
   },
   {
     'ray-x/lsp_signature.nvim',
@@ -197,6 +208,18 @@ u.create_augroup('line-return', {
   { 'BufReadPost', '*', 'call v:lua.file_line_return()' },
 })
 
+-- Force use of the OSC52 clipboard
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
+}
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
