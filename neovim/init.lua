@@ -135,6 +135,8 @@ require('lazy').setup({
             i = {
               -- Make ^[ exit insert mode just like <esc>
               ["<c-[>"] = function() vim.cmd [[stopinsert]] end,
+              ["<c-f>"] = require('telescope.actions').results_scrolling_down,
+              ["<c-b>"] = require('telescope.actions').results_scrolling_up,
             }
           }
         },
@@ -235,6 +237,13 @@ local on_attach = function(client, bufnr)
 
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
+  local function kmap(mode, keys, func, desc)
+    if desc then
+      desc = 'LSP: ' .. desc
+    end
+
+    vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
+  end
 
   -- ctags-style definition navigation
   nmap('<C-]>', vim.lsp.buf.definition, "Goto definition")
@@ -256,6 +265,9 @@ local on_attach = function(client, bufnr)
   nmap('<space>f', function()
     vim.lsp.buf.format({ async = true })
   end, "Format buffer")
+
+  kmap('n', '<leader>ca', vim.lsp.buf.code_action, 'Display code actions')
+  kmap('v', '<leader>ca', vim.lsp.buf.code_action, 'Display code actions')
 
   --
   require('lsp_signature').on_attach({}, bufnr)
