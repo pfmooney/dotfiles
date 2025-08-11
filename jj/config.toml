@@ -14,6 +14,9 @@ default-command = "log"
 [colors]
 commit_id = "bright blue"
 
+[aliases]
+ds = ["diff", "--stat"]
+
 [templates]
 # 6a6a636c is hex("jjcl")
 draft_commit_description = '''
