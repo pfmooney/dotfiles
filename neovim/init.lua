@@ -186,12 +186,22 @@ local u = require('utils')
 vim.o.bg = "dark"
 vim.cmd([[colorscheme tokyonight-moon]])
 
+-- nuke any blinking modes from the cursor
+vim.o.guicursor = string.gsub(vim.o.guicursor, ',?[^,]*blink[^,]*', '')
+
 vim.wo.list = true
 vim.wo.number = true
-vim.o.listchars = "tab:>-"
+vim.o.listchars = "tab:>-,nbsp:␣"
 vim.o.fillchars = "fold: "
 -- Show only the menu, not the preview (in a scratch window)
 vim.o.completeopt = "menu"
+
+-- Highlight trailing spaces
+u.augroup('trailing-space', function (aucmd)
+  aucmd('BufReadPre', { command = [[match EoLSpace /\s\+$/]] })
+  aucmd('InsertEnter', { command = [[highlight clear EoLSpace]] })
+  aucmd('InsertLeave', { command = [[highlight EoLSpace ctermbg=131 guibg=#af5f5f]] })
+end)
 
 -- Return to same line in file
 function file_line_return()
