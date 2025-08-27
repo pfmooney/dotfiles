@@ -191,6 +191,7 @@ vim.o.listchars = "tab:>-,nbsp:␣"
 vim.o.fillchars = "fold: "
 -- Show only the menu, not the preview (in a scratch window)
 vim.o.completeopt = "menu"
+vim.o.colorcolumn = "+1"
 
 -- Highlight trailing spaces
 u.augroup('trailing-space', function (aucmd)
@@ -336,12 +337,24 @@ u.create_augroup('ft-vim', {
 vim.g.c_no_comment_fold = 1
 vim.g.c_no_if0_fold = 1
 
+u.create_augroup('ft-asm', {
+  { 'FileType', 'asm', 'setlocal ts=8 sw=8 list' },
+  { 'FileType', 'asm', 'setlocal tw=80' },
+  -- The default indentexpr for asm messes with C-style comments
+  { 'FileType', 'asm', 'setlocal indentexpr=' },
+  { 'FileType', 'asm', 'setlocal formatoptions+=ro' },
+})
+
 u.create_augroup('ft-c', {
   { 'FileType', 'c', 'setlocal foldmethod=syntax' },
   { 'FileType', 'c', 'setlocal list!' },
   -- shiftround messes with block comments and illumos continuation style
   { 'FileType', 'c', 'setlocal noshiftround' },
   { 'FileType', 'c', 'setlocal ts=8 sw=8 list' },
+  { 'FileType', 'c', 'setlocal tw=80' },
+})
+
+u.create_augroup('ft-cpp', {
   { 'FileType', 'c', 'setlocal tw=80' },
 })
 
