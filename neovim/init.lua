@@ -287,7 +287,14 @@ nvim_lsp.rust_analyzer.setup {
     CARGO_TARGET_DIR = "target/ra-check"
   },
   settings = {
-    ["rust-analyzer"] = {}
+    ["rust-analyzer"] = {
+      completion = {
+        callable = {
+          -- Don't insert '(…)' after completed func names
+          snippets = 'none'
+        }
+      }
+    }
   }
 }
 
