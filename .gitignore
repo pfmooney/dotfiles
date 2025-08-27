@@ -3,4 +3,3 @@
 *.swo
 vim/bundle/*/doc/tags
 mutt/ca.pem
-neovim/lazy-lock.json

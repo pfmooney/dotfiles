@@ -100,7 +100,6 @@ require('lazy').setup({
   },
   {
     'j-hui/fidget.nvim',
-    commit = 'b61e8af9b8b68ee0ec7da5fb7a8c203aae854f2e',
     opts = {
       notification = {
         window = {
@@ -111,7 +110,6 @@ require('lazy').setup({
   },
   {
     'ray-x/lsp_signature.nvim',
-    commit = '33250c84c7a552daf28ac607d9d9e82f88cd0907',
   },
 
   -- Telescope (and more)
@@ -125,8 +123,6 @@ require('lazy').setup({
   },
   {
     'nvim-telescope/telescope.nvim',
-    -- v0.1.3
-    commit = 'a4ed82509cecc56df1c7138920a1aeaf246c0ac5',
     config = function()
       require('telescope').setup({
         defaults = {
