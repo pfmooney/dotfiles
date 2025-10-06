@@ -14,8 +14,20 @@ default-command = "log"
 [colors]
 commit_id = "bright blue"
 
+[revset-aliases]
+'closest_bookmark(to)' = 'heads(::to & bookmarks())'
+'closest_pushable(to)' = 'heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'
+
 [aliases]
 ds = ["diff", "--stat"]
+#tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "closest_pushable(@)"]
+tug = ["util", "exec", "--", "sh", "-c", """
+if [ "x$1" = "x" ]; then
+  jj bookmark move --from "closest_bookmark(@)" --to "closest_pushable(@)"
+else
+  jj bookmark move --to "closest_pushable(@)" "$@"
+fi
+""", ""]
 
 [templates]
 # 6a6a636c is hex("jjcl")
