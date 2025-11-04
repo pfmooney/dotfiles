@@ -1,8 +1,6 @@
 [user]
 	name = Patrick Mooney
 	email = pmooney@pfmooney.com
-[committer]
-	email = pmooney@oxide.computer
 [init]
 	defaultBranch = master
 
