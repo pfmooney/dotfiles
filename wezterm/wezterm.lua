@@ -42,6 +42,7 @@ config.enable_tab_bar = false
 config.enable_scroll_bar = false
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 config.scrollback_lines = 0
+config.window_close_confirmation = 'NeverPrompt';
 
 config.hyperlink_rules = { }
 config.detect_password_input = false
@@ -59,5 +60,17 @@ config.keys = {
   { key = 'Copy', mods = 'NONE', action = act.CopyTo 'Clipboard' },
   { key = 'Paste', mods = 'NONE', action = act.PasteFrom 'Clipboard' },
 }
+
+if wezterm.target_triple == 'aarch64-apple-darwin' then
+  local macos_keys = {
+    { key = 'q', mods = 'CMD', action = act.QuitApplication },
+    { key = 'v', mods = 'CMD', action = act.PasteFrom 'Clipboard' },
+    { key = 'c', mods = 'CMD', action = act.CopyTo 'Clipboard' },
+  }
+  for _,val in ipairs(macos_keys) do
+    table.insert(config.keys, val)
+  end
+end
+
 
 return config
