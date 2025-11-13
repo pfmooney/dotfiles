@@ -66,10 +66,14 @@ if wezterm.target_triple == 'aarch64-apple-darwin' then
     { key = 'q', mods = 'CMD', action = act.QuitApplication },
     { key = 'v', mods = 'CMD', action = act.PasteFrom 'Clipboard' },
     { key = 'c', mods = 'CMD', action = act.CopyTo 'Clipboard' },
+    -- Apparently the 'Globe' key is not possible to impl on QMK
+    -- Make this accessible via "normal" modifiers instead
+    { key = 'f', mods = 'CMD|SHIFT', action = act.ToggleFullScreen },
   }
   for _,val in ipairs(macos_keys) do
     table.insert(config.keys, val)
   end
+  config.native_macos_fullscreen_mode = true
 end
 
 
