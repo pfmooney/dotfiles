@@ -1,0 +1,4 @@
+--when.repositories = ["/Volumes/gitsrc/matx"]
+
+[user]
+email = "patrick@matx.com"

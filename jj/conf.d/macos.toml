@@ -1,0 +1,5 @@
+--when.platforms = ["macos"]
+
+[ui]
+# -X to avoid clearing the screen when quitting less(1)
+pager = "less -d -r -F -X"
