@@ -44,6 +44,8 @@ config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 config.scrollback_lines = 0
 config.window_close_confirmation = 'NeverPrompt';
 
+config.audible_bell = 'Disabled'
+
 config.hyperlink_rules = { }
 config.detect_password_input = false
 
