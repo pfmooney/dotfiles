@@ -37,3 +37,5 @@
 
 [includeIf "hasconfig:remote.*.url:git@github.com:matx-*/**"]
 	path = config.matx
+[includeIf "gitdir:/Volumes/gitsrc/matx/"]
+	path = config.matx
