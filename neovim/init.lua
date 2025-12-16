@@ -351,6 +351,10 @@ u.create_augroup('ft-asm', {
   { 'FileType', 'asm', 'setlocal formatoptions+=ro' },
 })
 
+u.create_augroup('ft-bzl', {
+  { 'FileType', 'bzl', 'setlocal et sw=4 ts=4' },
+})
+
 u.create_augroup('ft-c', {
   { 'FileType', 'c', 'setlocal foldmethod=syntax' },
   { 'FileType', 'c', 'setlocal list!' },
