@@ -89,6 +89,7 @@ require('lazy').setup({
   },
   {
     "sindrets/diffview.nvim",
+    cmd = { 'DiffviewOpen' },
     commit = '4516612fe98ff56ae0415a259ff6361a89419b0a',
   },
 
@@ -100,6 +101,7 @@ require('lazy').setup({
   },
   {
     'j-hui/fidget.nvim',
+    lazy = true,
     opts = {
       notification = {
         window = {
@@ -110,6 +112,10 @@ require('lazy').setup({
   },
   {
     'ray-x/lsp_signature.nvim',
+    lazy = true,
+    opts = {
+      hint_prefix = "",
+    },
   },
 
   -- Telescope (and more)
