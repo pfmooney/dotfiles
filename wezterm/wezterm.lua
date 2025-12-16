@@ -48,6 +48,7 @@ config.audible_bell = 'Disabled'
 
 config.hyperlink_rules = { }
 config.detect_password_input = false
+config.mux_enable_ssh_agent = false
 
 config.check_for_updates = false
 
