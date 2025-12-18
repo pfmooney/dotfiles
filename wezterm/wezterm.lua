@@ -79,5 +79,12 @@ if wezterm.target_triple == 'aarch64-apple-darwin' then
   config.native_macos_fullscreen_mode = true
 end
 
+-- Local overrides take precedence
+local has_overrides, local_config = pcall(require, 'local_overrides')
+if has_overrides then
+  for k, v in pairs(local_config) do
+    config[k] = v
+  end
+end
 
 return config
