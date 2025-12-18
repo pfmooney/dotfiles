@@ -3,6 +3,7 @@ vim.opt.rtp:prepend(vim.fn.stdpath('config') .. '/lazy.nvim')
 
 -- Set the leader early, before other plugins are loaded
 vim.g.mapleader = ","
+vim.g.maplocalleader = "<space>"
 
 require('lazy').setup({
   {
@@ -92,12 +93,14 @@ require('lazy').setup({
     cmd = { 'DiffviewOpen' },
     commit = '4516612fe98ff56ae0415a259ff6361a89419b0a',
   },
+  {
+    'nvim-tree/nvim-web-devicons',
+  },
 
 
   -- LSP
   {
     'neovim/nvim-lspconfig',
-    commit = '4ea9083b6d3dff4ddc6da17c51334c3255b7eba5',
   },
   {
     'j-hui/fidget.nvim',
@@ -177,7 +180,7 @@ require('lazy').setup({
 
   {
     'folke/which-key.nvim',
-    commit = 'fcbf4eea17cb299c02557d576f0d568878e354a4',
+    version = 'v3.17.0',
     opts = {},
   },
 })
@@ -266,28 +269,28 @@ local on_attach = function(client, bufnr)
   nmap('K', vim.lsp.buf.hover, "Display over info")
   nmap('gi', vim.lsp.buf.implementation, "Goto implementation")
   nmap('<C-k>', vim.lsp.buf.signature_help, "Display signature help")
-  nmap('<space>D', vim.lsp.buf.type_definition, "Type definition")
-  nmap('<space>rn', vim.lsp.buf.rename, "Rename symbol")
-  nmap('<space>ca', vim.lsp.buf.code_action, "Display code actions")
   nmap('gr', vim.lsp.buf.references, "List symbol references")
   nmap('<space>e', vim.diagnostic.open_float, "Diagnostic hover")
   nmap('[d', vim.diagnostic.goto_prev, "Previous diagonistic")
   nmap(']d', vim.diagnostic.goto_next, "Next diagnostic")
-  -- consider using setqflist()?
-  nmap('<space>q', vim.diagnostic.setloclist, "Load diagnostics list")
-  nmap('<space>f', function()
+
+  nmap('<leader>lD', vim.lsp.buf.type_definition, "Type definition")
+  nmap('<leader>lr', vim.lsp.buf.rename, "Rename symbol")
+  nmap('<leader>la', vim.lsp.buf.code_action, "Display code actions")
+  kmap('n', '<leader>la', vim.lsp.buf.code_action, 'Display code actions')
+  kmap('v', '<leader>la', vim.lsp.buf.code_action, 'Display code actions')
+  nmap('<leader>lf', function()
     vim.lsp.buf.format({ async = true })
   end, "Format buffer")
-
-  kmap('n', '<leader>ca', vim.lsp.buf.code_action, 'Display code actions')
-  kmap('v', '<leader>ca', vim.lsp.buf.code_action, 'Display code actions')
+  -- consider using setqflist()?
+  nmap('<leader>ll', vim.diagnostic.setloclist, "Load diagnostics list")
 
   --
   require('lsp_signature').on_attach({}, bufnr)
+  require('fidget')
 end
 
-local nvim_lsp = require('lspconfig')
-nvim_lsp.rust_analyzer.setup {
+vim.lsp.config('rust_analyzer', {
   on_attach = on_attach,
   cmd = {'rustup', 'run', 'stable', 'rust-analyzer'},
   cmd_env = {
@@ -303,7 +306,8 @@ nvim_lsp.rust_analyzer.setup {
       }
     }
   }
-}
+})
+vim.lsp.enable('rust_analyzer')
 
 -- Deal with diagnostic cancellations (fixed in 0.11)
 if vim.fn.has('nvim-0.11') == 0 then
