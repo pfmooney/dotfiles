@@ -4,3 +4,4 @@
 vim/bundle/*/doc/tags
 mutt/ca.pem
 wezterm/local_overrides.lua
+fish/fish_variables
