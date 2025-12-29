@@ -62,6 +62,9 @@ config.keys = {
   { key = 'Insert', mods = 'SHIFT', action = act.PasteFrom 'PrimarySelection' },
   { key = 'Copy', mods = 'NONE', action = act.CopyTo 'Clipboard' },
   { key = 'Paste', mods = 'NONE', action = act.PasteFrom 'Clipboard' },
+
+  -- CSI 13;2u == Enter (13) with Shift (2)
+  { key = 'Enter', mods = 'SHIFT', action = act.SendString "\x1b[13;2u" },
 }
 
 if wezterm.target_triple == 'aarch64-apple-darwin' then
