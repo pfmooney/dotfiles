@@ -199,7 +199,7 @@ vim.o.guicursor = string.gsub(vim.o.guicursor, ',?[^,]*blink[^,]*', '')
 
 vim.wo.list = true
 vim.wo.number = true
-vim.o.listchars = "tab:>-,nbsp:␣"
+vim.opt.listchars = { tab = '>=', nbsp = '␠' }
 vim.o.fillchars = "fold: "
 -- Show only the menu, not the preview (in a scratch window)
 vim.o.completeopt = "menu"
@@ -211,12 +211,14 @@ u.augroup('trailing-space', function (aucmd)
   function eol_match_ensure(evt)
     if vim.w.eol_match_id then return end
     vim.w.eol_match_id = vim.fn.matchadd(eol_name, [[\s\+$]])
+    vim.opt_local.listchars:append({ trail = '␣' })
   end
 
   function eol_match_clear(evt)
     local id = vim.w.eol_match_id
     if id then
       vim.fn.matchdelete(id)
+      vim.opt_local.listchars:remove('trail')
       vim.w.eol_match_id = nil
     end
   end
@@ -241,7 +243,7 @@ u.augroup('trailing-space', function (aucmd)
   end
   })
 end)
-vim.cmd.highlight({eol_name, 'ctermbg=131', 'guibg=#af5f5f'})
+vim.cmd.highlight({eol_name, 'ctermfg=131', 'guifg=#af5f5f'})
 
 -- Return to same line in file
 function file_line_return()
@@ -386,7 +388,6 @@ u.ft_autocmd('c', function (bo)
   bo.textwidth = 80
   bo.tabstop = 8
   bo.shiftwidth = 8
-  vim.wo.foldmethod = 'syntax'
   -- shiftround messes with block comments and illumos continuation style
   -- vim.g.shiftround = false
   vim.wo.list = true
@@ -404,7 +405,6 @@ u.ft_autocmd('lua', function (bo)
   bo.tabstop = 2
   bo.shiftwidth = 2
   bo.expandtab = true
-  vim.wo.foldmethod = 'indent'
 end)
 
 vim.api.nvim_create_autocmd({'BufRead', 'BufNewFile'}, {
