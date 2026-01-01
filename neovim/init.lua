@@ -118,6 +118,7 @@ require('lazy').setup({
     lazy = true,
     opts = {
       hint_prefix = "",
+      toggle_key = '<M-x>',
     },
   },
 
