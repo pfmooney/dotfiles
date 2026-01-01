@@ -156,7 +156,9 @@ require('lazy').setup({
         }
       })
 
+      local wk = require('which-key')
       local tb = require('telescope.builtin')
+      wk.add({'<leader>f', group = 'Find via Telescope'})
       vim.keymap.set('n', '<leader>ff', tb.find_files, { desc = "Find files" })
       vim.keymap.set('n', '<leader>fg', tb.live_grep, { desc = "Grep files" })
       vim.keymap.set('n', '<leader>fb', tb.buffers, { desc = "Find buffer" })
@@ -167,6 +169,7 @@ require('lazy').setup({
         tb.tags({ only_sort_tags = true })
       end, { desc = "Find tags" })
 
+      wk.add({'<leader>fl', group = 'LSP Find'})
       vim.keymap.set('n', '<leader>flr', tb.lsp_references, { desc = "Find LSP references" })
       vim.keymap.set('n', '<leader>fld', tb.diagnostics, { desc = "Find LSP diagnostics" })
       vim.keymap.set('n', '<leader>fls', tb.lsp_workspace_symbols, { desc = "Find LSP symbols" })
@@ -203,11 +206,42 @@ vim.o.completeopt = "menu"
 vim.o.colorcolumn = "+1"
 
 -- Highlight trailing spaces
+local eol_name = 'EoLSpace'
 u.augroup('trailing-space', function (aucmd)
-  aucmd('BufReadPre', { command = [[match EoLSpace /\s\+$/]] })
-  aucmd('InsertEnter', { command = [[highlight clear EoLSpace]] })
-  aucmd('InsertLeave', { command = [[highlight EoLSpace ctermbg=131 guibg=#af5f5f]] })
+  function eol_match_ensure(evt)
+    if vim.w.eol_match_id then return end
+    vim.w.eol_match_id = vim.fn.matchadd(eol_name, [[\s\+$]])
+  end
+
+  function eol_match_clear(evt)
+    local id = vim.w.eol_match_id
+    if id then
+      vim.fn.matchdelete(id)
+      vim.w.eol_match_id = nil
+    end
+  end
+
+  function eol_ignore_buftype()
+    return vim.bo.buftype == 'terminal' or vim.bo.buftype == 'prompt'
+  end
+
+  aucmd({'BufWinEnter', 'WinEnter', 'InsertLeave'}, {
+    callback = function (args)
+      if eol_ignore_buftype() then
+        eol_match_clear(args.event)
+      else
+        eol_match_ensure(args.event)
+      end
+    end
+  })
+  aucmd({'TermOpen', 'InsertEnter'}, { callback = function (args)
+    if eol_ignore_buftype() or args.event == 'InsertEnter' then
+      eol_match_clear(args.event)
+    end
+  end
+  })
 end)
+vim.cmd.highlight({eol_name, 'ctermbg=131', 'guibg=#af5f5f'})
 
 -- Return to same line in file
 function file_line_return()
@@ -330,56 +364,76 @@ vim.keymap.set('n', 'th', ':tabprev<cr>')
 vim.keymap.set('n', 'tn', ':tabnew<cr>')
 vim.keymap.set('n', 'td', ':tabclose<cr>')
 
+-- FILETYPES -------------------------------------------------------------
 
-u.create_augroup('ft-lua', {
-  { 'FileType', 'lua', 'setlocal ts=2 sw=2 et' },
-  { 'FileType', 'lua', 'setlocal foldmethod=indent' },
-})
+u.ft_autocmd('asm', function (bo)
+  bo.textwidth = 80
+  bo.tabstop = 8
+  bo.shiftwidth = 8
+  bo.list = true
+  -- The default indentexpr for asm messes with C-style comments
+  bo.indentexpr = ''
+  bo.formatoptions:append({'r', 'o'})
+end)
 
-u.create_augroup('ft-vim', {
-  { 'FileType', 'vim', 'setlocal foldmethod=marker' },
-  { 'FileType', 'help', 'setlocal textwidth=78' },
-  -- Move split to the right side when opening help windows
-  { 'BufWinEnter', '*.txt', "if &ft == 'help' | wincmd L | endif" },
-})
+u.ft_autocmd('bzl', function (bo)
+  bo.tabstop = 4
+  bo.shiftwidth = 4
+  bo.expandtab = true
+end)
+
+u.ft_autocmd('c', function (bo)
+  bo.textwidth = 80
+  bo.tabstop = 8
+  bo.shiftwidth = 8
+  vim.wo.foldmethod = 'syntax'
+  -- shiftround messes with block comments and illumos continuation style
+  -- vim.g.shiftround = false
+  vim.wo.list = true
+end)
 
 -- Don't fold comments or '#if 0' blocks
 vim.g.c_no_comment_fold = 1
 vim.g.c_no_if0_fold = 1
 
-u.create_augroup('ft-asm', {
-  { 'FileType', 'asm', 'setlocal ts=8 sw=8 list' },
-  { 'FileType', 'asm', 'setlocal tw=80' },
-  -- The default indentexpr for asm messes with C-style comments
-  { 'FileType', 'asm', 'setlocal indentexpr=' },
-  { 'FileType', 'asm', 'setlocal formatoptions+=ro' },
-})
+u.ft_autocmd('cpp', function (bo)
+  bo.textwidth = 80
+end)
 
-u.create_augroup('ft-bzl', {
-  { 'FileType', 'bzl', 'setlocal et sw=4 ts=4' },
-})
-
-u.create_augroup('ft-c', {
-  { 'FileType', 'c', 'setlocal foldmethod=syntax' },
-  { 'FileType', 'c', 'setlocal list!' },
-  -- shiftround messes with block comments and illumos continuation style
-  { 'FileType', 'c', 'setlocal noshiftround' },
-  { 'FileType', 'c', 'setlocal ts=8 sw=8 list' },
-  { 'FileType', 'c', 'setlocal tw=80' },
-})
-
-u.create_augroup('ft-cpp', {
-  { 'FileType', 'c', 'setlocal tw=80' },
-})
-
-u.create_augroup('ft-rust', {
-  -- Module-wide comments (starting with //!) are confusing to the
-  -- capitalization checker, so turn it off.
-  { 'FileType', 'rust', 'setlocal spellcapcheck=syntax' },
-  { 'FileType', 'rust', 'setlocal tw=80' },
-})
+u.ft_autocmd('lua', function (bo)
+  bo.tabstop = 2
+  bo.shiftwidth = 2
+  bo.expandtab = true
+  vim.wo.foldmethod = 'indent'
+end)
 
 vim.api.nvim_create_autocmd({'BufRead', 'BufNewFile'}, {
-  pattern = {'Makefile.*'},
-  command = "set filetype=make"
+  group = u.ft_augroup('make'),
+  pattern = 'Makefile.*',
+  callback = function ()
+    vim.bo.filetype = 'make'
+  end
+})
+
+u.ft_autocmd('rust', function (bo)
+  bo.textwidth = 80
+  -- Module-wide comments (starting with //!) are confusing to the
+  -- capitalization checker, so turn it off.
+  bo.spellcapcheck = 'syntax'
+end)
+
+u.ft_autocmd('vim-help', {
+  pattern = 'help',
+  callback = function ()
+    vim.bo.textwidth = 78
+  end
+})
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  group = u.ft_augroup('vim-help'),
+  pattern = '*.txt',
+  callback = function ()
+    if vim.bo.filetype == 'help' then
+      vim.cmd.wincmd('L')
+    end
+  end
 })

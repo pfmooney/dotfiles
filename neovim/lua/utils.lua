@@ -28,4 +28,30 @@ function M.augroup(name, func)
   func(autocmd)
 end
 
+local ft_augroups = {}
+function M.ft_augroup(ftype)
+  if not ft_augroups[ftype] then
+    ft_augroups[ftype] = vim.api.nvim_create_augroup('ft-' .. ftype, { clear = true })
+  end
+  return ft_augroups[ftype]
+end
+
+function M.ft_autocmd(ftype, auarg)
+  local opts = {}
+  if type(auarg) == 'function' then
+    opts.callback = function (fopts)
+      auarg(vim.bo, fopts)
+    end
+  elseif type(auarg) == 'string' then
+    opts.command = auarg
+  elseif type(auarg) == 'table' then
+    opts = auarg
+  end
+
+  vim.api.nvim_create_autocmd('FileType', vim.tbl_extend('keep', opts, {
+    group = M.ft_augroup(ftype),
+    pattern = ftype,
+  }))
+end
+
 return M
