@@ -339,6 +339,9 @@ vim.lsp.config('rust_analyzer', {
         callable = {
           -- Don't insert '(…)' after completed func names
           snippets = 'none'
+        },
+        postfix = {
+          snippets = false
         }
       }
     }
