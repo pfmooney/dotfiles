@@ -79,14 +79,11 @@ require('lazy').setup({
   },
   {
     "julienvincent/hunk.nvim",
-    commit = 'b475ba0011e4b8ef7d7ddecd9764ee1a5f41366d',
+    lazy = true,
     dependencies = {
       'MunifTanjim/nui.nvim',
     },
     cmd = { "DiffEditor" },
-    config = function()
-      require("hunk").setup()
-    end,
   },
   {
     "sindrets/diffview.nvim",
