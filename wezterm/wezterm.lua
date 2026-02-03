@@ -65,6 +65,8 @@ config.keys = {
 
   -- CSI 13;2u == Enter (13) with Shift (2)
   { key = 'Enter', mods = 'SHIFT', action = act.SendString "\x1b[13;2u" },
+  -- Avoid extkey S-Space
+  { key = 'Space', mods = 'SHIFT', action = act.SendString " " },
 }
 
 if wezterm.target_triple == 'aarch64-apple-darwin' then
