@@ -46,7 +46,12 @@ config.window_close_confirmation = 'NeverPrompt';
 
 config.audible_bell = 'Disabled'
 
-config.hyperlink_rules = { }
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
+wezterm.on('open-uri', function(window, pane, uri)
+  window:copy_to_clipboard(uri, 'Clipboard')
+  return false
+end)
+
 config.detect_password_input = false
 config.mux_enable_ssh_agent = false
 
