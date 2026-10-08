@@ -345,6 +345,10 @@ vim.lsp.config('rust_analyzer', {
   }
 })
 vim.lsp.enable('rust_analyzer')
+vim.lsp.config('gopls', {
+  on_attach = on_attach,
+})
+vim.lsp.enable('gopls')
 
 -- Deal with diagnostic cancellations (fixed in 0.11)
 if vim.fn.has('nvim-0.11') == 0 then
