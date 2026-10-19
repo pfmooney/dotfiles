@@ -76,6 +76,8 @@ config.keys = {
 
 if wezterm.target_triple == 'aarch64-apple-darwin' then
   local macos_keys = {
+    { key = 'UpArrow', mods = 'SHIFT|CTRL|CMD', action = act.IncreaseFontSize },
+    { key = 'DownArrow', mods = 'SHIFT|CTRL|CMD', action = act.DecreaseFontSize },
     { key = 'q', mods = 'CMD', action = act.QuitApplication },
     { key = 'v', mods = 'CMD', action = act.PasteFrom 'Clipboard' },
     { key = 'c', mods = 'CMD', action = act.CopyTo 'Clipboard' },
